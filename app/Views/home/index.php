@@ -52,6 +52,18 @@
     <button class="carousel-arrow next">❯</button>
 </div>
 
+<!-- Categories Section -->
+<section class="section" style="padding: 0 15px;">
+    <h2 class="section-title" style="margin-left: 0; margin-top: 0;">Browse by Category</h2>
+    
+    <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); padding: 0;">
+        <?= view_cell('App\Cells\CategoryBadgeCell::renderBadge', ['category' => 'Games', 'icon' => '🎮', 'count' => 245, 'url' => '/products?category=games']) ?>
+        <?= view_cell('App\Cells\CategoryBadgeCell::renderBadge', ['category' => 'Streaming', 'icon' => '📺', 'count' => 128, 'url' => '/products?category=streaming']) ?>
+        <?= view_cell('App\Cells\CategoryBadgeCell::renderBadge', ['category' => 'Subscriptions', 'icon' => '⭐', 'count' => 89, 'url' => '/products?category=subscriptions']) ?>
+        <?= view_cell('App\Cells\CategoryBadgeCell::renderBadge', ['category' => 'Bundles', 'icon' => '📦', 'count' => 56, 'url' => '/products?category=bundles']) ?>
+    </div>
+</section>
+
 <!-- New Arrivals Section -->
 <section class="section">
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 15px; margin-bottom: 20px;">
@@ -73,7 +85,7 @@
 <!-- Featured Section -->
 <?php if (! empty($featuredProducts)): ?>
 <section class="section">
-    <h2 class="section-title">Featured</h2>
+    <h2 class="section-title">Featured ⭐</h2>
 
     <div class="grid grid-auto">
         <?php foreach ($featuredProducts as $product): ?>
@@ -83,9 +95,20 @@
 </section>
 <?php endif; ?>
 
+<!-- CTA Banner Section -->
+<section class="section" style="padding: 0;">
+    <?= view_cell('App\Cells\CtaButtonCell::renderBanner', [
+        'title' => 'Unlock Exclusive Deals',
+        'subtitle' => 'Sign up for our newsletter and get 20% off your first purchase',
+        'button_text' => 'Join Now',
+        'button_url' => '/register',
+        'icon' => '💰'
+    ]) ?>
+</section>
+
 <!-- Latest Stories Section -->
 <section class="section">
-    <h2 class="section-title">Latest Stories</h2>
+    <h2 class="section-title">Latest Stories 📖</h2>
 
     <div class="grid grid-2">
         <?php if (! empty($latestArticles)): ?>

@@ -7,27 +7,11 @@
         <h1 style="margin-bottom: 30px;">Admin Dashboard</h1>
 
         <!-- Quick Stats -->
-        <div class="grid grid-4" style="margin-bottom: 40px;">
-            <div class="card" style="text-align: center;">
-                <p style="color: var(--text-muted); margin: 0 0 10px 0;">Total Revenue</p>
-                <h2 style="color: var(--success); margin: 0;">₱245,890</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">↑ 12% from last month</p>
-            </div>
-            <div class="card" style="text-align: center;">
-                <p style="color: var(--text-muted); margin: 0 0 10px 0;">Total Orders</p>
-                <h2 style="color: var(--primary); margin: 0;">1,234</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">↑ 8% from last month</p>
-            </div>
-            <div class="card" style="text-align: center;">
-                <p style="color: var(--text-muted); margin: 0 0 10px 0;">Active Users</p>
-                <h2 style="color: #2196f3; margin: 0;">5,678</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">↑ 15% from last month</p>
-            </div>
-            <div class="card" style="text-align: center;">
-                <p style="color: var(--text-muted); margin: 0 0 10px 0;">Conversion Rate</p>
-                <h2 style="color: #ffd700; margin: 0;">3.24%</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">↓ 0.5% from last month</p>
-            </div>
+        <div class="grid grid-4" style="margin-bottom: 40px; padding: 0;">
+            <?= view_cell('App\Cells\StatCardCell::renderCard', ['icon' => '💰', 'number' => 245890, 'label' => 'Total Revenue', 'unit' => '₱']) ?>
+            <?= view_cell('App\Cells\StatCardCell::renderCard', ['icon' => '📦', 'number' => 1234, 'label' => 'Total Orders']) ?>
+            <?= view_cell('App\Cells\StatCardCell::renderCard', ['icon' => '👥', 'number' => 5678, 'label' => 'Active Users']) ?>
+            <?= view_cell('App\Cells\StatCardCell::renderCard', ['icon' => '📈', 'number' => 3.24, 'label' => 'Conversion Rate', 'unit' => '%']) ?>
         </div>
 
         <!-- Main Content Grid -->

@@ -16,9 +16,10 @@
     <!-- 2. Mobile Menu Bar -->
     <header>
         <div class="header-left">
-            <div class="burger-icon" aria-label="Menu">
+            <div class="burger-icon" id="burger-icon" aria-label="Menu">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             </div>
+            <a href="/" style="font-weight: 800; font-size: 1.1rem; color: var(--primary);">PLAYPASS</a>
         </div>
 
         <div class="header-right">
@@ -40,6 +41,9 @@
             <?php endif; ?>
         </div>
     </header>
+
+    <!-- Mobile Menu -->
+    <?= view('components/mobile_menu') ?>
 
     <main>
         <?= $this->renderSection('content') ?>

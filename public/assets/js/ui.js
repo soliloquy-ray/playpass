@@ -2,19 +2,45 @@
 
 // Mobile Menu Toggle
 function initMobileMenu() {
-    const burgerIcon = document.querySelector('.burger-icon');
-    const mobileMenu = document.querySelector('.mobile-menu');
+    const burgerIcon = document.getElementById('burger-icon');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuBackdrop = document.getElementById('mobile-menu-backdrop');
+    const mobileMenuCloseBtn = document.querySelector('.mobile-menu-close');
 
     if (burgerIcon && mobileMenu) {
-        burgerIcon.addEventListener('click', () => {
+        // Toggle menu on burger click
+        burgerIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
             mobileMenu.classList.toggle('active');
+            mobileMenuBackdrop.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
         });
+
+        // Close menu on backdrop click
+        if (mobileMenuBackdrop) {
+            mobileMenuBackdrop.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBackdrop.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        }
+
+        // Close menu on close button click
+        if (mobileMenuCloseBtn) {
+            mobileMenuCloseBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBackdrop.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        }
 
         // Close menu when a link is clicked
         const menuLinks = mobileMenu.querySelectorAll('a');
         menuLinks.forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('active');
+                mobileMenuBackdrop.classList.remove('active');
+                document.body.style.overflow = 'auto';
             });
         });
     }

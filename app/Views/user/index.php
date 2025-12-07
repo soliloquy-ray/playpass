@@ -52,19 +52,10 @@
             <h1 style="margin-bottom: 30px;">Welcome Back, <?= esc(explode(' ', $user['name'] ?? 'User')[0]) ?>! 👋</h1>
 
             <!-- Quick Stats -->
-            <div class="grid grid-3" style="margin-bottom: 40px;">
-                <div class="card" style="text-align: center;">
-                    <p style="color: var(--text-muted); margin: 0 0 10px 0;">Total Orders</p>
-                    <h2 style="color: var(--primary); margin: 0;">12</h2>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <p style="color: var(--text-muted); margin: 0 0 10px 0;">Active Subscriptions</p>
-                    <h2 style="color: var(--success); margin: 0;">3</h2>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <p style="color: var(--text-muted); margin: 0 0 10px 0;">Loyalty Points</p>
-                    <h2 style="color: #ffd700; margin: 0;">1,250</h2>
-                </div>
+            <div class="grid grid-3" style="margin-bottom: 40px; padding: 0;">
+                <?= view_cell('App\Cells\StatCardCell::renderCard', ['icon' => '📦', 'number' => 12, 'label' => 'Total Orders']) ?>
+                <?= view_cell('App\Cells\StatCardCell::renderCard', ['icon' => '⭐', 'number' => 3, 'label' => 'Active Subscriptions']) ?>
+                <?= view_cell('App\Cells\StatCardCell::renderCard', ['icon' => '💰', 'number' => 1250, 'label' => 'Loyalty Points']) ?>
             </div>
 
             <!-- Recent Orders -->
