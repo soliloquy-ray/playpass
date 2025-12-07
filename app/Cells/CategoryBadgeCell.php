@@ -2,15 +2,14 @@
 
 namespace App\Cells;
 
-class CategoryBadgeCell
+use CodeIgniter\View\Cells\Cell;
+
+class CategoryBadgeCell extends Cell
 {
-    /**
-     * Renders category badges/pills
-     */
-    public function renderBadge(array $data = []): string
+    public function render(array $data = []): string
     {
         $defaultData = [
-            'category' => 'Category',
+            'title' => 'Category',
             'icon' => '📱',
             'count' => null,
             'url' => '#'

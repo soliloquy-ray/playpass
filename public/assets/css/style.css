@@ -808,6 +808,51 @@ tbody tr:hover {
 }
 
 /* ============================================
+   CATEGORY BADGE COMPONENT
+   ============================================ */
+
+.category-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--card-bg) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.category-badge:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(216, 54, 159, 0.2);
+}
+
+.badge-icon {
+    font-size: 2.5rem;
+}
+
+.badge-title {
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-count {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: var(--primary);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+/* ============================================
    ARTICLE CARD COMPONENT
    ============================================ */
 
