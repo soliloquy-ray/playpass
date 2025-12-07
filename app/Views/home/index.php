@@ -52,73 +52,224 @@
     <button class="carousel-arrow next">❯</button>
 </div>
 
-<!-- Categories Section -->
-<section class="section" style="padding: 0 15px;">
-    <h2 class="section-title" style="margin-left: 0; margin-top: 0;">Browse by Category</h2>
-    
-    <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); padding: 0;">
-        <?= view_cell('App\Cells\CategoryBadgeCell::renderBadge', ['category' => 'Games', 'icon' => '🎮', 'count' => 245, 'url' => '/products?category=games']) ?>
-        <?= view_cell('App\Cells\CategoryBadgeCell::renderBadge', ['category' => 'Streaming', 'icon' => '📺', 'count' => 128, 'url' => '/products?category=streaming']) ?>
-        <?= view_cell('App\Cells\CategoryBadgeCell::renderBadge', ['category' => 'Subscriptions', 'icon' => '⭐', 'count' => 89, 'url' => '/products?category=subscriptions']) ?>
-        <?= view_cell('App\Cells\CategoryBadgeCell::renderBadge', ['category' => 'Bundles', 'icon' => '📦', 'count' => 56, 'url' => '/products?category=bundles']) ?>
-    </div>
-</section>
+<div class="container" style="padding: 0 15px; max-width: 1200px; margin: 0 auto;">
 
-<!-- New Arrivals Section -->
-<section class="section">
-    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 15px; margin-bottom: 20px;">
-        <h2 class="section-title" style="margin: 0;">New Arrivals</h2>
-        <a href="/products" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">View All →</a>
-    </div>
+    <!-- Categories Section -->
+    <section style="margin: 60px 0;">
+        <div class="section-header">
+            <h2>Browse by Category</h2>
+        </div>
+        
+        <div class="products-grid">
+            <?= view_cell('App\Cells\CategoryBadgeCell::render', [
+                'title' => 'Games',
+                'icon' => '🎮',
+                'count' => 245,
+                'url' => '/products?category=games'
+            ]) ?>
+            <?= view_cell('App\Cells\CategoryBadgeCell::render', [
+                'title' => 'Streaming',
+                'icon' => '📺',
+                'count' => 128,
+                'url' => '/products?category=streaming'
+            ]) ?>
+            <?= view_cell('App\Cells\CategoryBadgeCell::render', [
+                'title' => 'Subscriptions',
+                'icon' => '⭐',
+                'count' => 89,
+                'url' => '/products?category=subscriptions'
+            ]) ?>
+            <?= view_cell('App\Cells\CategoryBadgeCell::render', [
+                'title' => 'Bundles',
+                'icon' => '📦',
+                'count' => 56,
+                'url' => '/products?category=bundles'
+            ]) ?>
+        </div>
+    </section>
 
-    <div class="grid grid-auto">
-        <?php if (! empty($newProducts)): ?>
-            <?php foreach ($newProducts as $product): ?>
-                <?= view_cell('App\Cells\ProductCell::renderCard', ['product' => $product]) ?>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p style="color: var(--text-muted); padding: 0 15px;">No new products available yet.</p>
-        <?php endif; ?>
-    </div>
-</section>
+    <!-- Featured Products Section -->
+    <?php
+    $featuredProductsData = [
+        'title' => 'Featured Products',
+        'subtitle' => 'Handpicked selections just for you',
+        'products' => [
+            [
+                'id' => 1,
+                'name' => 'Premium Gaming Bundle',
+                'price' => 49.99,
+                'image' => '/assets/images/placeholder.jpg',
+                'rating' => 4.8,
+                'reviews' => 234,
+                'badge' => 'Featured'
+            ],
+            [
+                'id' => 2,
+                'name' => 'Streaming Essentials',
+                'price' => 29.99,
+                'image' => '/assets/images/placeholder.jpg',
+                'rating' => 4.6,
+                'reviews' => 156,
+                'badge' => 'Popular'
+            ],
+            [
+                'id' => 3,
+                'name' => 'Ultimate Subscription Pack',
+                'price' => 79.99,
+                'image' => '/assets/images/placeholder.jpg',
+                'rating' => 4.9,
+                'reviews' => 512,
+                'badge' => 'Best Seller'
+            ],
+            [
+                'id' => 4,
+                'name' => 'Creator Pro Bundle',
+                'price' => 59.99,
+                'image' => '/assets/images/placeholder.jpg',
+                'rating' => 4.7,
+                'reviews' => 289,
+                'badge' => 'New'
+            ],
+        ]
+    ];
+    ?>
+    <?= view_cell('App\Cells\FeaturedProductsCell::render', $featuredProductsData) ?>
 
-<!-- Featured Section -->
-<?php if (! empty($featuredProducts)): ?>
-<section class="section">
-    <h2 class="section-title">Featured ⭐</h2>
+    <!-- New Products Section -->
+    <?php
+    $newProductsData = [
+        'title' => 'New Arrivals',
+        'subtitle' => 'Fresh products added this week',
+        'products' => [
+            [
+                'id' => 5,
+                'name' => 'Latest Game Release',
+                'price' => 34.99,
+                'image' => '/assets/images/placeholder.jpg',
+                'date' => 'Dec 1, 2025'
+            ],
+            [
+                'id' => 6,
+                'name' => 'Streaming Bundle',
+                'price' => 24.99,
+                'image' => '/assets/images/placeholder.jpg',
+                'date' => 'Dec 2, 2025'
+            ],
+            [
+                'id' => 7,
+                'name' => 'Entertainment Pack',
+                'price' => 44.99,
+                'image' => '/assets/images/placeholder.jpg',
+                'date' => 'Dec 3, 2025'
+            ],
+            [
+                'id' => 8,
+                'name' => 'Premium Plus',
+                'price' => 19.99,
+                'image' => '/assets/images/placeholder.jpg',
+                'date' => 'Dec 4, 2025'
+            ],
+        ]
+    ];
+    ?>
+    <?= view_cell('App\Cells\NewProductsCell::render', $newProductsData) ?>
 
-    <div class="grid grid-auto">
-        <?php foreach ($featuredProducts as $product): ?>
-            <?= view_cell('App\Cells\ProductCell::renderCard', ['product' => $product]) ?>
-        <?php endforeach; ?>
-    </div>
-</section>
-<?php endif; ?>
+    <!-- Promos Section -->
+    <?php
+    $promosData = [
+        'bannerTitle' => 'Special Holiday Offer',
+        'bannerDescription' => 'Celebrate with us! Grab your favorite products at unbeatable prices',
+        'bannerDiscount' => '50% OFF',
+        'bannerExpiry' => 'Ends Dec 15',
+        'bannerCTA' => 'Shop Now',
+        'bannerImage' => '/assets/images/placeholder.jpg',
+        'promos' => [
+            [
+                'title' => 'Gaming Collection',
+                'discount' => '30% OFF',
+                'code' => 'GAME30',
+                'image' => '/assets/images/placeholder.jpg',
+                'minSpend' => 50
+            ],
+            [
+                'title' => 'Streaming Deals',
+                'discount' => '25% OFF',
+                'code' => 'STREAM25',
+                'image' => '/assets/images/placeholder.jpg',
+                'minSpend' => 30
+            ],
+            [
+                'title' => 'Bundle Specials',
+                'discount' => '40% OFF',
+                'code' => 'BUNDLE40',
+                'image' => '/assets/images/placeholder.jpg',
+                'minSpend' => 75
+            ],
+            [
+                'title' => 'Subscription Plus',
+                'discount' => '35% OFF',
+                'code' => 'SUBS35',
+                'image' => '/assets/images/placeholder.jpg',
+                'minSpend' => 60
+            ],
+        ]
+    ];
+    ?>
+    <?= view_cell('App\Cells\PromosCell::render', $promosData) ?>
 
-<!-- CTA Banner Section -->
-<section class="section" style="padding: 0;">
-    <?= view_cell('App\Cells\CtaButtonCell::renderBanner', [
-        'title' => 'Unlock Exclusive Deals',
-        'subtitle' => 'Sign up for our newsletter and get 20% off your first purchase',
-        'button_text' => 'Join Now',
-        'button_url' => '/register',
-        'icon' => '💰'
-    ]) ?>
-</section>
+    <!-- How It Works Section -->
+    <?= view_cell('App\Cells\HowItWorksCell::render') ?>
 
-<!-- Latest Stories Section -->
-<section class="section">
-    <h2 class="section-title">Latest Stories 📖</h2>
+    <!-- Stories Section -->
+    <?php
+    $storiesData = [
+        'title' => 'Customer Stories',
+        'subtitle' => 'What gamers and streamers are saying about Playpass',
+        'testimonials' => [
+            [
+                'name' => 'Alex Chen',
+                'role' => 'Professional Streamer',
+                'avatar' => '/assets/images/placeholder.jpg',
+                'quote' => 'Playpass made it so easy to get everything I need for my streaming setup. Best platform ever!',
+                'rating' => 5,
+                'badge' => 'Verified Purchase',
+                'date' => 'Dec 5, 2025'
+            ],
+            [
+                'name' => 'Jordan Martinez',
+                'role' => 'Gaming Enthusiast',
+                'avatar' => '/assets/images/placeholder.jpg',
+                'quote' => 'The variety of products and instant delivery is unmatched. Highly recommend!',
+                'rating' => 5,
+                'badge' => 'Verified Purchase',
+                'date' => 'Dec 4, 2025'
+            ],
+            [
+                'name' => 'Sam Taylor',
+                'role' => 'Content Creator',
+                'avatar' => '/assets/images/placeholder.jpg',
+                'quote' => 'Great prices, fast support, and amazing customer service. Keep it up!',
+                'rating' => 4,
+                'badge' => 'Verified Purchase',
+                'date' => 'Dec 3, 2025'
+            ],
+            [
+                'name' => 'Riley Johnson',
+                'role' => 'Casual Gamer',
+                'avatar' => '/assets/images/placeholder.jpg',
+                'quote' => 'Finally found a reliable place to buy gaming bundles. Will definitely come back.',
+                'rating' => 5,
+                'badge' => 'Verified Purchase',
+                'date' => 'Dec 2, 2025'
+            ],
+        ]
+    ];
+    ?>
+    <?= view_cell('App\Cells\StoriesCell::render', $storiesData) ?>
 
-    <div class="grid grid-2">
-        <?php if (! empty($latestArticles)): ?>
-            <?php foreach ($latestArticles as $article): ?>
-                <?= view_cell('App\Cells\ArticleCell::renderCard', ['article' => $article]) ?>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p style="color: var(--text-muted); padding: 0 15px;">No stories published yet.</p>
-        <?php endif; ?>
-    </div>
-</section>
+    <!-- Customer Support Section -->
+    <?= view_cell('App\Cells\CustomerSupportCell::render') ?>
+
+</div>
 
 <?= $this->endSection() ?>

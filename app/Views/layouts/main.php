@@ -49,22 +49,7 @@
         <?= $this->renderSection('content') ?>
     </main>
 
-    <footer>
-        <div class="container">
-            <h4 style="margin-bottom: 15px;">Playpass</h4>
-            <p style="margin-bottom: 15px;">The ultimate platform for digital products and subscriptions.</p>
-            <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;">
-                <a href="/" style="font-size: 0.9rem;">Home</a>
-                <a href="/products" style="font-size: 0.9rem;">Products</a>
-                <a href="/about" style="font-size: 0.9rem;">About</a>
-                <a href="/contact" style="font-size: 0.9rem;">Contact</a>
-                <a href="/privacy" style="font-size: 0.9rem;">Privacy</a>
-            </div>
-            <p style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 15px;">
-                &copy; <?= date('Y') ?> Playpass. All rights reserved. | Made with ❤️ for gamers.
-            </p>
-        </div>
-    </footer>
+    <?= view_cell('App\Cells\FooterCell::render') ?>
 
     <script src="/assets/js/carousel.js"></script>
     <script src="/assets/js/ui.js"></script>
