@@ -10,19 +10,21 @@ class ProductModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    
+    // FIXED: Set this to false because your 'products' table doesn't have a 'deleted_at' column
+    protected $useSoftDeletes   = false; 
     
     protected $allowedFields    = [
-        'uuid', 'category_id', 'provider_id', 'sku', 'kyuubi_product_code',
-        'name', 'short_description', 'description', 'type',
-        'price', 'original_price', 'cost_price',
-        'stock_type', 'stock_quantity', 'low_stock_threshold',
-        'points_earned', 'points_multiplier',
-        'image_url', 'thumbnail_url', 'sort_order',
-        'is_active', 'is_featured',
-        'available_from', 'available_until',
-        'min_quantity', 'max_quantity', 'max_per_user',
-        'meta_title', 'meta_description', 'slug', 'metadata'
+        'sku', 
+        'name', 
+        'description', 
+        'price', 
+        'thumbnail_url',
+        'is_featured',
+        'maya_product_code', 
+        'points_to_earn', 
+        'is_bundle', 
+        'is_active'
     ];
 
     // Dates
@@ -32,36 +34,20 @@ class ProductModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
+    // Validation
+    protected $validationRules      = [];
+    protected $validationMessages   = [];
+    protected $skipValidation       = false;
+    protected $cleanValidationRules = true;
+
     // Callbacks
-    protected $beforeInsert = ['generateUUID', 'setSlug'];
-
-    protected function generateUUID(array $data)
-    {
-        $data['data']['uuid'] = (string) \Ramsey\Uuid\Uuid::uuid4();
-        return $data;
-    }
-
-    protected function setSlug(array $data)
-    {
-        if (empty($data['data']['slug']) && !empty($data['data']['name'])) {
-            $data['data']['slug'] = url_title($data['data']['name'], '-', true);
-        }
-        return $data;
-    }
-
-    // Custom Method: Get only active and available products
-    public function getActiveProducts()
-    {
-        $now = date('Y-m-d H:i:s');
-        return $this->where('is_active', 1)
-                    ->groupStart() // (available_from IS NULL OR <= NOW)
-                        ->where('available_from', null)
-                        ->orWhere('available_from <=', $now)
-                    ->groupEnd()
-                    ->groupStart() // (available_until IS NULL OR >= NOW)
-                        ->where('available_until', null)
-                        ->orWhere('available_until >=', $now)
-                    ->groupEnd()
-                    ->findAll();
-    }
+    protected $allowCallbacks = true;
+    protected $beforeInsert   = [];
+    protected $afterInsert    = [];
+    protected $beforeUpdate   = [];
+    protected $afterUpdate    = [];
+    protected $beforeFind     = [];
+    protected $afterFind      = [];
+    protected $beforeDelete   = [];
+    protected $afterDelete    = [];
 }

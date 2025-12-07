@@ -15,13 +15,17 @@ class CreateProducts extends Migration
             'description' => ['type' => 'TEXT', 'null' => true],
             'price' => ['type' => 'DECIMAL', 'constraint' => '10,2'],
             
+            // Visuals (Added these)
+            'thumbnail_url' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
+            
             // Integration Fields
-            'maya_product_code' => ['type' => 'VARCHAR', 'constraint' => 100], 
+            'maya_product_code' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true], 
             
             // Promotion Rules
             'points_to_earn' => ['type' => 'INT', 'default' => 0],
-            'is_bundle' => ['type' => 'BOOLEAN', 'default' => false],
-            'is_active' => ['type' => 'BOOLEAN', 'default' => true],
+            'is_bundle'      => ['type' => 'BOOLEAN', 'default' => false],
+            'is_featured'    => ['type' => 'BOOLEAN', 'default' => false], // Added this
+            'is_active'      => ['type' => 'BOOLEAN', 'default' => true],
             
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
