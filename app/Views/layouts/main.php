@@ -4,115 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Playpass') ?></title>
-    <style>
-        :root {
-            --bg-color: #0c0c0c;
-            --card-bg: #1a1a1a;
-            --primary: #d8369f;
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --header-bg: #051429;
-        }
-        
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding-bottom: 60px; /* Space for footer */
-        }
-
-        /* 1. Top CTA Bar */
-        .top-cta {
-            background-color: var(--primary);
-            color: white;
-            text-align: center;
-            padding: 8px 10px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* 2. Mobile Header */
-        header {
-            background-color: var(--header-bg);
-            height: 60px;
-            padding: 0 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .header-right { display: flex; align-items: center; gap: 15px; }
-
-        .burger-icon {
-            font-size: 1.4rem;
-            cursor: pointer;
-            color: #fff;
-            display: flex;
-            align-items: center;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 5px;
-            display: flex;
-            align-items: center;
-        }
-
-        .points-badge {
-            background-color: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            color: #ffd700;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            white-space: nowrap;
-        }
-
-        main {
-            /* No padding here so the Carousel can be full width */
-            width: 100%;
-            overflow-x: hidden; 
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            background-color: #080808;
-            margin-top: 40px;
-            border-top: 1px solid #222;
-        }
-        
-        /* Utility Classes */
-        .container { padding: 0 15px; }
-        .section-title { 
-            font-size: 1.1rem; 
-            margin: 25px 15px 15px 15px; 
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* Links */
-        a { color: inherit; text-decoration: none; }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
 
@@ -154,8 +46,23 @@
     </main>
 
     <footer>
-        <p>&copy; <?= date('Y') ?> Playpass. All rights reserved.</p>
+        <div class="container">
+            <h4 style="margin-bottom: 15px;">Playpass</h4>
+            <p style="margin-bottom: 15px;">The ultimate platform for digital products and subscriptions.</p>
+            <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;">
+                <a href="/" style="font-size: 0.9rem;">Home</a>
+                <a href="/products" style="font-size: 0.9rem;">Products</a>
+                <a href="/about" style="font-size: 0.9rem;">About</a>
+                <a href="/contact" style="font-size: 0.9rem;">Contact</a>
+                <a href="/privacy" style="font-size: 0.9rem;">Privacy</a>
+            </div>
+            <p style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 15px;">
+                &copy; <?= date('Y') ?> Playpass. All rights reserved. | Made with ❤️ for gamers.
+            </p>
+        </div>
     </footer>
 
+    <script src="/assets/js/carousel.js"></script>
+    <script src="/assets/js/ui.js"></script>
 </body>
 </html>
