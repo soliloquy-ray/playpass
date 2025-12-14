@@ -1,107 +1,111 @@
-<?= $this->extend('layouts/main') ?>
+<?= $this->extend('layouts/admin') ?>
 
 <?= $this->section('content') ?>
 
-<div style="padding: 30px 15px;">
-    <div style="max-width: 1400px; margin: 0 auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h1 style="margin: 0;">Manage Vouchers</h1>
-            <a href="/admin/vouchers/create" class="btn btn-primary">
-                ➕ Create Voucher
-            </a>
-        </div>
+<!-- Header Actions -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <p style="color: var(--text-muted); margin: 0;">Create and manage voucher campaigns</p>
+    <a href="/admin/vouchers/new" class="btn-admin btn-admin-primary">
+        <i class="fas fa-plus"></i> Create Campaign
+    </a>
+</div>
 
-        <!-- Filters -->
-        <div style="background-color: var(--card-bg); padding: 20px; border-radius: 8px; margin-bottom: 30px; display: flex; gap: 15px; flex-wrap: wrap;">
-            <input type="search" placeholder="Search voucher codes..." class="input-dark" style="flex: 1; min-width: 200px; margin: 0;">
-            <select class="input-dark" style="min-width: 150px; margin: 0;">
-                <option>All Status</option>
-                <option>Active</option>
-                <option>Expired</option>
-                <option>Inactive</option>
-            </select>
-            <select class="input-dark" style="min-width: 150px; margin: 0;">
-                <option>All Types</option>
-                <option>Fixed Amount</option>
-                <option>Percentage</option>
-            </select>
-        </div>
+<!-- Filters -->
+<div class="filters-bar">
+    <input type="search" class="filter-input" placeholder="Search campaigns..." id="searchInput">
+    <select class="filter-select" id="typeFilter">
+        <option value="">All Types</option>
+        <option value="fixed_amount">Fixed Amount</option>
+        <option value="percentage">Percentage</option>
+    </select>
+    <select class="filter-select" id="statusFilter">
+        <option value="">All Status</option>
+        <option value="active">Active</option>
+        <option value="expired">Expired</option>
+    </select>
+</div>
 
-        <!-- Vouchers Table -->
-        <div class="card" style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="border-bottom: 1px solid var(--border-color); background-color: var(--secondary);">
-                        <th style="text-align: left; padding: 15px; font-weight: 700;">Code</th>
-                        <th style="text-align: left; padding: 15px; font-weight: 700;">Description</th>
-                        <th style="text-align: left; padding: 15px; font-weight: 700;">Discount</th>
-                        <th style="text-align: left; padding: 15px; font-weight: 700;">Used / Limit</th>
-                        <th style="text-align: left; padding: 15px; font-weight: 700;">Valid Until</th>
-                        <th style="text-align: left; padding: 15px; font-weight: 700;">Status</th>
-                        <th style="text-align: left; padding: 15px; font-weight: 700;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="border-bottom: 1px solid var(--border-color);">
-                        <td style="padding: 15px;"><strong>FIRST50</strong></td>
-                        <td style="padding: 15px;">First-time top-up</td>
-                        <td style="padding: 15px; color: var(--primary); font-weight: 700;">50%</td>
-                        <td style="padding: 15px;">234 / 1000</td>
-                        <td style="padding: 15px;">Dec 31, 2025</td>
-                        <td style="padding: 15px;">
-                            <span style="background-color: rgba(76, 175, 80, 0.2); color: var(--success); padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">Active</span>
-                        </td>
-                        <td style="padding: 15px;">
-                            <div style="display: flex; gap: 8px;">
-                                <a href="/admin/vouchers/edit/1" class="btn btn-secondary btn-small">Edit</a>
-                                <button class="btn btn-outline btn-small" style="color: var(--danger); border-color: var(--danger);">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid var(--border-color);">
-                        <td style="padding: 15px;"><strong>SAVE100</strong></td>
-                        <td style="padding: 15px;">Save ₱100 on purchases</td>
-                        <td style="padding: 15px; color: var(--primary); font-weight: 700;">₱100 Fixed</td>
-                        <td style="padding: 15px;">456 / 500</td>
-                        <td style="padding: 15px;">Dec 15, 2025</td>
-                        <td style="padding: 15px;">
-                            <span style="background-color: rgba(76, 175, 80, 0.2); color: var(--success); padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">Active</span>
-                        </td>
-                        <td style="padding: 15px;">
-                            <div style="display: flex; gap: 8px;">
-                                <a href="/admin/vouchers/edit/2" class="btn btn-secondary btn-small">Edit</a>
-                                <button class="btn btn-outline btn-small" style="color: var(--danger); border-color: var(--danger);">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 15px;"><strong>HOLIDAY30</strong></td>
-                        <td style="padding: 15px;">Holiday special discount</td>
-                        <td style="padding: 15px; color: var(--primary); font-weight: 700;">30%</td>
-                        <td style="padding: 15px;">1200 / ∞</td>
-                        <td style="padding: 15px;">Dec 10, 2025</td>
-                        <td style="padding: 15px;">
-                            <span style="background-color: rgba(244, 67, 54, 0.2); color: var(--danger); padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">Expired</span>
-                        </td>
-                        <td style="padding: 15px;">
-                            <div style="display: flex; gap: 8px;">
-                                <a href="/admin/vouchers/edit/3" class="btn btn-secondary btn-small">Edit</a>
-                                <button class="btn btn-outline btn-small" style="color: var(--danger); border-color: var(--danger);">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Pagination -->
-        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 30px;">
-            <button class="btn btn-secondary" disabled>← Previous</button>
-            <button class="btn btn-secondary" style="background-color: var(--primary); color: white;">1</button>
-            <button class="btn btn-secondary">2</button>
-            <button class="btn btn-secondary">Next →</button>
-        </div>
+<!-- Campaigns Table -->
+<div class="admin-card">
+    <?php if (!empty($campaigns)): ?>
+    <div class="admin-table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Campaign Name</th>
+                    <th>Type</th>
+                    <th>Discount</th>
+                    <th>Usage</th>
+                    <th>Valid Period</th>
+                    <th>Status</th>
+                    <th style="width: 180px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($campaigns as $campaign): ?>
+                <?php 
+                    $now = time();
+                    $start = strtotime($campaign['start_date']);
+                    $end = strtotime($campaign['end_date']);
+                    $status = ($now >= $start && $now <= $end) ? 'active' : (($now > $end) ? 'expired' : 'pending');
+                ?>
+                <tr>
+                    <td>
+                        <strong><?= esc($campaign['name']) ?></strong>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin: 4px 0 0;">
+                            <?= $campaign['code_type'] === 'universal' ? 'Universal Code' : 'Unique Codes Batch' ?>
+                        </p>
+                    </td>
+                    <td>
+                        <span style="text-transform: capitalize;"><?= str_replace('_', ' ', $campaign['discount_type']) ?></span>
+                    </td>
+                    <td style="color: var(--primary); font-weight: 700;">
+                        <?php if ($campaign['discount_type'] === 'percentage'): ?>
+                            <?= number_format($campaign['discount_value']) ?>%
+                        <?php else: ?>
+                            ₱<?= number_format($campaign['discount_value'], 2) ?>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?= number_format($campaign['used_count']) ?> / <?= $campaign['total_usage_limit'] ? number_format($campaign['total_usage_limit']) : '∞' ?>
+                    </td>
+                    <td style="font-size: 0.85rem;">
+                        <?= date('M d', $start) ?> - <?= date('M d, Y', $end) ?>
+                    </td>
+                    <td>
+                        <span class="status-badge status-<?= $status ?>">
+                            <?= ucfirst($status) ?>
+                        </span>
+                    </td>
+                    <td>
+                        <div class="table-actions">
+                            <a href="/admin/vouchers/codes/<?= $campaign['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm" title="View Codes">
+                                <i class="fas fa-ticket-alt"></i>
+                            </a>
+                            <a href="/admin/vouchers/edit/<?= $campaign['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form action="/admin/vouchers/delete/<?= $campaign['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this campaign and all its codes?');">
+                                <?= csrf_field() ?>
+                                <button type="submit" class="btn-admin btn-admin-danger btn-admin-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
+    <?php else: ?>
+    <div class="empty-state">
+        <div class="empty-state-icon"><i class="fas fa-ticket-alt"></i></div>
+        <h4 class="empty-state-title">No voucher campaigns</h4>
+        <p class="empty-state-text">Create voucher campaigns to offer discounts to your customers.</p>
+        <a href="/admin/vouchers/new" class="btn-admin btn-admin-primary">Create Campaign</a>
+    </div>
+    <?php endif; ?>
 </div>
 
 <?= $this->endSection() ?>

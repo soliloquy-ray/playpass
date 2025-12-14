@@ -1,48 +1,38 @@
-<footer class="site-footer">
-    <div class="footer-container">
-        <div class="footer-content">
-            <!-- Logo & Tagline Section -->
-            <div class="footer-brand">
-                <h3 class="footer-logo"><?= $logo ?></h3>
-                <p><?= $tagline ?></p>
+<footer class="site-footer-custom">
+    <div class="footer-top">
+        <div class="footer-content-wrapper">
+            <div class="powered-by-label">Powered by</div>
+            
+            <div class="megamobile-logo">
+                <svg width="180" height="40" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 25 C 20 10, 50 10, 50 25" stroke="white" stroke-width="4" fill="none"/>
+                    <text x="55" y="35" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="white">megaMobile</text>
+                    <path d="M20 35 Q 35 45 50 35" stroke="white" stroke-width="4" fill="none"/>
+                </svg>
             </div>
 
-            <!-- Links Columns -->
-            <?php foreach ($columns as $column): ?>
-                <div class="footer-column">
-                    <h4><?= $column['title'] ?></h4>
-                    <ul>
-                        <?php foreach ($column['links'] as $link): ?>
-                            <li><a href="<?= $link['url'] ?>"><?= $link['text'] ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endforeach; ?>
-        </div>
-
-        <!-- Social Media -->
-        <div class="footer-social">
-            <h4>Follow Us</h4>
-            <div class="social-links">
-                <?php foreach ($social as $link): ?>
-                    <a href="<?= $link['url'] ?>" class="social-icon" title="<?= ucfirst($link['icon']) ?>" target="_blank" rel="noopener">
-                        <?php
-                            $icons = [
-                                'facebook' => 'f',
-                                'twitter' => '𝕏',
-                                'instagram' => '📷',
-                                'discord' => '🎮'
-                            ];
-                            echo $icons[$link['icon']] ?? '•';
-                        ?>
-                    </a>
-                <?php endforeach; ?>
-            </div>
+            <nav class="footer-links">
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms and Conditions</a>
+                <a href="/faq">FAQ</a>
+            </nav>
         </div>
     </div>
 
-    <!-- Bottom Bar -->
     <div class="footer-bottom">
-        <p><?= $copyright ?></p>
+        <div class="footer-address">
+            4F PDI Bldg., 1098 Chino Roces Ave. cor Yague and Mascardo<br>
+            Sts. 1204, Makati, Metro Manila, Philippines<br>
+            call: 02 7623 5639
+        </div>
+        
+        <div class="footer-copyright">
+            &copy; Copyright 2024 Megamobile, Inc. All Rights Reserved
+        </div>
+
+        <div class="footer-playpass-logo">
+            <span style="color: #ff0066; font-size: 1.2rem; margin-right: 2px;">❖</span>
+            <span style="color: #3b82f6; font-weight: 800; font-size: 1.2rem; font-style: italic;">PLAYPASS</span>
+        </div>
     </div>
 </footer>

@@ -1,37 +1,51 @@
-<section class="featured-products">
-    <div class="section-header">
-        <h2><?= $title ?></h2>
-        <p><?= $subtitle ?></p>
-    </div>
+<section class="featured-products" style="margin-bottom: 40px; overflow: hidden;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="color: #3b82f6; font-weight: bold; margin: 0;"><?= $title ?></h2>
+        </div>
 
-    <div class="products-carousel">
+    <div class="scrolling-wrapper" style="
+        display: flex; 
+        gap: 15px; 
+        overflow-x: auto; 
+        padding-bottom: 10px; 
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;">
+        
         <?php foreach ($products as $product): ?>
-            <div class="product-card featured">
-                <div class="product-image">
-                    <?php if (isset($product['badge'])): ?>
-                        <span class="product-badge"><?= $product['badge'] ?></span>
-                    <?php endif; ?>
-                    <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>" loading="lazy">
+            <div class="featured-card" style="
+                flex: 0 0 200px; /* Fixed width, won't shrink */
+                background-color: <?= $product['bg_color'] ?? '#1a1a1a' ?>; 
+                border-radius: 12px; 
+                overflow: hidden; 
+                display: flex; 
+                flex-direction: column;
+                aspect-ratio: 1/1;
+                border: 1px solid #333;
+                position: relative;">
+                
+                <?php if(isset($product['badge'])): ?>
+                    <span style="position: absolute; top: 10px; right: 10px; background: #ff0055; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;">
+                        <?= $product['badge'] ?>
+                    </span>
+                <?php endif; ?>
+
+                <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px;">
+                    <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>" style="max-width: 80%; max-height: 80px; object-fit: contain;">
                 </div>
-                <div class="product-details">
-                    <h3><?= $product['name'] ?></h3>
-                    <div class="product-rating">
-                        <div class="stars">
-                            <?php for ($i = 0; $i < 5; $i++): ?>
-                                <span class="star <?= $i < floor($product['rating']) ? 'filled' : '' ?>">★</span>
-                            <?php endfor; ?>
-                        </div>
-                        <span class="reviews">(<?= $product['reviews'] ?> reviews)</span>
-                    </div>
-                    <div class="product-price">$<?= number_format($product['price'], 2) ?></div>
-                    <button class="btn btn-primary btn-block">Add to Cart</button>
-                </div>
+
+                <a href="/app/buy/<?= $product['id'] ?>" style="
+                    background-color: #1e1e2e; 
+                    color: #ff0066; 
+                    text-align: center; 
+                    padding: 12px; 
+                    text-decoration: none; 
+                    font-weight: bold; 
+                    text-transform: uppercase;
+                    display: block;
+                    font-size: 0.9rem;">
+                    BUY NOW
+                </a>
             </div>
         <?php endforeach; ?>
-    </div>
-
-    <div class="carousel-nav">
-        <button class="carousel-prev">←</button>
-        <button class="carousel-next">→</button>
     </div>
 </section>

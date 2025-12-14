@@ -11,10 +11,11 @@ class UserModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array'; // We can switch to Entities later if needed
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false; // Set to false since deleted_at column doesn't exist in migration
     protected $allowedFields    = [
-        'uuid', 'email', 'phone', 'password_hash', 'role', 'status',
-        'email_verified_at', 'phone_verified_at', 'last_login_at', 'last_activity_at'
+        'uuid', 'email', 'phone', 'password_hash', 'google_id', 'facebook_id', 
+        'avatar_url', 'role', 'status', 'email_verified_at', 'phone_verified_at', 
+        'last_login_at', 'last_activity_at', 'first_name', 'last_name'
     ];
 
     // Dates
@@ -27,7 +28,7 @@ class UserModel extends Model
     // Validation Rules
     protected $validationRules = [
         'email'         => 'required|valid_email|is_unique[users.email,id,{id}]',
-        'password_hash' => 'required', // We validate the raw password in the Controller
+        'password_hash' => 'permit_empty', // Optional for social logins
         'role'          => 'in_list[customer,admin,super_admin]',
     ];
 
@@ -58,5 +59,21 @@ class UserModel extends Model
     {
         $data['data']['uuid'] = Uuid::uuid4()->toString();
         return $data;
+    }
+
+    /**
+     * Find a user by their Google ID.
+     */
+    public function findByGoogleId(string $googleId): ?array
+    {
+        return $this->where('google_id', $googleId)->first();
+    }
+
+    /**
+     * Find a user by their Facebook ID.
+     */
+    public function findByFacebookId(string $facebookId): ?array
+    {
+        return $this->where('facebook_id', $facebookId)->first();
     }
 }

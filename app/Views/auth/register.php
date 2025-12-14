@@ -105,7 +105,7 @@
 
         <p style="text-align: center; color: var(--text-muted);">
             Already have an account?
-            <a href="/login" style="color: var(--primary); font-weight: 700;">Login here</a>
+            <a href="/app/login" style="color: var(--primary); font-weight: 700;">Login here</a>
         </p>
     </div>
 </div>

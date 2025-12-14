@@ -57,7 +57,23 @@ class Session extends BaseConfig
      *
      * IMPORTANT: You are REQUIRED to set a valid save path!
      */
-    public string $savePath = WRITEPATH . 'session';
+    /**
+     * Session save path - set dynamically in constructor
+     */
+    public string $savePath = '';
+
+    public function __construct()
+    {
+        parent::__construct();
+        
+        // Set the session save path to writable/session
+        $this->savePath = WRITEPATH . 'session';
+        
+        // Create the directory if it doesn't exist
+        if (!is_dir($this->savePath)) {
+            mkdir($this->savePath, 0755, true);
+        }
+    }
 
     /**
      * --------------------------------------------------------------------------

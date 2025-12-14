@@ -1,29 +1,36 @@
-<section class="promos">
-    <div class="promo-banner">
-        <div class="promo-content">
-            <h2><?= $bannerTitle ?></h2>
-            <p><?= $bannerDescription ?></p>
-            <div class="promo-discount"><?= $bannerDiscount ?></div>
-            <p class="promo-expiry"><?= $bannerExpiry ?></p>
-            <button class="btn btn-cta"><?= $bannerCTA ?></button>
-        </div>
-        <div class="promo-image">
-            <img src="<?= $bannerImage ?>" alt="<?= $bannerTitle ?>" loading="lazy">
-        </div>
-    </div>
+<section class="promos-section" style="margin-bottom: 40px;">
+    <h2 style="color: #3b82f6; margin-bottom: 20px; font-weight: bold;"><?= esc($title ?? 'PROMOS') ?></h2>
 
-    <div class="promo-cards">
+    <?php if (empty($promos) || !is_array($promos)): ?>
+        <p style="color: #999; padding: 10px;">No promos available</p>
+    <?php else: ?>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
         <?php foreach ($promos as $promo): ?>
-            <div class="promo-card">
-                <img src="<?= $promo['image'] ?>" alt="<?= $promo['title'] ?>" loading="lazy">
-                <div class="promo-info">
-                    <h3><?= $promo['title'] ?></h3>
-                    <div class="promo-discount-badge"><?= $promo['discount'] ?></div>
-                    <p class="promo-code">Code: <strong><?= $promo['code'] ?></strong></p>
-                    <p class="promo-condition">Min spend: $<?= $promo['minSpend'] ?></p>
-                    <button class="btn btn-outline">Use Code</button>
+            <div class="promo-tile" style="
+                border: 1px solid #444;
+                border-radius: 12px;
+                background-color: #121212;
+                aspect-ratio: 1/1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 10px;">
+                
+                <div style="font-size: 2rem; margin-bottom: 8px;">
+                    <?php if(!empty($promo['image'])): ?>
+                        <img src="<?= $promo['image'] ?>" style="width: 40px; height: 40px;">
+                    <?php else: ?>
+                        🎁
+                    <?php endif; ?>
                 </div>
+
+                <span style="color: #ccc; font-size: 0.75rem; text-transform: uppercase; font-weight: 600;">
+                    <?= $promo['title'] ?>
+                </span>
             </div>
         <?php endforeach; ?>
     </div>
+    <?php endif; ?>
 </section>

@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\ProductModel;
-use App\Models\ArticleModel;
+use App\Models\StoryModel;
+use App\Models\CarouselSlideModel;
+use App\Models\PromosModel;
 
 /**
  * Class Home
@@ -16,26 +18,40 @@ class Home extends BaseController
     public function index(): string
     {
         $productModel = new ProductModel();
-        $articleModel = new ArticleModel();
+        $storyModel = new StoryModel();
+        $carouselModel = new CarouselSlideModel();
+        $promosModel = new PromosModel();
+
+        // Fetch carousel slides
+        $carouselSlides = $carouselModel->getActiveSlides();
 
         // Fetch products
         $newProducts = $productModel
+            ->where('is_active', 1)
             ->orderBy('created_at', 'DESC')
             ->limit(6)
             ->find();
 
         $featuredProducts = $productModel
-            ->where('is_featured', 1) // Ensure your DB has this column or remove this clause
+            ->where('is_active', 1)
+            ->where('is_featured', 1)
+            ->orderBy('sort_order', 'ASC')
+            ->orderBy('created_at', 'DESC')
             ->limit(6)
             ->find();
 
         // Fetch articles
-        $latestArticles = $articleModel->getPublished(3);
+        $latestStories = $storyModel->getPublished(3);
+
+        // Fetch active promos
+        $promos = $promosModel->getActivePromos();
 
         $data = [
+            'carouselSlides'   => $carouselSlides,
             'newProducts'      => $newProducts,
             'featuredProducts' => $featuredProducts,
-            'latestArticles'   => $latestArticles,
+            'latestStories'   => $latestStories,
+            'promos'           => $promos,
             'title'            => 'Playpass | Home'
         ];
 
