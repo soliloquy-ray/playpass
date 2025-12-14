@@ -15,14 +15,16 @@ class ProductsController extends BaseController
         $productModel = new ProductModel();
         $promosModel = new PromosModel();
         
-        // Fetch new products - prioritize is_new flag, then fallback to recent products
+        // Fetch new products with brand information - prioritize is_new flag, then fallback to recent products
         // First try to get products with is_new flag set
         $newProducts = $productModel
-            ->where('is_active', 1)
-            ->where('is_new', 1)
-            ->orderBy('created_at', 'DESC')
+            ->select('products.*, brands.name as brand_name, brands.logo as brand_logo')
+            ->join('brands', 'brands.id = products.brand_id', 'left')
+            ->where('products.is_active', 1)
+            ->where('products.is_new', 1)
+            ->orderBy('products.created_at', 'DESC')
             ->limit(6)
-            ->find();
+            ->findAll();
         
         // If we don't have 6 products with is_new flag, fill with recent products
         if (count($newProducts) < 6) {
@@ -30,28 +32,32 @@ class ProductsController extends BaseController
             $existingIds = array_column($newProducts, 'id');
             
             $recentProducts = $productModel
-                ->where('is_active', 1);
+                ->select('products.*, brands.name as brand_name, brands.logo as brand_logo')
+                ->join('brands', 'brands.id = products.brand_id', 'left')
+                ->where('products.is_active', 1);
             
             if (!empty($existingIds)) {
-                $recentProducts->whereNotIn('id', $existingIds);
+                $recentProducts->whereNotIn('products.id', $existingIds);
             }
             
             $recentProducts = $recentProducts
-                ->orderBy('created_at', 'DESC')
+                ->orderBy('products.created_at', 'DESC')
                 ->limit($remaining)
-                ->find();
+                ->findAll();
             
             $newProducts = array_merge($newProducts, $recentProducts);
         }
         
-        // Fetch featured products (limited to 6)
+        // Fetch featured products with brand information (limited to 6)
         $featuredProducts = $productModel
-            ->where('is_active', 1)
-            ->where('is_featured', 1)
-            ->orderBy('sort_order', 'ASC')
-            ->orderBy('created_at', 'DESC')
+            ->select('products.*, brands.name as brand_name, brands.logo as brand_logo')
+            ->join('brands', 'brands.id = products.brand_id', 'left')
+            ->where('products.is_active', 1)
+            ->where('products.is_featured', 1)
+            ->orderBy('products.sort_order', 'ASC')
+            ->orderBy('products.created_at', 'DESC')
             ->limit(6)
-            ->find();
+            ->findAll();
         
         // Fetch active promos
         $promos = $promosModel->getActivePromos();

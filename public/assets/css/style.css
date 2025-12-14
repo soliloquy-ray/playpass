@@ -302,10 +302,38 @@ textarea {
     animation: fadeIn 0.5s ease;
 }
 
-.carousel-slide.active {
+.carousel-slide-inner {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.carousel-slide.active {
+    display: block;
+}
+
+/* Desktop carousel constraints */
+@media (min-width: 1024px) {
+    .carousel-slide.active {
+        padding: 60px 40px;
+    }
+    
+    .carousel-slide-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .carousel-content {
+        max-width: 600px;
+        padding-right: 40px;
+    }
+    
+    .carousel-image {
+        flex: 0 0 300px;
+        height: 200px;
+        margin-left: 0;
+    }
 }
 
 @keyframes fadeIn {
@@ -2084,14 +2112,26 @@ tbody tr:hover {
 
 /* 1. Header Layout Fixes */
 header {
+    background-color: var(--secondary); /* Dark Blue */
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1001; /* Above the menu */
+}
+
+.header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    background-color: var(--secondary); /* Dark Blue */
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    position: relative;
-    z-index: 1001; /* Above the menu */
+    padding: 15px 15px;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .header-content {
+        padding: 15px 40px;
+    }
 }
 
 .header-left, .header-right {
@@ -2120,6 +2160,8 @@ header {
     align-items: center;
     gap: 25px;
     margin-left: 30px;
+    justify-content: center;
+    flex: 1;
 }
 
 .desktop-nav-link {
@@ -2147,8 +2189,22 @@ header {
 }
 
 @media (min-width: 1024px) {
+    .header-left {
+        flex: 1;
+        justify-content: flex-start;
+    }
+    
+    .header-right {
+        flex: 1;
+        justify-content: flex-end;
+    }
+    
     .desktop-nav {
         display: flex !important;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-left: 0;
     }
     
     .burger-icon {
@@ -2264,6 +2320,14 @@ header {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 1002; /* Above header */
+}
+
+/* When banner exists, header sticks below it (banner height ~35px) */
+.top-cta ~ header {
+    top: 35px;
 }
 
 /* ============================================

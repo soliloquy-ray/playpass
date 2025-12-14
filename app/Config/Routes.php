@@ -81,6 +81,10 @@ $routes->group('admin', ['filter' => 'AdminGuard', 'namespace' => 'App\Controlle
     $routes->get('dashboard', 'DashboardController::index');
     $routes->get('/', 'DashboardController::index'); // Redirect /admin to /admin/dashboard
     
+    // Top Banner
+    $routes->get('banner', 'BannerController::index');
+    $routes->post('banner/save', 'BannerController::save');
+    
     // Carousel Slides
     $routes->get('carousel', 'CarouselController::index');
     $routes->get('carousel/new', 'CarouselController::new');

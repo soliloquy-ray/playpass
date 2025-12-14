@@ -9,48 +9,7 @@
 </head>
 <body style="position: relative;">
 
-    <div class="top-cta">
-        <i class="fa-solid fa-bolt" style="color: #ffd700;"></i> CODE AGAD. INSTANT DELIVERY VIA SMS/EMAIL!
-    </div>
-
-    <header>
-        <div class="header-left">
-            <div class="burger-icon" id="burger-icon">
-                <i class="fa-solid fa-bars" style="font-size: 1.5rem;"></i>
-            </div>
-            
-            <a href="/" style="display: flex; align-items: center; gap: 5px; text-decoration: none;">
-                <img src="/assets/logo.png" alt="Playpass" style="height: 24px;"> <!-- <span style="font-weight: 800; font-size: 1.4rem; color: #3b82f6; font-style: italic;">PLAYPASS</span> -->
-            </a>
-
-            <nav class="desktop-nav">
-                <a href="/app" class="desktop-nav-link <?= uri_string() == 'app' ? 'active' : '' ?>">Home</a>
-                <a href="/app/buy-now" class="desktop-nav-link <?= uri_string() == 'app/buy-now' ? 'active' : '' ?>">Buy Now</a>
-                <a href="/app/stories" class="desktop-nav-link <?= uri_string() == 'app/stories' ? 'active' : '' ?>">Stories</a>
-                <?php if (session()->get('logged_in')): ?>
-                    <a href="/app/account" class="desktop-nav-link <?= uri_string() == 'app/account' ? 'active' : '' ?>">Account</a>
-                <?php else: ?>
-                    <a href="/app/login" class="desktop-nav-link <?= uri_string() == 'app/login' ? 'active' : '' ?>">Account</a>
-                <?php endif; ?>
-            </nav>
-        </div>
-
-        <div class="header-right">
-            <button class="icon-btn" style="background: none; border: none; color: white; font-size: 1.2rem;">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-            
-            <div class="gold-star-icon">
-                <img src="/assets/star-icon.png" alt="Rw" style="height: 28px;"> </div>
-
-            <?php if (session()->get('logged_in')): ?>
-                 <?php else: ?>
-                <a href="/app/login" class="btn-signin">Sign In</a>
-            <?php endif; ?>
-        </div>
-
-    <?= view('components/mobile_menu') ?>
-    </header>
+    <?= view_cell('App\Cells\HeaderCell::render') ?>
 
     <main>
         <?= $this->renderSection('content') ?>

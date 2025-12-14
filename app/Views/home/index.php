@@ -7,21 +7,23 @@
 <div class="hero-carousel">
     <?php foreach ($carouselSlides as $index => $slide): ?>
     <div class="carousel-slide <?= $index === 0 ? 'active' : '' ?>">
-        <div class="carousel-content">
-            <h1><?= esc($slide['title']) ?></h1>
-            <?php if (!empty($slide['subtitle'])): ?>
-            <p><?= esc($slide['subtitle']) ?></p>
-            <?php endif; ?>
-            <?php if (!empty($slide['cta_text']) && !empty($slide['cta_link'])): ?>
-            <a href="<?= esc($slide['cta_link']) ?>" class="btn btn-primary"><?= esc($slide['cta_text']) ?></a>
-            <?php endif; ?>
-        </div>
-        <div class="carousel-image">
-            <?php if (!empty($slide['image_url'])): ?>
-                <img src="<?= esc($slide['image_url']) ?>" alt="<?= esc($slide['title']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
-            <?php else: ?>
-                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, <?= esc($slide['bg_gradient_start'] ?? '#d8369f') ?> 0%, <?= esc($slide['bg_gradient_end'] ?? '#051429') ?> 100%);"></div>
-            <?php endif; ?>
+        <div class="carousel-slide-inner">
+            <div class="carousel-content">
+                <h1><?= esc($slide['title']) ?></h1>
+                <?php if (!empty($slide['subtitle'])): ?>
+                <p><?= esc($slide['subtitle']) ?></p>
+                <?php endif; ?>
+                <?php if (!empty($slide['cta_text']) && !empty($slide['cta_link'])): ?>
+                <a href="<?= esc($slide['cta_link']) ?>" class="btn btn-primary"><?= esc($slide['cta_text']) ?></a>
+                <?php endif; ?>
+            </div>
+            <div class="carousel-image">
+                <?php if (!empty($slide['image_url'])): ?>
+                    <img src="<?= esc($slide['image_url']) ?>" alt="<?= esc($slide['title']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                <?php else: ?>
+                    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, <?= esc($slide['bg_gradient_start'] ?? '#d8369f') ?> 0%, <?= esc($slide['bg_gradient_end'] ?? '#051429') ?> 100%);"></div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     <?php endforeach; ?>

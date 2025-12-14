@@ -29,6 +29,10 @@
 
             <div class="nav-section">
                 <span class="nav-section-title">Content</span>
+                <a href="/admin/banner" class="nav-link <?= strpos(uri_string(), 'admin/banner') === 0 ? 'active' : '' ?>">
+                    <i class="fas fa-flag"></i>
+                    <span>Top Banner</span>
+                </a>
                 <a href="/admin/carousel" class="nav-link <?= strpos(uri_string(), 'admin/carousel') === 0 ? 'active' : '' ?>">
                     <i class="fas fa-images"></i>
                     <span>Carousel Slides</span>
