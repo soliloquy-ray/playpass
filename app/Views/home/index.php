@@ -45,38 +45,52 @@
 
     <!-- New Products Section -->
     <?php
-    $newProductsData = [
-        'title' => 'New Arrivals',
-        'subtitle' => 'Fresh products added this week',
-        'products' => array_map(function($p) {
+    // Prepare products data for the cell
+    $productsForCell = [];
+    if (!empty($newProducts) && is_array($newProducts)) {
+        $productsForCell = array_map(function($p) {
             return [
                 'id' => $p['id'],
                 'name' => $p['name'],
                 'price' => $p['price'],
                 'image' => $p['thumbnail_url'] ?? '/assets/images/placeholder.jpg',
-                'date' => date('M j, Y', strtotime($p['created_at']))
+                'date' => date('M j, Y', strtotime($p['created_at'])),
+                'brand_id' => $p['brand_id'] ?? null,
+                'brand_name' => $p['brand_name'] ?? null,
+                'brand_logo' => $p['brand_logo'] ?? null
             ];
-        }, $newProducts ?? [])
-    ];
+        }, $newProducts);
+    }
     ?>
 
-    <?= view_cell('App\Cells\NewProductsCell::render', ['title' => 'NEW', 'data' => $newProductsData]) ?>
+    <?= view_cell('App\Cells\NewProductsCell::render', [
+        'title' => 'NEW',
+        'subtitle' => 'Fresh products added this week',
+        'products' => $productsForCell
+    ]) ?>
 
     <!-- Featured Products Section -->
     <?php
-    $featuredProductsData = [
-        'title' => 'Featured Products',
-        'subtitle' => 'Handpicked selections just for you',
-        'products' => array_map(function($p) {
+    // Prepare featured products data for the cell
+    $featuredProductsForCell = [];
+    if (!empty($featuredProducts) && is_array($featuredProducts)) {
+        $featuredProductsForCell = array_map(function($p) {
             return [
                 'id' => $p['id'],
+                'brand_id' => $p['brand_id'] ?? null,
                 'name' => $p['name'],
                 'price' => $p['price'],
                 'image' => $p['thumbnail_url'] ?? '/assets/images/placeholder.jpg',
                 'bg_color' => $p['bg_color'] ?? '#1a1a1a',
                 'badge' => 'Featured'
             ];
-        }, $featuredProducts ?? [])
+        }, $featuredProducts);
+    }
+    
+    $featuredProductsData = [
+        'title' => 'Featured Products',
+        'subtitle' => 'Handpicked selections just for you',
+        'products' => $featuredProductsForCell
     ];
     ?>
     <?= view_cell('App\Cells\FeaturedProductsCell::render', $featuredProductsData) ?>

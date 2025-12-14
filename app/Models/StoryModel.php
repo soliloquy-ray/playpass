@@ -60,4 +60,26 @@ class StoryModel extends Model
                     ->orderBy('published_at', 'DESC')
                     ->findAll($limit);
     }
+
+    /**
+     * Get a single story by slug
+     */
+    public function getBySlug(string $slug)
+    {
+        return $this->where('status', 'published')
+                    ->where('slug', $slug)
+                    ->first();
+    }
+
+    /**
+     * Get related stories based on category, excluding the current story
+     */
+    public function getRelatedStories(string $category, int $currentStoryId, int $limit = 6)
+    {
+        return $this->where('status', 'published')
+                    ->where('category', $category)
+                    ->where('id !=', $currentStoryId)
+                    ->orderBy('published_at', 'DESC')
+                    ->findAll($limit);
+    }
 }

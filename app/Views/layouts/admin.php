@@ -53,6 +53,10 @@
                     <i class="fas fa-question-circle"></i>
                     <span>How It Works</span>
                 </a>
+                <a href="/admin/customer-support" class="nav-link <?= strpos(uri_string(), 'admin/customer-support') === 0 ? 'active' : '' ?>">
+                    <i class="fas fa-headset"></i>
+                    <span>Customer Support</span>
+                </a>
             </div>
 
             <div class="nav-section">

@@ -213,6 +213,12 @@ textarea {
     margin: 0 auto;
 }
 
+@media (min-width: 1024px) {
+    .container {
+        padding: 0 40px;
+    }
+}
+
 .container-wide {
     padding: 0 15px;
 }
@@ -1022,6 +1028,20 @@ tbody tr:hover {
 
 .product-card.new {
     width: 180px;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.product-card.new .product-image {
+    width: 100%;
+}
+
+.product-card.new .btn-brand,
+.product-card.new .btn-primary {
+    border-radius: 0 0 8px 8px;
+    margin: 0;
+    width: 100%;
 }
 
 .product-image {
@@ -1122,6 +1142,56 @@ tbody tr:hover {
 
 .btn-block {
     width: 100%;
+}
+
+/* Brand Button Styles for New Products */
+.btn-brand {
+    background-color: #ffc107;
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-weight: 700;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.btn-brand:hover {
+    background-color: #ffd700;
+}
+
+.btn-brand img {
+    display: block;
+    height: 20px;
+    width: auto;
+    max-width: 100px;
+    object-fit: contain;
+}
+
+/* Alternative brand button colors - can be customized per brand */
+.btn-brand.viu {
+    background-color: #ffc107;
+}
+
+.btn-brand.viva-one {
+    background-color: #2d5016;
+    color: white;
+}
+
+.btn-brand.viva-one img {
+    filter: brightness(0) invert(1);
+}
+
+.btn-brand.cignalplay {
+    background-color: #dc2626;
+    color: white;
+}
+
+.btn-brand.cignalplay img {
+    filter: brightness(0) invert(1);
 }
 
 .carousel-nav {
@@ -1236,6 +1306,18 @@ tbody tr:hover {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
+}
+
+/* Mobile adjustments for new products */
+@media (max-width: 768px) {
+    .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .product-card.new {
+        width: 100%;
+    }
 }
 
 /* ============================================
@@ -2021,8 +2103,71 @@ header {
 .burger-icon {
     cursor: pointer;
     color: white;
-    display: flex;
+    display: none; /* Hidden by default on desktop */
     align-items: center;
+}
+
+/* Show burger icon only on mobile */
+@media (max-width: 1023px) {
+    .burger-icon {
+        display: flex !important;
+    }
+}
+
+/* Desktop Navigation */
+.desktop-nav {
+    display: none;
+    align-items: center;
+    gap: 25px;
+    margin-left: 30px;
+}
+
+.desktop-nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+    position: relative;
+}
+
+.desktop-nav-link:hover,
+.desktop-nav-link.active {
+    color: #ff0066;
+}
+
+.desktop-nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #ff0066;
+}
+
+@media (min-width: 1024px) {
+    .desktop-nav {
+        display: flex !important;
+    }
+    
+    .burger-icon {
+        display: none !important;
+    }
+    
+    .mobile-menu {
+        display: none !important;
+    }
+}
+
+@media (max-width: 1023px) {
+    .desktop-nav {
+        display: none !important;
+    }
+    
+    .burger-icon {
+        display: flex !important;
+    }
 }
 
 /* 2. The "Sign In" Button (Blue Pill) */

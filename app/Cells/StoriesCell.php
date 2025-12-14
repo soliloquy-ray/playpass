@@ -3,29 +3,51 @@
 namespace App\Cells;
 
 use CodeIgniter\View\Cells\Cell;
+use App\Models\StoryModel;
 
 class StoriesCell extends Cell
 {
     public function render(array $data = []): string
     {
-        // Default dummy data matching the "News/Trailer" design
+        // If stories are provided in data, use them; otherwise fetch from database
+        if (isset($data['stories']) && !empty($data['stories'])) {
+            // Use provided stories, but ensure they have all required fields
+            $formattedStories = [];
+            foreach ($data['stories'] as $story) {
+                $formattedStories[] = [
+                    'id' => $story['id'] ?? null,
+                    'title' => $story['title'] ?? '',
+                    'image' => $story['image'] ?? '/assets/images/placeholder.jpg',
+                    'time' => $story['time'] ?? ($story['published_at'] ? date('h:i A', strtotime($story['published_at'])) : date('h:i A')),
+                    'is_trailer' => isset($story['is_trailer']) ? (bool)$story['is_trailer'] : false,
+                    'category' => $story['category'] ?? 'story',
+                    'excerpt' => $story['excerpt'] ?? '',
+                ];
+            }
+        } else {
+            // Fetch from database
+            $model = new StoryModel();
+            $limit = $data['limit'] ?? 4;
+            $stories = $model->getLatestStories($limit);
+            
+            // Format stories data for the view
+            $formattedStories = [];
+            foreach ($stories as $story) {
+                $formattedStories[] = [
+                    'id' => $story['id'],
+                    'title' => $story['title'],
+                    'image' => $story['image'] ?? '/assets/images/placeholder.jpg',
+                    'time' => $story['published_at'] ? date('h:i A', strtotime($story['published_at'])) : date('h:i A'),
+                    'is_trailer' => (bool)($story['is_trailer'] ?? false),
+                    'category' => $story['category'] ?? 'story',
+                    'excerpt' => $story['excerpt'] ?? '',
+                ];
+            }
+        }
+
         $defaultData = [
-            'title' => 'STORIES',
-            'subtitle' => 'Latest updates from the world of entertainment',
-            'stories' => [ // Changed key from 'testimonials' to 'stories'
-                [
-                    'title' => 'Queen of Divorce: Now Streaming',
-                    'image' => '/assets/images/story1.jpg',
-                    'time'  => '10:00 AM',
-                    'is_trailer' => false
-                ],
-                [
-                    'title' => 'Official Trailer: Love You Since 1892',
-                    'image' => '/assets/images/story2.jpg',
-                    'time'  => '11:30 AM',
-                    'is_trailer' => true // This adds the yellow badge
-                ]
-            ],
+            'title' => $data['title'] ?? 'STORIES',
+            'stories' => $formattedStories,
         ];
 
         // Merge user data with defaults

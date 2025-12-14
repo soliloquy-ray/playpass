@@ -25,20 +25,24 @@ class Home extends BaseController
         // Fetch carousel slides
         $carouselSlides = $carouselModel->getActiveSlides();
 
-        // Fetch products
+        // Fetch products with brand information
         $newProducts = $productModel
-            ->where('is_active', 1)
-            ->orderBy('created_at', 'DESC')
+            ->select('products.*, brands.name as brand_name, brands.logo as brand_logo')
+            ->join('brands', 'brands.id = products.brand_id', 'left')
+            ->where('products.is_active', 1)
+            ->orderBy('products.created_at', 'DESC')
             ->limit(6)
-            ->find();
+            ->findAll();
 
         $featuredProducts = $productModel
-            ->where('is_active', 1)
-            ->where('is_featured', 1)
-            ->orderBy('sort_order', 'ASC')
-            ->orderBy('created_at', 'DESC')
+            ->select('products.*, brands.name as brand_name, brands.logo as brand_logo')
+            ->join('brands', 'brands.id = products.brand_id', 'left')
+            ->where('products.is_active', 1)
+            ->where('products.is_featured', 1)
+            ->orderBy('products.sort_order', 'ASC')
+            ->orderBy('products.created_at', 'DESC')
             ->limit(6)
-            ->find();
+            ->findAll();
 
         // Fetch articles
         $latestStories = $storyModel->getPublished(3);

@@ -6,24 +6,22 @@ use CodeIgniter\View\Cells\Cell;
 
 class NewProductsCell extends Cell
 {
-    public function render(array $data = []): string
+    // These properties match the keys you pass in view_cell()
+    public $title = 'New Arrivals';
+    public $subtitle = 'Fresh additions to our store';
+    public $products = [];
+
+    public function render(): string
     {
-        $defaultData = [
-            'title' => 'New Arrivals',
-            'subtitle' => 'Fresh additions to our store',
-            'products' => [
-                [
-                    'id' => 1,
-                    'image' => '/assets/images/placeholder.jpg',
-                    'name' => 'New Product',
-                    'price' => 24.99,
-                    'date' => 'Dec 1, 2025',
-                ]
-            ],
-        ];
+        // Ensure products is always an array
+        if (!is_array($this->products)) {
+            $this->products = [];
+        }
 
-        $data = array_merge($defaultData, $data);
-
-        return view('App\Cells\new_products', $data);
+        return view('App\Cells\new_products', [
+            'title' => $this->title,
+            'subtitle' => $this->subtitle,
+            'products' => $this->products
+        ]);
     }
 }

@@ -31,9 +31,16 @@
     /* --- Grid Layout Fix --- */
     .stories-grid-container {
         display: grid;
-        /* Force 2 columns on mobile and desktop, just like the screenshot */
+        /* 2 columns on mobile, 4 columns on desktop */
         grid-template-columns: repeat(2, 1fr); 
         gap: 15px;
+    }
+    
+    /* Desktop: 4 columns */
+    @media (min-width: 768px) {
+        .stories-grid-container {
+            grid-template-columns: repeat(4, 1fr);
+        }
     }
     
     /* Only stack on extremely small devices (e.g. Galaxy Fold folded) */
@@ -54,9 +61,9 @@
     .filters-bar::-webkit-scrollbar { display: none; } /* Hide scrollbar for clean look */
 
     .filter-btn {
-        background: transparent;
-        border: 1px solid #333;
-        color: #888;
+        background: #1a1a1a;
+        border: 1px solid #d8369f; /* Red/pink border */
+        color: #fff;
         padding: 6px 16px;
         border-radius: 4px;
         cursor: pointer;
@@ -66,11 +73,23 @@
     }
     .filter-btn.active, .filter-btn:hover {
         border-color: #d8369f; /* Pink highlight */
-        background-color: rgba(216, 54, 159, 0.1);
+        background-color: rgba(216, 54, 159, 0.2);
         color: white;
     }
 
     /* --- Card Styling (Pixel Perfect Match) --- */
+    .story-card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        transition: transform 0.2s, opacity 0.2s;
+    }
+    
+    .story-card-link:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+    
     .story-card {
         background: #121212; /* Darker card bg */
         border: none;
@@ -78,6 +97,7 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        cursor: pointer;
     }
 
     .story-image-wrapper {
@@ -166,7 +186,7 @@
 </style>
 
 <script>
-    let currentCategory = 'all';
+    let currentCategory = 'all'; // Default to 'all' to show all stories
     let offset = 0;
     let isLoading = false;
     let hasMore = true;
@@ -211,14 +231,23 @@
         isLoading = true;
         spinner.style.display = 'block';
 
-        fetch(`/stories/fetch?category=${currentCategory}&offset=${offset}`)
-            .then(response => response.json())
+        const categoryParam = currentCategory === 'all' ? 'all' : currentCategory;
+        fetch(`/app/stories/fetch?category=${categoryParam}&offset=${offset}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 spinner.style.display = 'none';
                 
                 if (data.html) {
                     grid.insertAdjacentHTML('beforeend', data.html);
                     offset += data.count;
+                } else if (offset === 0) {
+                    // No stories found on first load
+                    grid.innerHTML = '<p style="color: #888; text-align: center; grid-column: 1 / -1; padding: 20px;">No stories found.</p>';
                 }
                 
                 if (!data.hasMore) {
@@ -228,8 +257,11 @@
                 }
             })
             .catch(err => {
-                console.error(err);
+                console.error('Error loading stories:', err);
                 spinner.style.display = 'none';
+                if (offset === 0) {
+                    grid.innerHTML = '<p style="color: #ff0055; text-align: center; grid-column: 1 / -1; padding: 20px;">Error loading stories. Please try again.</p>';
+                }
             })
             .finally(() => {
                 isLoading = false;

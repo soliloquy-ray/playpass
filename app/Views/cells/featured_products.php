@@ -33,7 +33,7 @@
                     <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>" style="max-width: 80%; max-height: 80px; object-fit: contain;">
                 </div>
 
-                <a href="/app/buy/<?= $product['id'] ?>" style="
+                <a href="/app/buy/<?= esc($product['brand_id'] ?? $product['id']) ?>" style="
                     background-color: #1e1e2e; 
                     color: #ff0066; 
                     text-align: center; 

@@ -6,26 +6,22 @@ use CodeIgniter\View\Cells\Cell;
 
 class FeaturedProductsCell extends Cell
 {
-    public function render(array $data = []): string
+    // These properties match the keys you pass in view_cell()
+    public $title = 'Featured Products';
+    public $subtitle = 'Handpicked selections just for you';
+    public $products = [];
+
+    public function render(): string
     {
-        $defaultData = [
-            'title' => 'Featured Products',
-            'subtitle' => 'Handpicked selections just for you',
-            'products' => [
-                [
-                    'id' => 1,
-                    'image' => '/assets/images/placeholder.jpg',
-                    'name' => 'Product Name',
-                    'price' => 29.99,
-                    'rating' => 4.5,
-                    'reviews' => 128,
-                    'badge' => 'Featured',
-                ]
-            ],
-        ];
+        // Ensure products is always an array
+        if (!is_array($this->products)) {
+            $this->products = [];
+        }
 
-        $data = array_merge($defaultData, $data);
-
-        return view('App\Cells\featured_products', $data);
+        return view('App\Cells\featured_products', [
+            'title' => $this->title,
+            'subtitle' => $this->subtitle,
+            'products' => $this->products
+        ]);
     }
 }

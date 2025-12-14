@@ -43,6 +43,7 @@ $routes->group('app', function($routes) {
     // Story Routes
     $routes->get('stories', 'StoriesController::index');
     $routes->get('stories/fetch', 'StoriesController::fetch');
+    $routes->get('stories/(:segment)', 'StoriesController::show/$1'); // Individual story by slug
     
     // Authentication routes
     $routes->get('register', 'Auth::showRegister');
@@ -129,6 +130,14 @@ $routes->group('admin', ['filter' => 'AdminGuard', 'namespace' => 'App\Controlle
     $routes->post('how-it-works/update/(:num)', 'HowItWorksController::update/$1');
     $routes->post('how-it-works/delete/(:num)', 'HowItWorksController::delete/$1');
     $routes->post('how-it-works/update-order', 'HowItWorksController::updateOrder');
+    
+    // Customer Support
+    $routes->get('customer-support', 'CustomerSupportController::index');
+    $routes->get('customer-support/new', 'CustomerSupportController::new');
+    $routes->post('customer-support/create', 'CustomerSupportController::create');
+    $routes->get('customer-support/edit/(:num)', 'CustomerSupportController::edit/$1');
+    $routes->post('customer-support/update/(:num)', 'CustomerSupportController::update/$1');
+    $routes->post('customer-support/delete/(:num)', 'CustomerSupportController::delete/$1');
     
     // Vouchers
     $routes->get('vouchers', 'VoucherController::index');
