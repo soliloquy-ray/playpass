@@ -29,7 +29,7 @@
         </div>
     <?php endif; ?>
 
-    <form action="/forgot-password" method="post" class="login-form">
+    <form action="<?= site_url('app/forgot-password') ?>" method="post" class="login-form">
         <?= csrf_field() ?>
 
         <div class="form-group">
@@ -42,7 +42,7 @@
         </button>
 
         <div style="text-align: center; margin-top: 20px;">
-            <a href="/app/login" style="color: #3b82f6; font-size: 0.9rem;">Back to Login</a>
+            <a href="<?= site_url('app/login') ?>" style="color: #3b82f6; font-size: 0.9rem;">Back to Login</a>
         </div>
     </form>
 </div>

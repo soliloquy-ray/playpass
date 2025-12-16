@@ -52,6 +52,11 @@ $routes->group('app', function($routes) {
     $routes->post('login', 'Auth::login');
     $routes->get('logout', 'Auth::logout');
     $routes->get('forgot-password', 'Auth::showForgotPassword');
+    $routes->post('forgot-password', 'Auth::forgotPassword');
+    $routes->get('verify-email', 'Auth::showVerifyEmail');
+    $routes->post('verify-email', 'Auth::verifyEmail');
+    $routes->post('resend-verification', 'Auth::resendVerification');
+    $routes->get('resend-verification', 'Auth::resendVerification');
     
     // OAuth Social Login routes
     $routes->get('auth/google', 'Auth::googleRedirect');
@@ -61,6 +66,9 @@ $routes->group('app', function($routes) {
     
     // Customer account dashboard
     $routes->get('account', 'User::index');
+    $routes->get('account/edit', 'User::editProfile');
+    $routes->post('account/update', 'User::updateProfile');
+    $routes->get('account/voucher/use/(:num)', 'User::useVoucher/$1');
 });
 
 // ============================================

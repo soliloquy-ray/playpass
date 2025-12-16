@@ -29,4 +29,19 @@ class Services extends BaseService
      *     return new \CodeIgniter\Example();
      * }
      */
+
+    /**
+     * Custom Email Service
+     * 
+     * Provides access to the custom email service for sending
+     * emails via the external email API.
+     */
+    public static function emailService($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('emailService');
+        }
+
+        return new \App\Libraries\EmailService();
+    }
 }
