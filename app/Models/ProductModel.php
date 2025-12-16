@@ -57,7 +57,7 @@ class ProductModel extends Model
     public function getFilteredProducts($filters = [], int $limit = 9, int $offset = 0)
     {
         $builder = $this->select('products.*, brands.name as brand_name, brands.logo as brand_logo')
-                        ->join('brands', 'brands.id = products.brand_id')
+                        ->join('brands', 'brands.id = products.brand_id', 'left')
                         ->where('products.is_active', 1);
 
         // 1. Brand Filter
@@ -68,9 +68,9 @@ class ProductModel extends Model
         // 2. Price Filter (Ranges)
         if (!empty($filters['price'])) {
             switch ($filters['price']) {
-                case 'low':   $builder->where('price <', 50); break;
-                case 'mid':   $builder->where('price >=', 50)->where('price <=', 100); break;
-                case 'high':  $builder->where('price >', 100); break;
+                case 'low':   $builder->where('products.price <', 50); break;
+                case 'mid':   $builder->where('products.price >=', 50)->where('products.price <=', 100); break;
+                case 'high':  $builder->where('products.price >', 100); break;
             }
         }
 
@@ -80,7 +80,14 @@ class ProductModel extends Model
             $builder->like('products.name', $filters['duration']);
         }
 
+        // Apply limit and offset - CodeIgniter 4 supports findAll with parameters
+        if ($offset > 0) {
+            $builder->offset($offset);
+        }
+        
         return $builder->orderBy('products.sort_order', 'ASC')
-                       ->findAll($limit, $offset);
+                       ->orderBy('products.created_at', 'DESC')
+                       ->limit($limit)
+                       ->findAll();
     }
 }

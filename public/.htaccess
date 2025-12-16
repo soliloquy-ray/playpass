@@ -1,6 +1,9 @@
 # Disable directory browsing
 Options -Indexes
 
+# Set default index file for directory access
+DirectoryIndex index.php index.html
+
 # ----------------------------------------------------------------------
 # Rewrite engine
 # ----------------------------------------------------------------------
@@ -14,7 +17,8 @@ Options -Indexes
 	# If you installed CodeIgniter in a subfolder, you will need to
 	# change the following line to match the subfolder you need.
 	# http://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewritebase
-	# RewriteBase /
+	# Since Apache Alias maps /playpass to public/, the base is /playpass/
+	RewriteBase /playpass/
 
 	# Redirect Trailing Slashes...
 	RewriteCond %{REQUEST_FILENAME} !-d
