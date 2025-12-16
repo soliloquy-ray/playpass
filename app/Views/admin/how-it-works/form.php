@@ -5,7 +5,7 @@
 <?php $isEdit = isset($step); ?>
 
 <div style="margin-bottom: 24px;">
-    <a href="/admin/how-it-works" style="color: var(--text-muted); text-decoration: none;">
+    <a href="<?= site_url('admin/how-it-works') ?>" style="color: var(--text-muted); text-decoration: none;">
         <i class="fas fa-arrow-left"></i> Back to How It Works
     </a>
 </div>
@@ -67,7 +67,7 @@
         <button type="submit" class="btn-admin btn-admin-primary">
             <i class="fas fa-save"></i> <?= $isEdit ? 'Update Step' : 'Create Step' ?>
         </button>
-        <a href="/admin/how-it-works" class="btn-admin btn-admin-secondary">Cancel</a>
+        <a href="<?= site_url('admin/how-it-works') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
     </div>
 </form>
 

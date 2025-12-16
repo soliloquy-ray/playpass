@@ -5,7 +5,7 @@
 <?php $isEdit = isset($promo); ?>
 
 <div style="margin-bottom: 24px;">
-    <a href="/admin/promos" style="color: var(--text-muted); text-decoration: none;">
+    <a href="<?= site_url('admin/promos') ?>" style="color: var(--text-muted); text-decoration: none;">
         <i class="fas fa-arrow-left"></i> Back to Promos
     </a>
 </div>
@@ -85,7 +85,7 @@
         <button type="submit" class="btn-admin btn-admin-primary">
             <i class="fas fa-save"></i> <?= $isEdit ? 'Update Promo' : 'Create Promo' ?>
         </button>
-        <a href="/admin/promos" class="btn-admin btn-admin-secondary">Cancel</a>
+        <a href="<?= site_url('admin/promos') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
     </div>
 </form>
 

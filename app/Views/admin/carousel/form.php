@@ -5,7 +5,7 @@
 <?php $isEdit = isset($slide); ?>
 
 <div style="margin-bottom: 24px;">
-    <a href="/admin/carousel" style="color: var(--text-muted); text-decoration: none;">
+    <a href="<?= site_url('admin/carousel') ?>" style="color: var(--text-muted); text-decoration: none;">
         <i class="fas fa-arrow-left"></i> Back to Carousel
     </a>
 </div>
@@ -132,7 +132,7 @@
         <button type="submit" class="btn-admin btn-admin-primary">
             <i class="fas fa-save"></i> <?= $isEdit ? 'Update Slide' : 'Create Slide' ?>
         </button>
-        <a href="/admin/carousel" class="btn-admin btn-admin-secondary">Cancel</a>
+        <a href="<?= site_url('admin/carousel') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
     </div>
 </form>
 

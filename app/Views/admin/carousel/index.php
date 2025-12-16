@@ -5,7 +5,7 @@
 <!-- Header Actions -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
     <p style="color: var(--text-muted); margin: 0;">Manage your homepage carousel slides</p>
-    <a href="/admin/carousel/new" class="btn-admin btn-admin-primary">
+    <a href="<?= site_url('admin/carousel/new') ?>" class="btn-admin btn-admin-primary">
         <i class="fas fa-plus"></i> Add Slide
     </a>
 </div>
@@ -47,10 +47,10 @@
             </span>
             
             <div class="table-actions">
-                <a href="/admin/carousel/edit/<?= $slide['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
+                <a href="<?= site_url('admin/carousel/edit/' . $slide['id']) ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
                     <i class="fas fa-edit"></i>
                 </a>
-                <form action="/admin/carousel/delete/<?= $slide['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this slide?');">
+                <form action="<?= site_url('admin/carousel/delete/' . $slide['id']) ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this slide?');">
                     <?= csrf_field() ?>
                     <button type="submit" class="btn-admin btn-admin-danger btn-admin-sm">
                         <i class="fas fa-trash"></i>
@@ -65,7 +65,7 @@
         <div class="empty-state-icon"><i class="fas fa-images"></i></div>
         <h4 class="empty-state-title">No carousel slides</h4>
         <p class="empty-state-text">Add slides to display on your homepage hero section.</p>
-        <a href="/admin/carousel/new" class="btn-admin btn-admin-primary">Add Slide</a>
+        <a href="<?= site_url('admin/carousel/new') ?>" class="btn-admin btn-admin-primary">Add Slide</a>
     </div>
     <?php endif; ?>
 </div>

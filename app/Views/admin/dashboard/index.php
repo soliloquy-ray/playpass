@@ -31,19 +31,19 @@
 
 <!-- Quick Actions -->
 <div class="quick-actions-grid">
-    <a href="/admin/products/new" class="quick-action-card">
+    <a href="<?= site_url('admin/products/new') ?>" class="quick-action-card">
         <i class="fas fa-plus-circle"></i>
         <span>Add Product</span>
     </a>
-    <a href="/admin/stories/new" class="quick-action-card">
+    <a href="<?= site_url('admin/stories/new') ?>" class="quick-action-card">
         <i class="fas fa-newspaper"></i>
         <span>New Story</span>
     </a>
-    <a href="/admin/carousel/new" class="quick-action-card">
+    <a href="<?= site_url('admin/carousel/new') ?>" class="quick-action-card">
         <i class="fas fa-images"></i>
         <span>Add Slide</span>
     </a>
-    <a href="/admin/vouchers/new" class="quick-action-card">
+    <a href="<?= site_url('admin/vouchers/new') ?>" class="quick-action-card">
         <i class="fas fa-ticket-alt"></i>
         <span>Create Voucher</span>
     </a>
@@ -55,7 +55,7 @@
     <div class="admin-card">
         <div class="admin-card-header">
             <h3 class="admin-card-title">Recent Orders</h3>
-            <a href="/admin/orders" class="btn-admin btn-admin-secondary btn-admin-sm">View All</a>
+            <a href="<?= site_url('admin/orders') ?>" class="btn-admin btn-admin-secondary btn-admin-sm">View All</a>
         </div>
         
         <?php if (!empty($recentOrders)): ?>
@@ -100,7 +100,7 @@
     <div class="admin-card">
         <div class="admin-card-header">
             <h3 class="admin-card-title">Recent Stories</h3>
-            <a href="/admin/stories" class="btn-admin btn-admin-secondary btn-admin-sm">View All</a>
+            <a href="<?= site_url('admin/stories') ?>" class="btn-admin btn-admin-secondary btn-admin-sm">View All</a>
         </div>
         
         <?php if (!empty($recentStories)): ?>
@@ -112,7 +112,7 @@
                         <h4 style="margin: 0 0 4px; font-size: 0.95rem;"><?= esc($story['title']) ?></h4>
                         <span class="status-badge status-<?= $story['status'] ?>"><?= ucfirst($story['status']) ?></span>
                     </div>
-                    <a href="/admin/stories/edit/<?= $story['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm btn-admin-icon">
+                    <a href="<?= site_url('admin/stories/edit/' . $story['id']) ?>" class="btn-admin btn-admin-secondary btn-admin-sm btn-admin-icon">
                         <i class="fas fa-edit"></i>
                     </a>
                 </div>
@@ -124,7 +124,7 @@
             <div class="empty-state-icon"><i class="fas fa-newspaper"></i></div>
             <h4 class="empty-state-title">No stories yet</h4>
             <p class="empty-state-text">Start creating content for your users.</p>
-            <a href="/admin/stories/new" class="btn-admin btn-admin-primary">Create Story</a>
+            <a href="<?= site_url('admin/stories/new') ?>" class="btn-admin btn-admin-primary">Create Story</a>
         </div>
         <?php endif; ?>
     </div>

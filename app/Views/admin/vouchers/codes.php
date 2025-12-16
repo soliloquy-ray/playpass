@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <div style="margin-bottom: 24px;">
-    <a href="/admin/vouchers" style="color: var(--text-muted); text-decoration: none;">
+    <a href="<?= site_url('admin/vouchers') ?>" style="color: var(--text-muted); text-decoration: none;">
         <i class="fas fa-arrow-left"></i> Back to Vouchers
     </a>
 </div>
@@ -24,7 +24,7 @@
         </div>
         
         <?php if ($campaign['code_type'] === 'unique_batch'): ?>
-        <form action="/admin/vouchers/generate-codes/<?= $campaign['id'] ?>" method="POST" style="display: flex; gap: 12px; align-items: flex-end;">
+        <form action="<?= site_url('admin/vouchers/generate-codes/' . $campaign['id']) ?>" method="POST" style="display: flex; gap: 12px; align-items: flex-end;">
             <?= csrf_field() ?>
             <div>
                 <label style="font-size: 0.8rem; color: var(--text-muted);">Prefix</label>

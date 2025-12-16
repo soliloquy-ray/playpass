@@ -5,7 +5,7 @@
 <?php $isEdit = isset($story); ?>
 
 <div style="margin-bottom: 24px;">
-    <a href="/admin/stories" style="color: var(--text-muted); text-decoration: none;">
+    <a href="<?= site_url('admin/stories') ?>" style="color: var(--text-muted); text-decoration: none;">
         <i class="fas fa-arrow-left"></i> Back to Stories
     </a>
 </div>
@@ -121,7 +121,7 @@
         <button type="submit" class="btn-admin btn-admin-primary">
             <i class="fas fa-save"></i> <?= $isEdit ? 'Update Story' : 'Create Story' ?>
         </button>
-        <a href="/admin/stories" class="btn-admin btn-admin-secondary">Cancel</a>
+        <a href="<?= site_url('admin/stories') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
     </div>
 </form>
 

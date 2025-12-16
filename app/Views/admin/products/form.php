@@ -5,7 +5,7 @@
 <?php $isEdit = isset($product); ?>
 
 <div style="margin-bottom: 24px;">
-    <a href="/admin/products" style="color: var(--text-muted); text-decoration: none;">
+    <a href="<?= site_url('admin/products') ?>" style="color: var(--text-muted); text-decoration: none;">
         <i class="fas fa-arrow-left"></i> Back to Products
     </a>
 </div>
@@ -166,7 +166,7 @@
         <button type="submit" class="btn-admin btn-admin-primary">
             <i class="fas fa-save"></i> <?= $isEdit ? 'Update Product' : 'Create Product' ?>
         </button>
-        <a href="/admin/products" class="btn-admin btn-admin-secondary">Cancel</a>
+        <a href="<?= site_url('admin/products') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
     </div>
 </form>
 

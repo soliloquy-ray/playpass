@@ -4,7 +4,7 @@
     <div class="stories-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
         <?php if (!empty($stories)): ?>
             <?php foreach ($stories as $story): ?>
-                <a href="/app/stories/<?= esc($story['slug'] ?? $story['id'] ?? '#') ?>" 
+                <a href="<?= site_url('app/stories/' . esc($story['slug'] ?? $story['id'] ?? '#')) ?>" 
                    class="story-card-link" 
                    style="text-decoration: none; color: inherit; display: block;">
                     <div class="story-card" style="background: #121212; border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s;">

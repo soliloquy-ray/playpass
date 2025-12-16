@@ -5,7 +5,7 @@
 <!-- Header Actions -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
     <p style="color: var(--text-muted); margin: 0;">Manage customer support channels displayed on the homepage</p>
-    <a href="/admin/customer-support/new" class="btn-admin btn-admin-primary">
+    <a href="<?= site_url('admin/customer-support/new') ?>" class="btn-admin btn-admin-primary">
         <i class="fas fa-plus"></i> Add Channel
     </a>
 </div>
@@ -55,10 +55,10 @@
                     </td>
                     <td>
                         <div class="table-actions">
-                            <a href="/admin/customer-support/edit/<?= $channel['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
+                            <a href="<?= site_url('admin/customer-support/edit/' . $channel['id']) ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="/admin/customer-support/delete/<?= $channel['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this support channel?');">
+                            <form action="<?= site_url('admin/customer-support/delete/' . $channel['id']) ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this support channel?');">
                                 <?= csrf_field() ?>
                                 <button type="submit" class="btn-admin btn-admin-danger btn-admin-sm">
                                     <i class="fas fa-trash"></i>
@@ -76,7 +76,7 @@
         <div class="empty-state-icon"><i class="fas fa-headset"></i></div>
         <h4 class="empty-state-title">No support channels found</h4>
         <p class="empty-state-text">Add customer support channels to display on the homepage.</p>
-        <a href="/admin/customer-support/new" class="btn-admin btn-admin-primary">Add Channel</a>
+        <a href="<?= site_url('admin/customer-support/new') ?>" class="btn-admin btn-admin-primary">Add Channel</a>
     </div>
     <?php endif; ?>
 </div>

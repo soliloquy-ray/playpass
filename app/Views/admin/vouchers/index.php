@@ -5,7 +5,7 @@
 <!-- Header Actions -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
     <p style="color: var(--text-muted); margin: 0;">Create and manage voucher campaigns</p>
-    <a href="/admin/vouchers/new" class="btn-admin btn-admin-primary">
+    <a href="<?= site_url('admin/vouchers/new') ?>" class="btn-admin btn-admin-primary">
         <i class="fas fa-plus"></i> Create Campaign
     </a>
 </div>
@@ -79,13 +79,13 @@
                     </td>
                     <td>
                         <div class="table-actions">
-                            <a href="/admin/vouchers/codes/<?= $campaign['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm" title="View Codes">
+                            <a href="<?= site_url('admin/vouchers/codes/' . $campaign['id']) ?>" class="btn-admin btn-admin-secondary btn-admin-sm" title="View Codes">
                                 <i class="fas fa-ticket-alt"></i>
                             </a>
-                            <a href="/admin/vouchers/edit/<?= $campaign['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
+                            <a href="<?= site_url('admin/vouchers/edit/' . $campaign['id']) ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="/admin/vouchers/delete/<?= $campaign['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this campaign and all its codes?');">
+                            <form action="<?= site_url('admin/vouchers/delete/' . $campaign['id']) ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this campaign and all its codes?');">
                                 <?= csrf_field() ?>
                                 <button type="submit" class="btn-admin btn-admin-danger btn-admin-sm">
                                     <i class="fas fa-trash"></i>
@@ -103,7 +103,7 @@
         <div class="empty-state-icon"><i class="fas fa-ticket-alt"></i></div>
         <h4 class="empty-state-title">No voucher campaigns</h4>
         <p class="empty-state-text">Create voucher campaigns to offer discounts to your customers.</p>
-        <a href="/admin/vouchers/new" class="btn-admin btn-admin-primary">Create Campaign</a>
+        <a href="<?= site_url('admin/vouchers/new') ?>" class="btn-admin btn-admin-primary">Create Campaign</a>
     </div>
     <?php endif; ?>
 </div>

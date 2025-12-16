@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Playpass CMS</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/admin.css') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .admin-login-container {
@@ -112,7 +112,7 @@
     <div class="admin-login-container">
         <div class="admin-login-card">
             <div class="admin-login-logo">
-                <img src="/assets/logo.png" alt="Playpass">
+                <img src="<?= base_url('assets/logo.png') ?>" alt="Playpass">
             </div>
             
             <h1 class="admin-login-title">Admin Login</h1>
@@ -142,7 +142,7 @@
                 </div>
             <?php endif; ?>
 
-            <form action="/admin/login" method="POST" class="admin-login-form">
+            <form action="<?= site_url('admin/login') ?>" method="POST" class="admin-login-form">
                 <?= csrf_field() ?>
                 
                 <div class="form-group">
@@ -175,7 +175,7 @@
             </form>
 
             <div class="admin-login-footer">
-                <a href="/app">
+                <a href="<?= site_url('app') ?>">
                     <i class="fas fa-arrow-left"></i> Back to Main Site
                 </a>
             </div>

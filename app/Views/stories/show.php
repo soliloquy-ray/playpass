@@ -52,7 +52,7 @@
                 
                 <div class="related-stories-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
                     <?php foreach ($relatedStories as $relatedStory): ?>
-                        <a href="/app/stories/<?= esc($relatedStory['slug'] ?? $relatedStory['id']) ?>" 
+                        <a href="<?= site_url('app/stories/' . esc($relatedStory['slug'] ?? $relatedStory['id'])) ?>" 
                            class="related-story-card" 
                            style="text-decoration: none; color: inherit; display: block;">
                             <div style="background: #121212; border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s;">

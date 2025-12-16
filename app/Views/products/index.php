@@ -342,7 +342,7 @@
             brand: filterState.brand
         });
 
-        fetch(`/app/products/fetch?${params.toString()}`)
+        fetch(`<?= site_url('app/products/fetch') ?>?${params.toString()}`)
             .then(res => res.json())
             .then(data => {
                 spinner.style.display = 'none';

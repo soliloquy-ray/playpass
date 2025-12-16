@@ -232,7 +232,7 @@
         spinner.style.display = 'block';
 
         const categoryParam = currentCategory === 'all' ? 'all' : currentCategory;
-        fetch(`/app/stories/fetch?category=${categoryParam}&offset=${offset}`)
+        fetch(`<?= site_url('app/stories/fetch') ?>?category=${categoryParam}&offset=${offset}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

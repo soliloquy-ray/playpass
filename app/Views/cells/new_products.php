@@ -27,7 +27,7 @@
                         $brandClass = 'cignalplay';
                     }
                 ?>
-                    <a href="/app/buy/<?= esc($product['brand_id']) ?>" class="btn btn-brand btn-block <?= esc($brandClass) ?>">
+                    <a href="<?= site_url('app/buy/' . esc($product['brand_id'])) ?>" class="btn btn-brand btn-block <?= esc($brandClass) ?>">
                         <?php if (!empty($product['brand_logo'])): ?>
                             <img src="<?= esc($product['brand_logo']) ?>" alt="<?= esc($product['brand_name'] ?? 'Brand') ?>" style="height: 20px; width: auto; max-width: 100px; object-fit: contain;">
                         <?php elseif (!empty($product['brand_name'])): ?>

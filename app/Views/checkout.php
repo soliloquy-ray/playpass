@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playpass Checkout</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -107,7 +107,7 @@
     const csrfName = "<?= csrf_token() ?>";
     let csrfHash = "<?= csrf_hash() ?>"; // Token changes on every request
 </script>
-<script src="/assets/js/checkout.js"></script>
+<script src="<?= base_url('assets/js/checkout.js') ?>"></script>
 
 <?= $this->endSection() ?>
 

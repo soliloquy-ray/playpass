@@ -5,7 +5,7 @@
 <!-- Header Actions -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
     <p style="color: var(--text-muted); margin: 0;">Manage your product catalog</p>
-    <a href="/admin/products/new" class="btn-admin btn-admin-primary">
+    <a href="<?= site_url('admin/products/new') ?>" class="btn-admin btn-admin-primary">
         <i class="fas fa-plus"></i> Add Product
     </a>
 </div>
@@ -76,10 +76,10 @@
                     </td>
                     <td>
                         <div class="table-actions">
-                            <a href="/admin/products/edit/<?= $product['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
+                            <a href="<?= site_url('admin/products/edit/' . $product['id']) ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="/admin/products/delete/<?= $product['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                            <form action="<?= site_url('admin/products/delete/' . $product['id']) ?>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this product?');">
                                 <?= csrf_field() ?>
                                 <button type="submit" class="btn-admin btn-admin-danger btn-admin-sm">
                                     <i class="fas fa-trash"></i>
@@ -97,7 +97,7 @@
         <div class="empty-state-icon"><i class="fas fa-box-open"></i></div>
         <h4 class="empty-state-title">No products found</h4>
         <p class="empty-state-text">Start by adding your first product to the catalog.</p>
-        <a href="/admin/products/new" class="btn-admin btn-admin-primary">Add Product</a>
+        <a href="<?= site_url('admin/products/new') ?>" class="btn-admin btn-admin-primary">Add Product</a>
     </div>
     <?php endif; ?>
 </div>

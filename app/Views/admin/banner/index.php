@@ -17,7 +17,7 @@
 </div>
 <?php endif; ?>
 
-<form action="/admin/banner/save" method="POST" class="admin-form" style="max-width: 700px;">
+<form action="<?= site_url('admin/banner/save') ?>" method="POST" class="admin-form" style="max-width: 700px;">
     <?= csrf_field() ?>
     
     <?php if ($banner['id']): ?>

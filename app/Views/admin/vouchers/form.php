@@ -5,7 +5,7 @@
 <?php $isEdit = isset($campaign); ?>
 
 <div style="margin-bottom: 24px;">
-    <a href="/admin/vouchers" style="color: var(--text-muted); text-decoration: none;">
+    <a href="<?= site_url('admin/vouchers') ?>" style="color: var(--text-muted); text-decoration: none;">
         <i class="fas fa-arrow-left"></i> Back to Vouchers
     </a>
 </div>
@@ -149,7 +149,7 @@
         <button type="submit" class="btn-admin btn-admin-primary">
             <i class="fas fa-save"></i> <?= $isEdit ? 'Update Campaign' : 'Create Campaign' ?>
         </button>
-        <a href="/admin/vouchers" class="btn-admin btn-admin-secondary">Cancel</a>
+        <a href="<?= site_url('admin/vouchers') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
     </div>
 </form>
 

@@ -5,7 +5,7 @@
 <!-- Header Actions -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
     <p style="color: var(--text-muted); margin: 0;">Manage product brands</p>
-    <a href="/admin/brands/new" class="btn-admin btn-admin-primary">
+    <a href="<?= site_url('admin/brands/new') ?>" class="btn-admin btn-admin-primary">
         <i class="fas fa-plus"></i> Add Brand
     </a>
 </div>
@@ -32,10 +32,10 @@
             </div>
             
             <div class="table-actions">
-                <a href="/admin/brands/edit/<?= $brand['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm btn-admin-icon">
+                <a href="<?= site_url('admin/brands/edit/' . $brand['id']) ?>" class="btn-admin btn-admin-secondary btn-admin-sm btn-admin-icon">
                     <i class="fas fa-edit"></i>
                 </a>
-                <form action="/admin/brands/delete/<?= $brand['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this brand?');">
+                <form action="<?= site_url('admin/brands/delete/' . $brand['id']) ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this brand?');">
                     <?= csrf_field() ?>
                     <button type="submit" class="btn-admin btn-admin-danger btn-admin-sm btn-admin-icon">
                         <i class="fas fa-trash"></i>
@@ -50,7 +50,7 @@
         <div class="empty-state-icon"><i class="fas fa-tags"></i></div>
         <h4 class="empty-state-title">No brands found</h4>
         <p class="empty-state-text">Add brands to organize your products.</p>
-        <a href="/admin/brands/new" class="btn-admin btn-admin-primary">Add Brand</a>
+        <a href="<?= site_url('admin/brands/new') ?>" class="btn-admin btn-admin-primary">Add Brand</a>
     </div>
     <?php endif; ?>
 </div>

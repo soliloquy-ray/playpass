@@ -29,7 +29,7 @@
             <p class="product-points">+<?= $product['points_to_earn'] ?> Pts</p>
         <?php endif; ?>
 
-        <a href="/app/buy/<?= esc($product['id']) ?>" class="btn btn-secondary btn-small product-btn">
+        <a href="<?= site_url('app/buy/' . esc($product['id'])) ?>" class="btn btn-secondary btn-small product-btn">
             Buy Now
         </a>
     </div>

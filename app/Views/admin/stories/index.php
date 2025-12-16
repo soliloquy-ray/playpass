@@ -5,7 +5,7 @@
 <!-- Header Actions -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
     <p style="color: var(--text-muted); margin: 0;">Create and manage your stories and articles</p>
-    <a href="/admin/stories/new" class="btn-admin btn-admin-primary">
+    <a href="<?= site_url('admin/stories/new') ?>" class="btn-admin btn-admin-primary">
         <i class="fas fa-plus"></i> Add Story
     </a>
 </div>
@@ -79,10 +79,10 @@
                     </td>
                     <td>
                         <div class="table-actions">
-                            <a href="/admin/stories/edit/<?= $story['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
+                            <a href="<?= site_url('admin/stories/edit/' . $story['id']) ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="/admin/stories/delete/<?= $story['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this story?');">
+                            <form action="<?= site_url('admin/stories/delete/' . $story['id']) ?>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this story?');">
                                 <?= csrf_field() ?>
                                 <button type="submit" class="btn-admin btn-admin-danger btn-admin-sm">
                                     <i class="fas fa-trash"></i>
@@ -100,7 +100,7 @@
         <div class="empty-state-icon"><i class="fas fa-newspaper"></i></div>
         <h4 class="empty-state-title">No stories found</h4>
         <p class="empty-state-text">Start creating engaging content for your users.</p>
-        <a href="/admin/stories/new" class="btn-admin btn-admin-primary">Create Story</a>
+        <a href="<?= site_url('admin/stories/new') ?>" class="btn-admin btn-admin-primary">Create Story</a>
     </div>
     <?php endif; ?>
 </div>

@@ -5,7 +5,7 @@
 <?php $isEdit = isset($channel); ?>
 
 <div style="margin-bottom: 24px;">
-    <a href="/admin/customer-support" style="color: var(--text-muted); text-decoration: none;">
+    <a href="<?= site_url('admin/customer-support') ?>" style="color: var(--text-muted); text-decoration: none;">
         <i class="fas fa-arrow-left"></i> Back to Customer Support
     </a>
 </div>
@@ -75,7 +75,7 @@
         <button type="submit" class="btn-admin btn-admin-primary">
             <i class="fas fa-save"></i> <?= $isEdit ? 'Update Channel' : 'Create Channel' ?>
         </button>
-        <a href="/admin/customer-support" class="btn-admin btn-admin-secondary">Cancel</a>
+        <a href="<?= site_url('admin/customer-support') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
     </div>
 </form>
 

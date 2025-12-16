@@ -5,7 +5,7 @@
 <!-- Header Actions -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
     <p style="color: var(--text-muted); margin: 0;">Manage promotional tiles on the homepage</p>
-    <a href="/admin/promos/new" class="btn-admin btn-admin-primary">
+    <a href="<?= site_url('admin/promos/new') ?>" class="btn-admin btn-admin-primary">
         <i class="fas fa-plus"></i> Add Promo
     </a>
 </div>
@@ -57,10 +57,10 @@
                     </td>
                     <td>
                         <div class="table-actions">
-                            <a href="/admin/promos/edit/<?= $promo['id'] ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
+                            <a href="<?= site_url('admin/promos/edit/' . $promo['id']) ?>" class="btn-admin btn-admin-secondary btn-admin-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="/admin/promos/delete/<?= $promo['id'] ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this promo?');">
+                            <form action="<?= site_url('admin/promos/delete/' . $promo['id']) ?>" method="POST" style="display: inline;" onsubmit="return confirm('Delete this promo?');">
                                 <?= csrf_field() ?>
                                 <button type="submit" class="btn-admin btn-admin-danger btn-admin-sm">
                                     <i class="fas fa-trash"></i>
@@ -78,7 +78,7 @@
         <div class="empty-state-icon"><i class="fas fa-percent"></i></div>
         <h4 class="empty-state-title">No promos found</h4>
         <p class="empty-state-text">Add promotional tiles to display on the homepage.</p>
-        <a href="/admin/promos/new" class="btn-admin btn-admin-primary">Add Promo</a>
+        <a href="<?= site_url('admin/promos/new') ?>" class="btn-admin btn-admin-primary">Add Promo</a>
     </div>
     <?php endif; ?>
 </div>

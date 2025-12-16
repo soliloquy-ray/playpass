@@ -9,7 +9,7 @@
     position: relative;
     transition: transform 0.2s;">
     
-    <a href="/app/buy/<?= $product['brand_id'] ?>" style="text-decoration:none; display:block; height:100%; display:flex; flex-direction:column;">
+    <a href="<?= site_url('app/buy/' . $product['brand_id']) ?>" style="text-decoration:none; display:block; height:100%; display:flex; flex-direction:column;">
         
         <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px;">
              <?php if(!empty($product['logo'])): ?>
