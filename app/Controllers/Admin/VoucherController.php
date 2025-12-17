@@ -3,34 +3,21 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use CodeIgniter\Model;
+use App\Models\VoucherCampaignModel;
+use App\Models\VoucherCodeModel;
+use App\Models\ProductModel;
 
 class VoucherController extends BaseController
 {
     protected $campaignModel;
     protected $codeModel;
+    protected $productModel;
 
     public function __construct()
     {
-        // Voucher Campaigns Model
-        $this->campaignModel = new class extends Model {
-            protected $table = 'voucher_campaigns';
-            protected $primaryKey = 'id';
-            protected $allowedFields = [
-                'name', 'description', 'code_type', 'discount_type', 'discount_value',
-                'min_spend_amount', 'max_discount_amount', 'usage_limit_per_user',
-                'total_usage_limit', 'is_stackable', 'start_date', 'end_date'
-            ];
-            protected $useTimestamps = false;
-        };
-
-        // Voucher Codes Model
-        $this->codeModel = new class extends Model {
-            protected $table = 'voucher_codes';
-            protected $primaryKey = 'id';
-            protected $allowedFields = ['campaign_id', 'code', 'is_redeemed', 'redeemed_at', 'redeemed_by_user_id'];
-            protected $useTimestamps = false;
-        };
+        $this->campaignModel = new VoucherCampaignModel();
+        $this->codeModel = new VoucherCodeModel();
+        $this->productModel = new ProductModel();
     }
 
     /**
@@ -41,14 +28,24 @@ class VoucherController extends BaseController
         $campaigns = $this->campaignModel->findAll();
         
         // Get usage counts for each campaign
+        $db = \Config\Database::connect();
         foreach ($campaigns as &$campaign) {
-            $campaign['used_count'] = $this->codeModel
-                ->where('campaign_id', $campaign['id'])
-                ->where('is_redeemed', 1)
-                ->countAllResults();
-            $campaign['total_codes'] = $this->codeModel
-                ->where('campaign_id', $campaign['id'])
-                ->countAllResults();
+            // For unique batch: count redeemed codes
+            if ($campaign['code_type'] === 'unique_batch') {
+                $campaign['used_count'] = $this->codeModel
+                    ->where('campaign_id', $campaign['id'])
+                    ->where('is_redeemed', 1)
+                    ->countAllResults();
+                $campaign['total_codes'] = $this->codeModel
+                    ->where('campaign_id', $campaign['id'])
+                    ->countAllResults();
+            } else {
+                // For universal: count from usage log
+                $campaign['used_count'] = $db->table('voucher_usage_log')
+                    ->where('campaign_id', $campaign['id'])
+                    ->countAllResults();
+                $campaign['total_codes'] = 1; // Universal has 1 code
+            }
         }
 
         $data = [
@@ -65,9 +62,12 @@ class VoucherController extends BaseController
      */
     public function new()
     {
+        $products = $this->productModel->where('is_active', 1)->orderBy('name', 'ASC')->findAll();
+        
         $data = [
             'title' => 'Add Voucher Campaign',
             'pageTitle' => 'Create Voucher Campaign',
+            'products' => $products,
         ];
 
         return view('admin/vouchers/form', $data);
@@ -93,6 +93,7 @@ class VoucherController extends BaseController
 
         $campaignData = [
             'name' => $this->request->getPost('name'),
+            'label' => $this->request->getPost('label') ?: $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
             'code_type' => $this->request->getPost('code_type'),
             'discount_type' => $this->request->getPost('discount_type'),
@@ -107,6 +108,12 @@ class VoucherController extends BaseController
         ];
 
         $campaignId = $this->campaignModel->insert($campaignData);
+
+        // Handle product applicability
+        $applicableProducts = $this->request->getPost('applicable_products');
+        if ($applicableProducts && is_array($applicableProducts)) {
+            $this->campaignModel->setApplicableProducts($campaignId, $applicableProducts);
+        }
 
         // Handle voucher codes
         $codeType = $this->request->getPost('code_type');
@@ -150,12 +157,16 @@ class VoucherController extends BaseController
         }
 
         $codes = $this->codeModel->where('campaign_id', $id)->findAll(100);
+        $products = $this->productModel->where('is_active', 1)->orderBy('name', 'ASC')->findAll();
+        $applicableProductIds = $this->campaignModel->getApplicableProducts($id);
 
         $data = [
             'title' => 'Edit Campaign',
             'pageTitle' => 'Edit Voucher Campaign',
             'campaign' => $campaign,
             'codes' => $codes,
+            'products' => $products,
+            'applicableProductIds' => $applicableProductIds,
         ];
 
         return view('admin/vouchers/form', $data);
@@ -186,6 +197,7 @@ class VoucherController extends BaseController
 
         $campaignData = [
             'name' => $this->request->getPost('name'),
+            'label' => $this->request->getPost('label') ?: $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
             'discount_type' => $this->request->getPost('discount_type'),
             'discount_value' => $this->request->getPost('discount_value'),
@@ -199,6 +211,12 @@ class VoucherController extends BaseController
         ];
 
         $this->campaignModel->update($id, $campaignData);
+
+        // Handle product applicability
+        $applicableProducts = $this->request->getPost('applicable_products');
+        if ($applicableProducts !== null) {
+            $this->campaignModel->setApplicableProducts($id, is_array($applicableProducts) ? $applicableProducts : []);
+        }
 
         return redirect()->to(site_url('admin/vouchers'))->with('success', 'Voucher campaign updated successfully!');
     }

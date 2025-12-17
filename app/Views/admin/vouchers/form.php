@@ -35,6 +35,12 @@
             </div>
 
             <div class="form-group">
+                <label class="form-label">Label</label>
+                <input type="text" name="label" class="form-input" value="<?= esc($campaign['label'] ?? old('label') ?? ($campaign['name'] ?? '')) ?>" placeholder="Display label (defaults to name)">
+                <p class="form-hint">Short label shown to users (e.g., "50% OFF", "Save ₱100")</p>
+            </div>
+
+            <div class="form-group">
                 <label class="form-label">Description</label>
                 <textarea name="description" class="form-textarea" style="min-height: 80px;"><?= esc($campaign['description'] ?? old('description')) ?></textarea>
             </div>
@@ -140,16 +146,44 @@
                         <input type="datetime-local" name="end_date" class="form-input" value="<?= $isEdit ? date('Y-m-d\TH:i', strtotime($campaign['end_date'])) : date('Y-m-d\TH:i', strtotime('+30 days')) ?>" required>
                     </div>
                 </div>
+                <p class="form-hint" style="margin-top: 8px;">Dates are in Asia/Manila timezone. To invalidate a voucher, set end date to past.</p>
+            </div>
+
+            <div class="admin-card" style="margin-top: 24px;">
+                <h3 class="admin-card-title" style="margin-bottom: 24px;">Product Applicability</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Applicable Products</label>
+                    <p class="form-hint" style="margin-bottom: 12px;">Leave empty to apply to all products. Select specific products to restrict this voucher.</p>
+                    <div style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+                        <?php if (!empty($products ?? [])): ?>
+                            <?php 
+                            $applicableProductIds = $applicableProductIds ?? [];
+                            foreach ($products as $product): 
+                            ?>
+                            <label class="form-checkbox-group" style="display: block; margin-bottom: 8px;">
+                                <input type="checkbox" name="applicable_products[]" class="form-checkbox" value="<?= $product['id'] ?>" 
+                                    <?= in_array($product['id'], $applicableProductIds) ? 'checked' : '' ?>>
+                                <span><?= esc($product['name']) ?> - ₱<?= number_format($product['price'], 2) ?></span>
+                            </label>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p style="color: var(--text-muted); margin: 0;">No products available</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Submit Buttons -->
-    <div style="display: flex; gap: 16px; margin-top: 24px;">
-        <button type="submit" class="btn-admin btn-admin-primary">
-            <i class="fas fa-save"></i> <?= $isEdit ? 'Update Campaign' : 'Create Campaign' ?>
-        </button>
-        <a href="<?= site_url('admin/vouchers') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
+    <div class="form-actions-sticky">
+        <div class="form-actions-inner">
+            <button type="submit" class="btn-admin btn-admin-primary">
+                <i class="fas fa-save"></i> <?= $isEdit ? 'Update Campaign' : 'Create Campaign' ?>
+            </button>
+            <a href="<?= site_url('admin/vouchers') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
+        </div>
     </div>
 </form>
 

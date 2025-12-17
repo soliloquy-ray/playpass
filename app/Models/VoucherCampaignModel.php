@@ -12,7 +12,8 @@ class VoucherCampaignModel extends Model
     protected $returnType       = 'array';
     
     protected $allowedFields    = [
-        'name', 
+        'name',
+        'label',
         'description', 
         'code_type', 
         'discount_type', 
@@ -44,6 +45,68 @@ class VoucherCampaignModel extends Model
     }
     
     /**
+     * Get products applicable to this campaign
+     * 
+     * @param int $campaignId
+     * @return array
+     */
+    public function getApplicableProducts(int $campaignId): array
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('voucher_applicability');
+        $builder->select('product_id');
+        $builder->where('campaign_id', $campaignId);
+        $results = $builder->get()->getResultArray();
+        
+        return array_column($results, 'product_id');
+    }
+
+    /**
+     * Set applicable products for a campaign
+     * 
+     * @param int $campaignId
+     * @param array $productIds
+     * @return bool
+     */
+    public function setApplicableProducts(int $campaignId, array $productIds): bool
+    {
+        $db = \Config\Database::connect();
+        
+        // Delete existing
+        $db->table('voucher_applicability')->where('campaign_id', $campaignId)->delete();
+        
+        // Insert new
+        if (!empty($productIds)) {
+            $data = [];
+            foreach ($productIds as $productId) {
+                $data[] = [
+                    'campaign_id' => $campaignId,
+                    'product_id' => (int)$productId,
+                ];
+            }
+            return $db->table('voucher_applicability')->insertBatch($data) !== false;
+        }
+        
+        return true;
+    }
+
+    /**
+     * Check if campaign is currently active (timezone-aware)
+     * 
+     * @param array $campaign
+     * @return bool
+     */
+    public function isActive(array $campaign): bool
+    {
+        $timezone = new \DateTimeZone('Asia/Manila'); // Philippines timezone
+        $now = new \DateTime('now', $timezone);
+        $start = new \DateTime($campaign['start_date'], $timezone);
+        $end = new \DateTime($campaign['end_date'], $timezone);
+        
+        return ($now >= $start && $now <= $end);
+    }
+
+    /**
      * Format voucher campaign data for display
      * 
      * @param array $campaign
@@ -54,6 +117,7 @@ class VoucherCampaignModel extends Model
         $formatted = [
             'id' => $campaign['id'],
             'name' => $campaign['name'] ?? '',
+            'label' => $campaign['label'] ?? $campaign['name'] ?? '',
             'description' => $campaign['description'] ?? '',
             'discount_type' => $campaign['discount_type'] ?? 'fixed_amount',
             'discount_value' => $campaign['discount_value'] ?? 0,

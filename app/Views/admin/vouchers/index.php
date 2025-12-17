@@ -52,6 +52,11 @@
                 <tr>
                     <td>
                         <strong><?= esc($campaign['name']) ?></strong>
+                        <?php if (!empty($campaign['label']) && $campaign['label'] !== $campaign['name']): ?>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin: 2px 0 0;">
+                            Label: <?= esc($campaign['label']) ?>
+                        </p>
+                        <?php endif; ?>
                         <p style="color: var(--text-muted); font-size: 0.85rem; margin: 4px 0 0;">
                             <?= $campaign['code_type'] === 'universal' ? 'Universal Code' : 'Unique Codes Batch' ?>
                         </p>

@@ -22,17 +22,27 @@ class VoucherCodeModel extends Model
         
         // Join with Campaign to check dates and active status
         $builder = $this->db->table('voucher_codes');
-        $builder->select('voucher_codes.*, voucher_campaigns.name, voucher_campaigns.discount_type, voucher_campaigns.discount_value, voucher_campaigns.min_spend_amount, voucher_campaigns.is_stackable');
+        $builder->select('voucher_codes.*, voucher_campaigns.name, voucher_campaigns.label, voucher_campaigns.code_type, voucher_campaigns.discount_type, voucher_campaigns.discount_value, voucher_campaigns.min_spend_amount, voucher_campaigns.max_discount_amount, voucher_campaigns.usage_limit_per_user, voucher_campaigns.total_usage_limit, voucher_campaigns.is_stackable, voucher_campaigns.start_date, voucher_campaigns.end_date');
         $builder->join('voucher_campaigns', 'voucher_campaigns.id = voucher_codes.campaign_id');
         
         $builder->where('voucher_codes.code', $code);
-        $builder->where('voucher_codes.is_redeemed', 0); // Must be unused
+        
+        // For unique batch vouchers, must be unused. For universal, we check usage limits separately
+        // Note: Universal vouchers can be used multiple times, so we don't filter by is_redeemed here
         
         // Date Logic (Rule: "Invalidating... by setting date")
+        // We'll do timezone-aware checking in VoucherEngine, but basic check here
         $now = date('Y-m-d H:i:s');
         $builder->where('voucher_campaigns.start_date <=', $now);
         $builder->where('voucher_campaigns.end_date >=', $now);
 
-        return $builder->get()->getRowArray();
+        $result = $builder->get()->getRowArray();
+        
+        // For unique batch vouchers, check if already redeemed
+        if ($result && isset($result['code_type']) && $result['code_type'] === 'unique_batch' && $result['is_redeemed']) {
+            return null;
+        }
+
+        return $result;
     }
 }

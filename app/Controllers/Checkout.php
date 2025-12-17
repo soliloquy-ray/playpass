@@ -41,11 +41,27 @@ class CheckoutController extends BaseController
         // 3. Calculate Totals (Using Voucher Engine)
         $subtotal = $product['price'];
         $discount = 0;
+        $voucherCodeId = null;
 
         if ($voucherCode) {
-            $voucherResult = $this->voucherEngine->applyVoucher($voucherCode, $subtotal);
+            // Use enhanced VoucherEngine with product applicability and user ID
+            $voucherResult = $this->voucherEngine->applyVoucher(
+                $voucherCode, 
+                $subtotal, 
+                [$productId], // Cart products
+                $userId,      // User ID for per-user limits
+                []            // Existing vouchers (empty for now)
+            );
+            
             if ($voucherResult['success']) {
                 $discount = $voucherResult['discount_amount'];
+                $voucherCodeId = $voucherResult['voucher_data']['id'] ?? null;
+            } else {
+                // Return error if voucher validation failed
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => $voucherResult['message'] ?? 'Invalid voucher code.'
+                ]);
             }
         }
         
@@ -92,6 +108,19 @@ class CheckoutController extends BaseController
                     'maya_reference_number' => $data['transactionId'], // [cite: 177]
                     // Store the PIN code securely. For V1, assume we save it in a secure log or send via email.
                 ]);
+
+                // Record voucher usage if voucher was applied
+                if ($voucherCodeId) {
+                    $this->voucherEngine->recordUsage($userId, $voucherCodeId, $orderId);
+                    
+                    // Also record in order_applied_vouchers table
+                    $db = \Config\Database::connect();
+                    $db->table('order_applied_vouchers')->insert([
+                        'order_id' => $orderId,
+                        'voucher_code_id' => $voucherCodeId,
+                        'discount_amount_applied' => $discount,
+                    ]);
+                }
 
                 return $this->response->setJSON([
                     'status' => 'success',
