@@ -19,12 +19,17 @@ class ProductModel extends Model
         'name', 
         'description', 
         'price', 
+        'brand_id',
         'thumbnail_url',
+        'bg_color',
+        'badge_label',
         'is_featured',
+        'is_new',
         'maya_product_code', 
         'points_to_earn', 
         'is_bundle', 
-        'is_active'
+        'is_active',
+        'sort_order'
     ];
 
     // Dates

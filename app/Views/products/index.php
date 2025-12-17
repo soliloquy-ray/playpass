@@ -14,7 +14,7 @@
                 'id' => $p['id'],
                 'name' => $p['name'],
                 'price' => $p['price'],
-                'image' => $p['thumbnail_url'] ?? '/assets/images/placeholder.jpg',
+                'image' => $p['thumbnail_url'] ?? base_url('assets/images/placeholder.jpg'),
                 'date' => date('M j, Y', strtotime($p['created_at'])),
                 'brand_id' => $p['brand_id'] ?? null,
                 'brand_name' => $p['brand_name'] ?? null,
@@ -100,25 +100,25 @@
         $mappedPromos = array_map(function($promo) {
             return [
                 'title' => $promo['name'] ?? 'Promo',
-                'image' => !empty($promo['icon']) ? $promo['icon'] : '/assets/icons/percent.png'
+                'image' => !empty($promo['icon']) ? asset_url($promo['icon']) : base_url('assets/icons/percent.png')
             ];
         }, $promos);
     }
     
     // Fallback promos if no database promos
     $fallbackPromos = [
-        ['title' => 'Playpass Points', 'image' => '/assets/icons/crown.png'], 
-        ['title' => 'Discount Vouchers', 'image' => '/assets/icons/ticket.png'],
-        ['title' => 'Brand Packs', 'image' => '/assets/icons/box.png'],
-        ['title' => 'Flash Deals', 'image' => '/assets/icons/flash.png'],
-        ['title' => 'Buy More Save More', 'image' => '/assets/icons/basket.png'],
-        ['title' => 'New Brand Promo', 'image' => '/assets/icons/percent.png'],
-        ['title' => 'Gift & Earn', 'image' => '/assets/icons/gift.png'],
-        ['title' => 'Streak Rewards', 'image' => '/assets/icons/medal.png'],
-        ['title' => 'Mini-Games', 'image' => '/assets/icons/gamepad.png'],
-        ['title' => 'Refer a Friend', 'image' => '/assets/icons/users.png'],
-        ['title' => 'Birthday Bonus', 'image' => '/assets/icons/cake.png'],
-        ['title' => 'Seasonal Promo', 'image' => '/assets/icons/calendar.png'],
+        ['title' => 'Playpass Points', 'image' => base_url('assets/icons/crown.png')], 
+        ['title' => 'Discount Vouchers', 'image' => base_url('assets/icons/ticket.png')],
+        ['title' => 'Brand Packs', 'image' => base_url('assets/icons/box.png')],
+        ['title' => 'Flash Deals', 'image' => base_url('assets/icons/flash.png')],
+        ['title' => 'Buy More Save More', 'image' => base_url('assets/icons/basket.png')],
+        ['title' => 'New Brand Promo', 'image' => base_url('assets/icons/percent.png')],
+        ['title' => 'Gift & Earn', 'image' => base_url('assets/icons/gift.png')],
+        ['title' => 'Streak Rewards', 'image' => base_url('assets/icons/medal.png')],
+        ['title' => 'Mini-Games', 'image' => base_url('assets/icons/gamepad.png')],
+        ['title' => 'Refer a Friend', 'image' => base_url('assets/icons/users.png')],
+        ['title' => 'Birthday Bonus', 'image' => base_url('assets/icons/cake.png')],
+        ['title' => 'Seasonal Promo', 'image' => base_url('assets/icons/calendar.png')],
     ];
     
     // Use mapped promos if available, otherwise use fallback

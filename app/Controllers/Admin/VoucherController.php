@@ -135,7 +135,7 @@ class VoucherController extends BaseController
             $this->codeModel->insertBatch($codes);
         }
 
-        return redirect()->to('/admin/vouchers')->with('success', 'Voucher campaign created successfully!');
+        return redirect()->to(site_url('admin/vouchers'))->with('success', 'Voucher campaign created successfully!');
     }
 
     /**
@@ -146,7 +146,7 @@ class VoucherController extends BaseController
         $campaign = $this->campaignModel->find($id);
         
         if (!$campaign) {
-            return redirect()->to('/admin/vouchers')->with('error', 'Campaign not found.');
+            return redirect()->to(site_url('admin/vouchers'))->with('error', 'Campaign not found.');
         }
 
         $codes = $this->codeModel->where('campaign_id', $id)->findAll(100);
@@ -169,7 +169,7 @@ class VoucherController extends BaseController
         $campaign = $this->campaignModel->find($id);
         
         if (!$campaign) {
-            return redirect()->to('/admin/vouchers')->with('error', 'Campaign not found.');
+            return redirect()->to(site_url('admin/vouchers'))->with('error', 'Campaign not found.');
         }
 
         $rules = [
@@ -200,7 +200,7 @@ class VoucherController extends BaseController
 
         $this->campaignModel->update($id, $campaignData);
 
-        return redirect()->to('/admin/vouchers')->with('success', 'Voucher campaign updated successfully!');
+        return redirect()->to(site_url('admin/vouchers'))->with('success', 'Voucher campaign updated successfully!');
     }
 
     /**
@@ -211,14 +211,14 @@ class VoucherController extends BaseController
         $campaign = $this->campaignModel->find($id);
         
         if (!$campaign) {
-            return redirect()->to('/admin/vouchers')->with('error', 'Campaign not found.');
+            return redirect()->to(site_url('admin/vouchers'))->with('error', 'Campaign not found.');
         }
 
         // Delete associated codes first
         $this->codeModel->where('campaign_id', $id)->delete();
         $this->campaignModel->delete($id);
 
-        return redirect()->to('/admin/vouchers')->with('success', 'Voucher campaign deleted successfully!');
+        return redirect()->to(site_url('admin/vouchers'))->with('success', 'Voucher campaign deleted successfully!');
     }
 
     /**
@@ -229,7 +229,7 @@ class VoucherController extends BaseController
         $campaign = $this->campaignModel->find($campaignId);
         
         if (!$campaign) {
-            return redirect()->to('/admin/vouchers')->with('error', 'Campaign not found.');
+            return redirect()->to(site_url('admin/vouchers'))->with('error', 'Campaign not found.');
         }
 
         $data = [

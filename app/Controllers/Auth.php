@@ -120,19 +120,19 @@ class Auth extends BaseController
 
             if ($result['success']) {
                 // Redirect to verification page with token
-                return redirect()->to('/app/verify-email?token=' . $verificationToken)
+                return redirect()->to(site_url('app/verify-email?token=' . $verificationToken))
                     ->with('success', 'Registration successful! Please check your email for the verification code.');
             } else {
                 log_message('error', 'Failed to send OTP email. Full result: ' . json_encode($result));
                 // Still redirect to verification page, user can request resend
-                return redirect()->to('/app/verify-email?token=' . $verificationToken)
+                return redirect()->to(site_url('app/verify-email?token=' . $verificationToken))
                     ->with('error', 'Registration successful, but we could not send the verification email. Please use the "Resend Code" button below.');
             }
         } catch (\Exception $e) {
             log_message('error', 'Exception during OTP email send: ' . $e->getMessage());
             log_message('error', 'Exception trace: ' . $e->getTraceAsString());
             // Don't fail registration if email fails - user can resend
-            return redirect()->to('/app/verify-email?token=' . $verificationToken)
+            return redirect()->to(site_url('app/verify-email?token=' . $verificationToken))
                 ->with('error', 'Registration successful, but we could not send the verification email. Please use the "Resend Code" button below.');
         }
     }
@@ -203,10 +203,10 @@ class Auth extends BaseController
                     log_message('error', 'Failed to send OTP: ' . $e->getMessage());
                 }
                 
-                return redirect()->to('/app/verify-email?token=' . $verificationToken)
+                return redirect()->to(site_url('app/verify-email?token=' . $verificationToken))
                     ->with('error', 'Please verify your email address before logging in. A new verification code has been sent to your email.');
             } else {
-                return redirect()->to('/app/verify-email?token=' . ($user['email_verification_token'] ?? ''))
+                return redirect()->to(site_url('app/verify-email?token=' . ($user['email_verification_token'] ?? '')))
                     ->with('error', 'Please verify your email address before logging in.');
             }
         }
@@ -236,7 +236,7 @@ class Auth extends BaseController
         // Update last login timestamp
         $userModel->update($user['id'], ['last_login_at' => date('Y-m-d H:i:s')]);
 
-        return redirect()->to('/app');
+        return redirect()->to(site_url('app'));
     }
 
     /**
@@ -246,7 +246,7 @@ class Auth extends BaseController
     public function logout(): RedirectResponse
     {
         session()->destroy();
-        return redirect()->to('/app');
+        return redirect()->to(site_url('app'));
     }
 
     /**
@@ -267,7 +267,7 @@ class Auth extends BaseController
         $token = $this->request->getGet('token');
         
         if (empty($token)) {
-            return redirect()->to('/app/login')->with('errors', ['Invalid verification link.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Invalid verification link.']);
         }
 
         // Check if token is valid
@@ -275,12 +275,12 @@ class Auth extends BaseController
         $user = $userModel->where('email_verification_token', $token)->first();
 
         if (!$user) {
-            return redirect()->to('/app/login')->with('errors', ['Invalid or expired verification token.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Invalid or expired verification token.']);
         }
 
         // Check if token is expired
         if (isset($user['email_verification_expires_at']) && strtotime($user['email_verification_expires_at']) < time()) {
-            return redirect()->to('/app/login')->with('errors', ['Verification token has expired. Please register again.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Verification token has expired. Please register again.']);
         }
 
         return view('auth/verify_email', ['token' => $token, 'email' => $user['email']]);
@@ -342,7 +342,7 @@ class Auth extends BaseController
             log_message('error', 'Failed to send welcome email: ' . $e->getMessage());
         }
 
-        return redirect()->to('/app/login')->with('success', 'Email verified successfully! You can now log in.');
+        return redirect()->to(site_url('app/login'))->with('success', 'Email verified successfully! You can now log in.');
     }
 
     /**
@@ -353,14 +353,14 @@ class Auth extends BaseController
         $token = $this->request->getPost('token') ?? $this->request->getGet('token');
 
         if (empty($token)) {
-            return redirect()->to('/app/login')->with('errors', ['Invalid verification link.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Invalid verification link.']);
         }
 
         $userModel = new UserModel();
         $user = $userModel->where('email_verification_token', $token)->first();
 
         if (!$user) {
-            return redirect()->to('/app/login')->with('errors', ['Invalid verification token.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Invalid verification token.']);
         }
 
         // Generate new OTP
@@ -457,7 +457,7 @@ class Auth extends BaseController
     {
         // Check if Google OAuth is configured
         if (empty($this->oauthConfig->googleClientId)) {
-            return redirect()->to('/app/login')
+            return redirect()->to(site_url('app/login'))
                 ->with('errors', ['Google login is not configured. Please contact support or use email registration.']);
         }
 
@@ -492,19 +492,19 @@ class Auth extends BaseController
         if ($error) {
             $errorDescription = $this->request->getGet('error_description') ?? 'Unknown error';
             log_message('error', 'Google OAuth callback error: ' . $error . ' - ' . $errorDescription);
-            return redirect()->to('/app/login')->with('errors', ['Google authentication failed: ' . $errorDescription]);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Google authentication failed: ' . $errorDescription]);
         }
 
         // Verify state to prevent CSRF
         $sessionState = session()->get('oauth_state');
         if ($state !== $sessionState) {
             log_message('error', 'Google OAuth state mismatch - session: ' . ($sessionState ?? 'null') . ', received: ' . ($state ?? 'null'));
-            return redirect()->to('/app/login')->with('errors', ['Invalid OAuth state. Please try again.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Invalid OAuth state. Please try again.']);
         }
 
         if (!$code) {
             log_message('error', 'Google OAuth callback received without code');
-            return redirect()->to('/app/login')->with('errors', ['Google authentication failed. Please try again.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Google authentication failed. Please try again.']);
         }
 
         log_message('debug', 'Google OAuth callback received code and state');
@@ -513,14 +513,14 @@ class Auth extends BaseController
         $tokenResponse = $this->getGoogleAccessToken($code);
         if (!$tokenResponse || !isset($tokenResponse['access_token'])) {
             log_message('error', 'Failed to get access token from Google - tokenResponse: ' . json_encode($tokenResponse));
-            return redirect()->to('/app/login')->with('errors', ['Failed to get access token from Google. Please check the logs or try again.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Failed to get access token from Google. Please check the logs or try again.']);
         }
 
         // Get user info from Google
         $userInfo = $this->getGoogleUserInfo($tokenResponse['access_token']);
         if (!$userInfo || !isset($userInfo['id'])) {
             log_message('error', 'Failed to get user info from Google - userInfo: ' . json_encode($userInfo));
-            return redirect()->to('/app/login')->with('errors', ['Failed to get user info from Google.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Failed to get user info from Google.']);
         }
 
         // Find or create user
@@ -534,7 +534,7 @@ class Auth extends BaseController
     {
         // Check if Facebook OAuth is configured
         if (empty($this->oauthConfig->facebookAppId)) {
-            return redirect()->to('/app/login')
+            return redirect()->to(site_url('app/login'))
                 ->with('errors', ['Facebook login is not configured. Please contact support or use email registration.']);
         }
 
@@ -562,23 +562,23 @@ class Auth extends BaseController
 
         // Verify state to prevent CSRF
         if ($state !== session()->get('oauth_state')) {
-            return redirect()->to('/app/login')->with('errors', ['Invalid OAuth state. Please try again.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Invalid OAuth state. Please try again.']);
         }
 
         if (!$code) {
-            return redirect()->to('/app/login')->with('errors', ['Facebook authentication failed. Please try again.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Facebook authentication failed. Please try again.']);
         }
 
         // Exchange code for access token
         $tokenResponse = $this->getFacebookAccessToken($code);
         if (!$tokenResponse || !isset($tokenResponse['access_token'])) {
-            return redirect()->to('/app/login')->with('errors', ['Failed to get access token from Facebook.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Failed to get access token from Facebook.']);
         }
 
         // Get user info from Facebook
         $userInfo = $this->getFacebookUserInfo($tokenResponse['access_token']);
         if (!$userInfo || !isset($userInfo['id'])) {
-            return redirect()->to('/app/login')->with('errors', ['Failed to get user info from Facebook.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['Failed to get user info from Facebook.']);
         }
 
         // Find or create user
@@ -802,7 +802,7 @@ class Auth extends BaseController
         // If still no user, create a new one
         if (!$user) {
             if (empty($email)) {
-                return redirect()->to('/app/login')->with('errors', ['Email is required for registration. Please allow email access.']);
+                return redirect()->to(site_url('app/login'))->with('errors', ['Email is required for registration. Please allow email access.']);
             }
 
             $data = [
@@ -843,6 +843,6 @@ class Auth extends BaseController
         // Update last login timestamp
         $userModel->update($user['id'], ['last_login_at' => date('Y-m-d H:i:s')]);
 
-        return redirect()->to('/app')->with('success', 'Welcome back!');
+        return redirect()->to(site_url('app'))->with('success', 'Welcome back!');
     }
 }

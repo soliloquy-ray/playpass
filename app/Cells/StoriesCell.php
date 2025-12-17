@@ -17,7 +17,7 @@ class StoriesCell extends Cell
                 $formattedStories[] = [
                     'id' => $story['id'] ?? null,
                     'title' => $story['title'] ?? '',
-                    'image' => $story['image'] ?? '/assets/images/placeholder.jpg',
+                    'image' => $story['image'] ?? base_url('assets/images/placeholder.jpg'),
                     'time' => $story['time'] ?? ($story['published_at'] ? date('h:i A', strtotime($story['published_at'])) : date('h:i A')),
                     'is_trailer' => isset($story['is_trailer']) ? (bool)$story['is_trailer'] : false,
                     'category' => $story['category'] ?? 'story',
@@ -36,7 +36,7 @@ class StoriesCell extends Cell
                 $formattedStories[] = [
                     'id' => $story['id'],
                     'title' => $story['title'],
-                    'image' => $story['image'] ?? '/assets/images/placeholder.jpg',
+                    'image' => $story['image'] ?? base_url('assets/images/placeholder.jpg'),
                     'time' => $story['published_at'] ? date('h:i A', strtotime($story['published_at'])) : date('h:i A'),
                     'is_trailer' => (bool)($story['is_trailer'] ?? false),
                     'category' => $story['category'] ?? 'story',

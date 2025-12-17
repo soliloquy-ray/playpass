@@ -30,7 +30,7 @@
                 <tr>
                     <td>
                         <?php if ($promo['icon']): ?>
-                        <img src="<?= esc($promo['icon']) ?>" alt="" class="table-thumbnail" style="width: 40px; height: 40px;">
+                        <img src="<?= asset_url($promo['icon']) ?>" alt="" class="table-thumbnail" style="width: 40px; height: 40px;">
                         <?php else: ?>
                         <div class="table-thumbnail" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: var(--card-bg);">
                             <i class="fas fa-percent" style="color: var(--text-muted);"></i>

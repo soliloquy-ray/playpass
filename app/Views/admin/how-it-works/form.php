@@ -21,7 +21,7 @@
 </div>
 <?php endif; ?>
 
-<form action="<?= $isEdit ? '/admin/how-it-works/update/' . $step['id'] : '/admin/how-it-works/create' ?>" method="POST" class="admin-form" style="max-width: 700px;">
+<form action="<?= $isEdit ? site_url('admin/how-it-works/update/' . $step['id']) : site_url('admin/how-it-works/create') ?>" method="POST" class="admin-form" style="max-width: 700px;">
     <?= csrf_field() ?>
     
     <div class="admin-card">

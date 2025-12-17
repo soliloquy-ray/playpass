@@ -20,7 +20,7 @@
                 
                 <div style="font-size: 2rem; margin-bottom: 8px;">
                     <?php if(!empty($promo['image'])): ?>
-                        <img src="<?= $promo['image'] ?>" style="width: 40px; height: 40px;">
+                        <img src="<?= asset_url($promo['image']) ?>" style="width: 40px; height: 40px;">
                     <?php else: ?>
                         🎁
                     <?php endif; ?>

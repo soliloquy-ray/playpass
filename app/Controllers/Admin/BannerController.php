@@ -72,7 +72,7 @@ class BannerController extends BaseController
             // Update existing
             $banner = $this->bannerModel->find($id);
             if (!$banner) {
-                return redirect()->to('/admin/banner')->with('error', 'Banner not found.');
+                return redirect()->to(site_url('admin/banner'))->with('error', 'Banner not found.');
             }
             $this->bannerModel->update($id, $data);
             $message = 'Banner updated successfully!';
@@ -82,6 +82,6 @@ class BannerController extends BaseController
             $message = 'Banner created successfully!';
         }
 
-        return redirect()->to('/admin/banner')->with('success', $message);
+        return redirect()->to(site_url('admin/banner'))->with('success', $message);
     }
 }

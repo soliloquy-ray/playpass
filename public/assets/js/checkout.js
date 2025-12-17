@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             headers[csrfName] = csrfHash;
 
-            const response = await fetch(`${baseUrl}/checkout/process`, {
+            const response = await fetch(`${baseUrl}app/checkout/process`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(payload)
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     background: '#1a1a1a', // Match your dark theme
                     color: '#fff'
                 }).then(() => {
-                    window.location.href = `${baseUrl}/profile/orders`;
+                    window.location.href = `${baseUrl}app/account`;
                 });
 
             } else if (result.status === 'pending') {

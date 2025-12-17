@@ -29,11 +29,11 @@ class ProductController extends BaseController
 
         // 3. Define Payment Channels (Hardcoded for now, or fetch from DB if you have a model)
         $paymentChannels = [
-            ['code' => 'gcash', 'name' => 'GCash', 'logo' => '/assets/payment/gcash.png'],
-            ['code' => 'maya', 'name' => 'Maya', 'logo' => '/assets/payment/maya.png'],
-            ['code' => 'dragon', 'name' => 'DragonPay', 'logo' => '/assets/payment/dragonpay.png'],
-            ['code' => '7eleven', 'name' => '7 Eleven', 'logo' => '/assets/payment/7eleven.png'],
-            ['code' => 'cat', 'name' => 'Coming Soon', 'logo' => '/assets/payment/cat.png'],
+            ['code' => 'gcash', 'name' => 'GCash', 'logo' => base_url('assets/payment/gcash.png')],
+            ['code' => 'maya', 'name' => 'Maya', 'logo' => base_url('assets/payment/maya.png')],
+            ['code' => 'dragon', 'name' => 'DragonPay', 'logo' => base_url('assets/payment/dragonpay.png')],
+            ['code' => '7eleven', 'name' => '7 Eleven', 'logo' => base_url('assets/payment/7eleven.png')],
+            ['code' => 'cat', 'name' => 'Coming Soon', 'logo' => base_url('assets/payment/cat.png')],
         ];
 
         // 4. Prepare Data for the View

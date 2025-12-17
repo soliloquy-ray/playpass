@@ -164,6 +164,152 @@ class MayaService
         }
     }
 
+    /**
+     * Legacy Payment Gateway Method
+     * 
+     * Handles payment gateway requests with support for different payment types
+     * (ocular, manual, default) and installment payments.
+     * 
+     * @param array $order Order data containing: service, quantity, price, first_name, 
+     *                    last_name, email, mobile, payment_index, unit, building, 
+     *                    property_name, installment_amount (optional)
+     * @param string $type Payment type: 'ocular', 'manual', or 'default'
+     * @param string $orderId Order ID for building redirect URLs
+     * @return array Returns ['success' => bool, 'redirectUrl' => string, 'checkoutId' => string] on success
+     */
+    public function gateway(array $order, string $type, string $orderId)
+    {
+        $service  = $order['service'];
+        $quantity = $order['quantity'];
+        $price    = $order['price'];
+        $f_name   = $order['first_name'];
+        $l_name   = $order['last_name'];
+        $email    = $order['email'];
+        $mobile   = $order['mobile'];
+        $index    = $order['payment_index'] ?? null;
+
+        // Build redirect URLs based on payment type
+        if ($type == 'ocular') {
+            $cancel  = base_url() . 'payment_method/installment?order_id=' . $orderId;
+            $success = base_url() . 'order/payment_success_ocular?order_id=' . $orderId;
+            $failed  = base_url() . 'order/payment_failed?order_id=' . $orderId . '&type=ocular';
+
+            if ($index !== null && !empty($order['installment_amount'] ?? '')) {
+                $installmentAmounts = explode(',', $order['installment_amount']);
+                if (isset($installmentAmounts[$index])) {
+                    $price = $installmentAmounts[$index];
+                }
+                $success = base_url() . 'order/payment_success_ocular?order_id=' . $orderId . '&payment_index=' . $index;
+                $failed  = base_url() . 'order/payment_failed?order_id=' . $orderId . '&type=ocular&payment_index=' . $index;
+            }
+        } elseif ($type == 'manual') {
+            $cancel  = base_url() . 'payment_method/installment?order_id=' . $orderId;
+            $success = base_url() . 'order/payment_success_manual?order_id=' . $orderId;
+            $failed  = base_url() . 'order/payment_failed?order_id=' . $orderId . '&type=manual';
+
+            if ($index !== null && !empty($order['installment_amount'] ?? '')) {
+                $installmentAmounts = explode(',', $order['installment_amount']);
+                if (isset($installmentAmounts[$index])) {
+                    $price = $installmentAmounts[$index];
+                }
+                $success = base_url() . 'order/payment_success_manual?order_id=' . $orderId . '&payment_index=' . $index;
+                $failed  = base_url() . 'order/payment_failed?order_id=' . $orderId . '&type=manual&payment_index=' . $index;
+            }
+        } else {
+            $cancel  = base_url() . 'payment_method?order_id=' . $orderId;
+            $success = base_url() . 'order/payment_success?order_id=' . $orderId;
+            $failed  = base_url() . 'order/payment_failed?order_id=' . $orderId . '&type=default';
+        }
+
+        // Generate request reference number (timestamp-based)
+        $requestReferenceNumber = substr(strtotime(date('Y-m-d H:i:s')), 0, 10);
+
+        // Build address lines
+        $line_1 = ($order['unit'] ?? '') . ' ' . ($order['building'] ?? '');
+        $line_2 = $order['property_name'] ?? '';
+
+        // Prepare payload
+        $payload = [
+            'totalAmount' => [
+                'value' => (float)$price,
+                'currency' => 'PHP'
+            ],
+            'buyer' => [
+                'contact' => [
+                    'phone' => $mobile,
+                    'email' => $email
+                ],
+                'billingAddress' => [
+                    'line1' => trim($line_1),
+                    'line2' => $line_2,
+                    'countryCode' => 'PH'
+                ],
+                'firstName' => $f_name,
+                'lastName' => $l_name
+            ],
+            'requestReferenceNumber' => $requestReferenceNumber,
+            'items' => [
+                [
+                    'amount' => [
+                        'value' => (float)$price
+                    ],
+                    'totalAmount' => [
+                        'value' => (float)$price
+                    ],
+                    'name' => $service,
+                    'quantity' => (string)$quantity
+                ]
+            ],
+            'redirectUrl' => [
+                'success' => $success,
+                'failure' => $failed,
+                'cancel' => $cancel
+            ]
+        ];
+
+        // Get Maya checkout endpoint (assuming it's the same as initiateCheckout)
+        $endpoint = $this->baseUrl . '/checkout/v1/checkouts';
+        
+        // Basic Auth: Base64 encoded public key
+        $public_key_encoded = base64_encode($this->public_key);
+
+        try {
+            $response = $this->client->post($endpoint, [
+                'headers' => [
+                    'accept' => 'application/json',
+                    'authorization' => 'Basic ' . $public_key_encoded,
+                    'content-type' => 'application/json',
+                ],
+                'json' => $payload,
+                'http_errors' => false
+            ]);
+
+            $result = json_decode($response->getBody(), true);
+
+            if ($response->getStatusCode() === 200 && isset($result['checkoutId']) && isset($result['redirectUrl'])) {
+                return [
+                    'success' => true,
+                    'redirectUrl' => $result['redirectUrl'],
+                    'checkoutId' => $result['checkoutId']
+                ];
+            }
+
+            // API Error Handling
+            return [
+                'success' => false,
+                'message' => $result['message'] ?? 'Unknown Maya Error',
+                'code' => $result['code'] ?? $response->getStatusCode()
+            ];
+
+        } catch (\Exception $e) {
+            log_message('error', 'Maya Gateway Error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Payment gateway connection failed.'
+            ];
+        }
+    }
+
     private function parseResponse($response)
     {
         $body = json_decode($response->getBody(), true);

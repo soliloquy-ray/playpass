@@ -34,12 +34,12 @@ class CustomerSupportCell extends Cell
                 [
                     'icon' => 'fa-solid fa-circle-question',
                     'label' => 'FAQ',
-                    'link' => '/faq'
+                    'link' => site_url('faq')
                 ],
                 [
                     'icon' => 'fa-solid fa-comment',
                     'label' => 'Feedback',
-                    'link' => '/feedback'
+                    'link' => site_url('feedback')
                 ],
                 [
                     'icon' => 'fa-solid fa-phone',

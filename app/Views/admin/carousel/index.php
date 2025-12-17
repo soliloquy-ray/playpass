@@ -26,7 +26,7 @@
             
             <div style="width: 120px; height: 60px; border-radius: 8px; overflow: hidden; flex-shrink: 0; background: linear-gradient(135deg, <?= esc($slide['bg_gradient_start']) ?> 0%, <?= esc($slide['bg_gradient_end']) ?> 100%);">
                 <?php if ($slide['image_url']): ?>
-                <img src="<?= esc($slide['image_url']) ?>" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="<?= asset_url($slide['image_url']) ?>" alt="" style="width: 100%; height: 100%; object-fit: cover;">
                 <?php endif; ?>
             </div>
             

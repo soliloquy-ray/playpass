@@ -35,7 +35,7 @@
     <!-- Image (if available) -->
     <?php if ($image_url): ?>
         <div style="flex: 0 0 250px; height: 250px; border-radius: 8px; overflow: hidden; margin-left: 30px;">
-            <img src="<?= esc($image_url) ?>" alt="<?= esc($title) ?>" 
+            <img src="<?= asset_url($image_url) ?>" alt="<?= esc($title) ?>" 
                  style="width: 100%; height: 100%; object-fit: cover;">
         </div>
     <?php endif; ?>

@@ -48,7 +48,7 @@
                 <tr>
                     <td>
                         <?php if ($product['thumbnail_url']): ?>
-                        <img src="<?= esc($product['thumbnail_url']) ?>" alt="" class="table-thumbnail">
+                        <img src="<?= asset_url($product['thumbnail_url']) ?>" alt="" class="table-thumbnail">
                         <?php else: ?>
                         <div class="table-thumbnail" style="display: flex; align-items: center; justify-content: center; background: var(--card-bg);">
                             <i class="fas fa-image" style="color: var(--text-muted);"></i>

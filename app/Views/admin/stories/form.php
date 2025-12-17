@@ -21,7 +21,7 @@
 </div>
 <?php endif; ?>
 
-<form action="<?= $isEdit ? '/admin/stories/update/' . $story['id'] : '/admin/stories/create' ?>" method="POST" enctype="multipart/form-data" class="admin-form" style="max-width: 1000px;">
+<form action="<?= $isEdit ? site_url('admin/stories/update/' . $story['id']) : site_url('admin/stories/create') ?>" method="POST" enctype="multipart/form-data" class="admin-form" style="max-width: 1000px;">
     <?= csrf_field() ?>
     
     <div class="admin-grid admin-grid-equal">
@@ -69,7 +69,7 @@
                     <?php if ($isEdit && $story['image']): ?>
                     <div class="file-preview" style="margin-top: 16px;">
                         <div class="file-preview-item" style="width: 100%; height: auto;">
-                            <img src="<?= esc($story['image']) ?>" alt="Current image" style="width: 100%; height: auto;">
+                            <img src="<?= asset_url($story['image']) ?>" alt="Current image" style="width: 100%; height: auto;">
                         </div>
                     </div>
                     <input type="hidden" name="image_url" value="<?= esc($story['image']) ?>">

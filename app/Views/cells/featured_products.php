@@ -30,7 +30,7 @@
                 <?php endif; ?>
 
                 <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px;">
-                    <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>" style="max-width: 80%; max-height: 80px; object-fit: contain;">
+                    <img src="<?= asset_url($product['image']) ?>" alt="<?= esc($product['name']) ?>" style="max-width: 80%; max-height: 80px; object-fit: contain;">
                 </div>
 
                 <a href="<?= site_url('app/buy/' . esc($product['brand_id'] ?? $product['id'])) ?>" style="

@@ -13,7 +13,7 @@
         
         <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px;">
              <?php if(!empty($product['logo'])): ?>
-                <img src="<?= $product['logo'] ?>" alt="<?= $product['name'] ?>" style="max-width: 80%; max-height: 80px; object-fit: contain;">
+                <img src="<?= asset_url($product['logo']) ?>" alt="<?= esc($product['name']) ?>" style="max-width: 80%; max-height: 80px; object-fit: contain;">
              <?php else: ?>
                 <h3 style="color:white;"><?= $product['name'] ?></h3>
              <?php endif; ?>

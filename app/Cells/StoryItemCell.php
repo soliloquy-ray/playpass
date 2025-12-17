@@ -15,7 +15,7 @@ class StoryItemCell extends Cell
         
         // Set defaults if missing
         $story['category'] = $story['category'] ?? 'story';
-        $story['image'] = $story['image'] ?? '/assets/images/placeholder.jpg';
+        $story['image'] = $story['image'] ?? base_url('assets/images/placeholder.jpg');
         $story['is_trailer'] = isset($story['is_trailer']) ? (bool)$story['is_trailer'] : false;
         $story['excerpt'] = $story['excerpt'] ?? '';
         $story['published_at'] = $story['published_at'] ?? date('Y-m-d H:i:s');

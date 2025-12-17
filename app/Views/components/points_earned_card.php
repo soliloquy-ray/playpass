@@ -9,6 +9,6 @@
         <span class="points-number"><?= number_format($points ?? 0) ?></span>
         <span class="points-label">POINTS</span>
     </div>
-    <button class="btn-redeem-points" onclick="window.location.href='/app/account?action=redeem'">Redeem</button>
+    <button class="btn-redeem-points" onclick="window.location.href='<?= site_url('app/account?action=redeem') ?>'">Redeem</button>
 </div>
 

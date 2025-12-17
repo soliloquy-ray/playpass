@@ -21,7 +21,7 @@ use CodeIgniter\Router\RouteCollection;
 // ROOT ROUTE - Redirect to /app
 // ============================================
 $routes->get('/', function() {
-    return redirect()->to('/app');
+    return redirect()->to(site_url('app'));
 });
 
 // ============================================

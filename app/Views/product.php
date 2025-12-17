@@ -8,7 +8,7 @@
         <div style="display: flex; gap: 20px;">
             <div style="width: 100px; height: 100px; background-color: #ffc107; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 <?php if(!empty($brand['logo'])): ?>
-                    <img src="<?= $brand['logo'] ?>" alt="<?= $brand['name'] ?>" style="width: 80%; height: auto;">
+                    <img src="<?= asset_url($brand['logo']) ?>" alt="<?= esc($brand['name']) ?>" style="width: 80%; height: auto;">
                 <?php else: ?>
                     <span style="font-weight:bold; color:#000;"><?= substr($brand['name'], 0, 1) ?></span>
                 <?php endif; ?>

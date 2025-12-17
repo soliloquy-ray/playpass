@@ -65,7 +65,7 @@ class CustomerSupportController extends BaseController
 
         $this->supportModel->insert($data);
 
-        return redirect()->to('/admin/customer-support')->with('success', 'Support channel created successfully!');
+        return redirect()->to(site_url('admin/customer-support'))->with('success', 'Support channel created successfully!');
     }
 
     /**
@@ -76,7 +76,7 @@ class CustomerSupportController extends BaseController
         $channel = $this->supportModel->find($id);
         
         if (!$channel) {
-            return redirect()->to('/admin/customer-support')->with('error', 'Support channel not found.');
+            return redirect()->to(site_url('admin/customer-support'))->with('error', 'Support channel not found.');
         }
 
         $data = [
@@ -96,7 +96,7 @@ class CustomerSupportController extends BaseController
         $channel = $this->supportModel->find($id);
         
         if (!$channel) {
-            return redirect()->to('/admin/customer-support')->with('error', 'Support channel not found.');
+            return redirect()->to(site_url('admin/customer-support'))->with('error', 'Support channel not found.');
         }
 
         $rules = [
@@ -118,7 +118,7 @@ class CustomerSupportController extends BaseController
 
         $this->supportModel->update($id, $data);
 
-        return redirect()->to('/admin/customer-support')->with('success', 'Support channel updated successfully!');
+        return redirect()->to(site_url('admin/customer-support'))->with('success', 'Support channel updated successfully!');
     }
 
     /**
@@ -129,11 +129,12 @@ class CustomerSupportController extends BaseController
         $channel = $this->supportModel->find($id);
         
         if (!$channel) {
-            return redirect()->to('/admin/customer-support')->with('error', 'Support channel not found.');
+            return redirect()->to(site_url('admin/customer-support'))->with('error', 'Support channel not found.');
         }
 
         $this->supportModel->delete($id);
 
-        return redirect()->to('/admin/customer-support')->with('success', 'Support channel deleted successfully!');
+        return redirect()->to(site_url('admin/customer-support'))->with('success', 'Support channel deleted successfully!');
     }
 }
+

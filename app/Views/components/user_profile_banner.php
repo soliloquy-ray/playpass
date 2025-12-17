@@ -29,7 +29,7 @@ $avatarUrl = $user['avatar_url'] ?? null;
             <?php endif; ?>
         </div>
         <div class="profile-actions">
-            <a href="/app/account/edit" class="btn-edit-profile">Edit Profile</a>
+            <a href="<?= site_url('app/account/edit') ?>" class="btn-edit-profile">Edit Profile</a>
         </div>
     </div>
 </div>

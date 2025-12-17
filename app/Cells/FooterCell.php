@@ -15,37 +15,37 @@ class FooterCell extends Cell
                 [
                     'title' => 'Company',
                     'links' => [
-                        ['text' => 'About Us', 'url' => '/about'],
-                        ['text' => 'Blog', 'url' => '/blog'],
-                        ['text' => 'Careers', 'url' => '/careers'],
-                        ['text' => 'Press', 'url' => '/press'],
+                        ['text' => 'About Us', 'url' => site_url('about')],
+                        ['text' => 'Blog', 'url' => site_url('blog')],
+                        ['text' => 'Careers', 'url' => site_url('careers')],
+                        ['text' => 'Press', 'url' => site_url('press')],
                     ]
                 ],
                 [
                     'title' => 'Products',
                     'links' => [
-                        ['text' => 'Gaming Bundles', 'url' => '/products?category=gaming'],
-                        ['text' => 'Subscriptions', 'url' => '/products?category=subscriptions'],
-                        ['text' => 'Gift Cards', 'url' => '/products?category=gifts'],
-                        ['text' => 'Bundles', 'url' => '/products?category=bundles'],
+                        ['text' => 'Gaming Bundles', 'url' => site_url('app/buy-now?category=gaming')],
+                        ['text' => 'Subscriptions', 'url' => site_url('app/buy-now?category=subscriptions')],
+                        ['text' => 'Gift Cards', 'url' => site_url('app/buy-now?category=gifts')],
+                        ['text' => 'Bundles', 'url' => site_url('app/buy-now?category=bundles')],
                     ]
                 ],
                 [
                     'title' => 'Support',
                     'links' => [
-                        ['text' => 'Help Center', 'url' => '/help'],
-                        ['text' => 'Contact', 'url' => '/contact'],
-                        ['text' => 'FAQ', 'url' => '/faq'],
-                        ['text' => 'Status', 'url' => '/status'],
+                        ['text' => 'Help Center', 'url' => site_url('help')],
+                        ['text' => 'Contact', 'url' => site_url('contact')],
+                        ['text' => 'FAQ', 'url' => site_url('faq')],
+                        ['text' => 'Status', 'url' => site_url('status')],
                     ]
                 ],
                 [
                     'title' => 'Legal',
                     'links' => [
-                        ['text' => 'Terms of Service', 'url' => '/terms'],
-                        ['text' => 'Privacy Policy', 'url' => '/privacy'],
-                        ['text' => 'Cookie Policy', 'url' => '/cookies'],
-                        ['text' => 'Refund Policy', 'url' => '/refunds'],
+                        ['text' => 'Terms of Service', 'url' => site_url('terms')],
+                        ['text' => 'Privacy Policy', 'url' => site_url('privacy')],
+                        ['text' => 'Cookie Policy', 'url' => site_url('cookies')],
+                        ['text' => 'Refund Policy', 'url' => site_url('refunds')],
                     ]
                 ],
             ],

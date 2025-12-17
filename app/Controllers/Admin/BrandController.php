@@ -59,19 +59,36 @@ class BrandController extends BaseController
             'is_enabled' => $this->request->getPost('is_enabled') ? 1 : 0,
         ];
 
-        // Handle file upload
-        $file = $this->request->getFile('logo');
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/brands', $newName);
-            $data['logo'] = '/uploads/brands/' . $newName;
-        } elseif ($this->request->getPost('logo_url')) {
-            $data['logo'] = $this->request->getPost('logo_url');
+        // Ensure upload directory exists
+        $uploadPath = FCPATH . 'uploads/brands';
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+
+        // Handle file upload using raw $_FILES array
+        if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK && $_FILES['logo']['size'] > 0) {
+            $tmpName = $_FILES['logo']['tmp_name'];
+            $originalName = $_FILES['logo']['name'];
+            $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+            $newName = uniqid() . '_' . time() . '.' . $extension;
+            $destination = $uploadPath . '/' . $newName;
+            
+            if (move_uploaded_file($tmpName, $destination)) {
+                $data['logo'] = '/uploads/brands/' . $newName;
+            }
+        }
+        
+        // Only use logo_url if no file was uploaded and URL is provided
+        if (empty($data['logo']) && ($logoUrl = $this->request->getPost('logo_url'))) {
+            $logoUrl = trim($logoUrl);
+            if (!empty($logoUrl)) {
+                $data['logo'] = $logoUrl;
+            }
         }
 
         $this->brandModel->insert($data);
 
-        return redirect()->to('/admin/brands')->with('success', 'Brand created successfully!');
+        return redirect()->to(site_url('admin/brands'))->with('success', 'Brand created successfully!');
     }
 
     /**
@@ -82,7 +99,7 @@ class BrandController extends BaseController
         $brand = $this->brandModel->find($id);
         
         if (!$brand) {
-            return redirect()->to('/admin/brands')->with('error', 'Brand not found.');
+            return redirect()->to(site_url('admin/brands'))->with('error', 'Brand not found.');
         }
 
         $data = [
@@ -102,7 +119,7 @@ class BrandController extends BaseController
         $brand = $this->brandModel->find($id);
         
         if (!$brand) {
-            return redirect()->to('/admin/brands')->with('error', 'Brand not found.');
+            return redirect()->to(site_url('admin/brands'))->with('error', 'Brand not found.');
         }
 
         $rules = [
@@ -118,19 +135,42 @@ class BrandController extends BaseController
             'is_enabled' => $this->request->getPost('is_enabled') ? 1 : 0,
         ];
 
-        // Handle file upload
-        $file = $this->request->getFile('logo');
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/brands', $newName);
-            $data['logo'] = '/uploads/brands/' . $newName;
-        } elseif ($this->request->getPost('logo_url')) {
-            $data['logo'] = $this->request->getPost('logo_url');
+        // Ensure upload directory exists
+        $uploadPath = FCPATH . 'uploads/brands';
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+
+        // Handle file upload using raw $_FILES array
+        if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK && $_FILES['logo']['size'] > 0) {
+            $tmpName = $_FILES['logo']['tmp_name'];
+            $originalName = $_FILES['logo']['name'];
+            $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+            $newName = uniqid() . '_' . time() . '.' . $extension;
+            $destination = $uploadPath . '/' . $newName;
+            
+            if (move_uploaded_file($tmpName, $destination)) {
+                $data['logo'] = '/uploads/brands/' . $newName;
+            }
+        }
+        
+        // Only use logo_url if no file was uploaded and URL is provided
+        // Also preserve existing logo if no new file and no URL provided
+        if (empty($data['logo'])) {
+            if ($logoUrl = $this->request->getPost('logo_url')) {
+                $logoUrl = trim($logoUrl);
+                if (!empty($logoUrl)) {
+                    $data['logo'] = $logoUrl;
+                }
+            } elseif ($brand['logo']) {
+                // Keep existing logo if no new file and no URL provided
+                $data['logo'] = $brand['logo'];
+            }
         }
 
         $this->brandModel->update($id, $data);
 
-        return redirect()->to('/admin/brands')->with('success', 'Brand updated successfully!');
+        return redirect()->to(site_url('admin/brands'))->with('success', 'Brand updated successfully!');
     }
 
     /**
@@ -141,12 +181,12 @@ class BrandController extends BaseController
         $brand = $this->brandModel->find($id);
         
         if (!$brand) {
-            return redirect()->to('/admin/brands')->with('error', 'Brand not found.');
+            return redirect()->to(site_url('admin/brands'))->with('error', 'Brand not found.');
         }
 
         $this->brandModel->delete($id);
 
-        return redirect()->to('/admin/brands')->with('success', 'Brand deleted successfully!');
+        return redirect()->to(site_url('admin/brands'))->with('success', 'Brand deleted successfully!');
     }
 }
 

@@ -14,7 +14,7 @@ class HeroBannerCell
             'subtitle' => 'Discover amazing digital products',
             'image_gradient' => 'linear-gradient(135deg, #d8369f 0%, #051429 100%)',
             'button_text' => 'Explore Now',
-            'button_url' => '/products',
+            'button_url' => site_url('app/buy-now'),
             'button_class' => 'btn-primary'
         ];
 

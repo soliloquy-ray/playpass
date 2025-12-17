@@ -13,7 +13,7 @@ class CtaButtonCell
             'title' => 'Ready to Get Started?',
             'subtitle' => 'Join millions of users enjoying Playpass',
             'button_text' => 'Sign Up Now',
-            'button_url' => '/register',
+            'button_url' => site_url('app/register'),
             'background' => '#051429',
             'icon' => '🚀'
         ];

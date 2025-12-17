@@ -91,7 +91,7 @@ class PromoController extends BaseController
 
         $this->promoModel->insert($data);
 
-        return redirect()->to('/admin/promos')->with('success', 'Promo created successfully!');
+        return redirect()->to(site_url('admin/promos'))->with('success', 'Promo created successfully!');
     }
 
     /**
@@ -102,7 +102,7 @@ class PromoController extends BaseController
         $promo = $this->promoModel->find($id);
         
         if (!$promo) {
-            return redirect()->to('/admin/promos')->with('error', 'Promo not found.');
+            return redirect()->to(site_url('admin/promos'))->with('error', 'Promo not found.');
         }
 
         $data = [
@@ -122,7 +122,7 @@ class PromoController extends BaseController
         $promo = $this->promoModel->find($id);
         
         if (!$promo) {
-            return redirect()->to('/admin/promos')->with('error', 'Promo not found.');
+            return redirect()->to(site_url('admin/promos'))->with('error', 'Promo not found.');
         }
 
         $rules = [
@@ -176,7 +176,7 @@ class PromoController extends BaseController
 
         $this->promoModel->update($id, $data);
 
-        return redirect()->to('/admin/promos')->with('success', 'Promo updated successfully!');
+        return redirect()->to(site_url('admin/promos'))->with('success', 'Promo updated successfully!');
     }
 
     /**
@@ -187,12 +187,12 @@ class PromoController extends BaseController
         $promo = $this->promoModel->find($id);
         
         if (!$promo) {
-            return redirect()->to('/admin/promos')->with('error', 'Promo not found.');
+            return redirect()->to(site_url('admin/promos'))->with('error', 'Promo not found.');
         }
 
         $this->promoModel->delete($id);
 
-        return redirect()->to('/admin/promos')->with('success', 'Promo deleted successfully!');
+        return redirect()->to(site_url('admin/promos'))->with('success', 'Promo deleted successfully!');
     }
 }
 

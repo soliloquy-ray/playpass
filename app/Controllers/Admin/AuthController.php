@@ -21,7 +21,7 @@ class AuthController extends BaseController
     {
         // If already logged in as admin, redirect to dashboard
         if (session()->get('admin_logged_in') && session()->get('role') === 'admin') {
-            return redirect()->to('/admin/dashboard');
+            return redirect()->to(site_url('admin/dashboard'));
         }
 
         return view('admin/auth/login');
@@ -77,7 +77,7 @@ class AuthController extends BaseController
         // Update last login timestamp
         $this->adminModel->update($admin['id'], ['last_login_at' => date('Y-m-d H:i:s')]);
 
-        return redirect()->to('/admin/dashboard')->with('success', 'Welcome back, ' . $name . '!');
+        return redirect()->to(site_url('admin/dashboard'))->with('success', 'Welcome back, ' . $name . '!');
     }
 
     /**
@@ -86,7 +86,7 @@ class AuthController extends BaseController
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/admin/login')->with('success', 'You have been logged out successfully.');
+        return redirect()->to(site_url('admin/login'))->with('success', 'You have been logged out successfully.');
     }
 }
 

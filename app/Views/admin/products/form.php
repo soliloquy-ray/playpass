@@ -21,7 +21,7 @@
 </div>
 <?php endif; ?>
 
-<form action="<?= $isEdit ? '/admin/products/update/' . $product['id'] : '/admin/products/create' ?>" method="POST" enctype="multipart/form-data" class="admin-form">
+<form action="<?= $isEdit ? site_url('admin/products/update/' . $product['id']) : site_url('admin/products/create') ?>" method="POST" enctype="multipart/form-data" class="admin-form">
     <?= csrf_field() ?>
     
     <div class="admin-grid admin-grid-equal">
@@ -85,7 +85,7 @@
                     <?php if ($isEdit && $product['thumbnail_url']): ?>
                     <div class="file-preview" style="margin-top: 16px;">
                         <div class="file-preview-item">
-                            <img src="<?= esc($product['thumbnail_url']) ?>" alt="Current thumbnail">
+                            <img src="<?= asset_url($product['thumbnail_url']) ?>" alt="Current thumbnail">
                         </div>
                     </div>
                     <input type="hidden" name="thumbnail_url" value="<?= esc($product['thumbnail_url']) ?>">

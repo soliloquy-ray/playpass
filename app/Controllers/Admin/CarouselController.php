@@ -77,7 +77,7 @@ class CarouselController extends BaseController
 
         $this->carouselModel->insert($data);
 
-        return redirect()->to('/admin/carousel')->with('success', 'Carousel slide created successfully!');
+        return redirect()->to(site_url('admin/carousel'))->with('success', 'Carousel slide created successfully!');
     }
 
     /**
@@ -88,7 +88,7 @@ class CarouselController extends BaseController
         $slide = $this->carouselModel->find($id);
         
         if (!$slide) {
-            return redirect()->to('/admin/carousel')->with('error', 'Slide not found.');
+            return redirect()->to(site_url('admin/carousel'))->with('error', 'Slide not found.');
         }
 
         $data = [
@@ -108,7 +108,7 @@ class CarouselController extends BaseController
         $slide = $this->carouselModel->find($id);
         
         if (!$slide) {
-            return redirect()->to('/admin/carousel')->with('error', 'Slide not found.');
+            return redirect()->to(site_url('admin/carousel'))->with('error', 'Slide not found.');
         }
 
         $rules = [
@@ -142,7 +142,7 @@ class CarouselController extends BaseController
 
         $this->carouselModel->update($id, $data);
 
-        return redirect()->to('/admin/carousel')->with('success', 'Carousel slide updated successfully!');
+        return redirect()->to(site_url('admin/carousel'))->with('success', 'Carousel slide updated successfully!');
     }
 
     /**
@@ -153,12 +153,12 @@ class CarouselController extends BaseController
         $slide = $this->carouselModel->find($id);
         
         if (!$slide) {
-            return redirect()->to('/admin/carousel')->with('error', 'Slide not found.');
+            return redirect()->to(site_url('admin/carousel'))->with('error', 'Slide not found.');
         }
 
         $this->carouselModel->delete($id);
 
-        return redirect()->to('/admin/carousel')->with('success', 'Carousel slide deleted successfully!');
+        return redirect()->to(site_url('admin/carousel'))->with('success', 'Carousel slide deleted successfully!');
     }
 
     /**

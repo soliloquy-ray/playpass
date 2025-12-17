@@ -12,9 +12,9 @@
             </div>
 
             <nav class="footer-links">
-                <a href="/privacy">Privacy Policy</a>
-                <a href="/terms">Terms and Conditions</a>
-                <a href="/faq">FAQ</a>
+                <a href="<?= site_url('privacy') ?>">Privacy Policy</a>
+                <a href="<?= site_url('terms') ?>">Terms and Conditions</a>
+                <a href="<?= site_url('faq') ?>">FAQ</a>
             </nav>
         </div>
     </div>

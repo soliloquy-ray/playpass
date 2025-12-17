@@ -6,7 +6,7 @@
     <!-- Hero Banner Section -->
     <div class="story-hero">
         <div class="story-hero-image" style="position: relative; width: 100%; aspect-ratio: 16/9; background: #222; overflow: hidden;">
-            <img src="<?= esc($story['image'] ?? '/assets/images/placeholder.jpg') ?>" 
+            <img src="<?= asset_url($story['image'] ?? 'assets/images/placeholder.jpg') ?>" 
                  alt="<?= esc($story['title']) ?>" 
                  style="width: 100%; height: 100%; object-fit: cover;">
             
@@ -57,7 +57,7 @@
                            style="text-decoration: none; color: inherit; display: block;">
                             <div style="background: #121212; border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s;">
                                 <div style="position: relative; aspect-ratio: 16/9; background: #222;">
-                                    <img src="<?= esc($relatedStory['image'] ?? '/assets/images/placeholder.jpg') ?>" 
+                                    <img src="<?= asset_url($relatedStory['image'] ?? 'assets/images/placeholder.jpg') ?>" 
                                          alt="<?= esc($relatedStory['title'] ?? 'Story') ?>" 
                                          style="width: 100%; height: 100%; object-fit: cover; display: block;">
                                     <?php if(isset($relatedStory['is_trailer']) && $relatedStory['is_trailer']): ?>

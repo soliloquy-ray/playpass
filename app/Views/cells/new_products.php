@@ -10,7 +10,7 @@
             <div class="product-card new">
                 <div class="product-image">
                     <span class="badge-new">NEW</span>
-                    <img src="<?= $product['image'] ?>" alt="<?= esc($product['name']) ?>" loading="lazy">
+                    <img src="<?= asset_url($product['image']) ?>" alt="<?= esc($product['name']) ?>" loading="lazy">
                 </div>
                 <?php 
                 // Check if product has a brand_id to link to brand page
@@ -29,7 +29,7 @@
                 ?>
                     <a href="<?= site_url('app/buy/' . esc($product['brand_id'])) ?>" class="btn btn-brand btn-block <?= esc($brandClass) ?>">
                         <?php if (!empty($product['brand_logo'])): ?>
-                            <img src="<?= esc($product['brand_logo']) ?>" alt="<?= esc($product['brand_name'] ?? 'Brand') ?>" style="height: 20px; width: auto; max-width: 100px; object-fit: contain;">
+                            <img src="<?= asset_url($product['brand_logo']) ?>" alt="<?= esc($product['brand_name'] ?? 'Brand') ?>" style="height: 20px; width: auto; max-width: 100px; object-fit: contain;">
                         <?php elseif (!empty($product['brand_name'])): ?>
                             <?= esc($product['brand_name']) ?>
                         <?php else: ?>

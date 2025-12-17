@@ -21,7 +21,7 @@
 </div>
 <?php endif; ?>
 
-<form action="<?= $isEdit ? '/admin/vouchers/update/' . $campaign['id'] : '/admin/vouchers/create' ?>" method="POST" class="admin-form">
+<form action="<?= $isEdit ? site_url('admin/vouchers/update/' . $campaign['id']) : site_url('admin/vouchers/create') ?>" method="POST" class="admin-form">
     <?= csrf_field() ?>
     
     <div class="admin-grid admin-grid-equal">

@@ -48,7 +48,7 @@
                 <tr>
                     <td>
                         <?php if ($story['image']): ?>
-                        <img src="<?= esc($story['image']) ?>" alt="" class="table-thumbnail" style="width: 80px; height: 50px; object-fit: cover;">
+                        <img src="<?= asset_url($story['image']) ?>" alt="" class="table-thumbnail" style="width: 80px; height: 50px; object-fit: cover;">
                         <?php else: ?>
                         <div class="table-thumbnail" style="width: 80px; height: 50px; display: flex; align-items: center; justify-content: center; background: var(--card-bg);">
                             <i class="fas fa-image" style="color: var(--text-muted);"></i>

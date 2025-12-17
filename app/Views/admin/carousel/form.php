@@ -21,7 +21,7 @@
 </div>
 <?php endif; ?>
 
-<form action="<?= $isEdit ? '/admin/carousel/update/' . $slide['id'] : '/admin/carousel/create' ?>" method="POST" enctype="multipart/form-data" class="admin-form">
+<form action="<?= $isEdit ? site_url('admin/carousel/update/' . $slide['id']) : site_url('admin/carousel/create') ?>" method="POST" enctype="multipart/form-data" class="admin-form">
     <?= csrf_field() ?>
     
     <div class="admin-grid admin-grid-equal">
@@ -62,7 +62,7 @@
                 <?php if ($isEdit && $slide['image_url']): ?>
                 <div class="file-preview" style="margin-top: 16px;">
                     <div class="file-preview-item" style="width: 200px; height: 100px;">
-                        <img src="<?= esc($slide['image_url']) ?>" alt="Current image">
+                        <img src="<?= asset_url($slide['image_url']) ?>" alt="Current image">
                     </div>
                 </div>
                 <input type="hidden" name="image_url" value="<?= esc($slide['image_url']) ?>">

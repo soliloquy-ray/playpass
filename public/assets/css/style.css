@@ -1200,7 +1200,7 @@ tbody tr:hover {
 }
 
 /* Alternative brand button colors - can be customized per brand */
-.btn-brand.viu {
+/* .btn-brand.viu {
     background-color: #ffc107;
 }
 
@@ -1220,7 +1220,7 @@ tbody tr:hover {
 
 .btn-brand.cignalplay img {
     filter: brightness(0) invert(1);
-}
+} */
 
 .carousel-nav {
     display: flex;

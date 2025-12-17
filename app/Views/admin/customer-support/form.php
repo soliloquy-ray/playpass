@@ -21,7 +21,7 @@
 </div>
 <?php endif; ?>
 
-<form action="<?= $isEdit ? '/admin/customer-support/update/' . $channel['id'] : '/admin/customer-support/create' ?>" method="POST" class="admin-form" style="max-width: 700px;">
+<form action="<?= $isEdit ? site_url('admin/customer-support/update/' . $channel['id']) : site_url('admin/customer-support/create') ?>" method="POST" class="admin-form" style="max-width: 700px;">
     <?= csrf_field() ?>
     
     <div class="admin-card">

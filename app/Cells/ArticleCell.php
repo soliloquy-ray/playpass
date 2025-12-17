@@ -11,13 +11,13 @@ class ArticleCell
         $excerpt = strlen($content) > 100 ? substr($content, 0, 100) . '...' : $content;
 
         $data = [
-            'image'       => $article['image'] ?? '/assets/images/placeholder.jpg',
+            'image'       => $article['image'] ?? base_url('assets/images/placeholder.jpg'),
             'category'    => $article['category'] ?? 'General',
             'title'       => $article['title'],
             'excerpt'     => $excerpt,
             'author'      => $article['author'] ?? 'Playpass',
             'date'        => date('M d, Y', strtotime($article['created_at'])),
-            'readMoreUrl' => '/article/' . ($article['slug'] ?? $article['id']),
+            'readMoreUrl' => site_url('app/stories/' . ($article['slug'] ?? $article['id'])),
         ];
 
         return view('App\Cells\article_card', $data);

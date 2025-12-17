@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const order = items.map(item => item.dataset.id);
                 
                 // Determine endpoint based on list ID
-                let endpoint = '/admin/carousel/update-order';
+                let endpoint = baseUrl + 'admin/carousel/update-order';
                 if (list.id === 'stepsSortable') {
-                    endpoint = '/admin/how-it-works/update-order';
+                    endpoint = baseUrl + 'admin/how-it-works/update-order';
                 }
                 
                 fetch(endpoint, {

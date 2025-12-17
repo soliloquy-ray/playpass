@@ -9,7 +9,7 @@
                    style="text-decoration: none; color: inherit; display: block;">
                     <div class="story-card" style="background: #121212; border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s;">
                         <div style="position: relative; aspect-ratio: 16/9; background: #222;">
-                            <img src="<?= esc($story['image']) ?>" alt="<?= esc($story['title']) ?>" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                            <img src="<?= asset_url($story['image']) ?>" alt="<?= esc($story['title']) ?>" style="width: 100%; height: 100%; object-fit: cover; display: block;">
                             <?php if(isset($story['is_trailer']) && $story['is_trailer']): ?>
                                 <span style="position: absolute; bottom: 8px; left: 8px; background: #fbbf24; color: #000; padding: 3px 6px; font-size: 0.65rem; font-weight: 800; border-radius: 2px; text-transform: uppercase;">TRAILER</span>
                             <?php endif; ?>
@@ -43,7 +43,7 @@
         <?php endif; ?>
     </div>
 
-    <a href="/stories" style="display: block; width: 100%; background-color: #ff0055; color: white; text-align: center; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+    <a href="<?= site_url('app/stories') ?>" style="display: block; width: 100%; background-color: #ff0055; color: white; text-align: center; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
         Explore More
     </a>
 </section>

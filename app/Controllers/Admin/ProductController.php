@@ -93,7 +93,7 @@ class ProductController extends BaseController
 
         $this->productModel->insert($data);
 
-        return redirect()->to('/admin/products')->with('success', 'Product created successfully!');
+        return redirect()->to(site_url('admin/products'))->with('success', 'Product created successfully!');
     }
 
     /**
@@ -104,7 +104,7 @@ class ProductController extends BaseController
         $product = $this->productModel->find($id);
         
         if (!$product) {
-            return redirect()->to('/admin/products')->with('error', 'Product not found.');
+            return redirect()->to(site_url('admin/products'))->with('error', 'Product not found.');
         }
 
         $data = [
@@ -125,7 +125,7 @@ class ProductController extends BaseController
         $product = $this->productModel->find($id);
         
         if (!$product) {
-            return redirect()->to('/admin/products')->with('error', 'Product not found.');
+            return redirect()->to(site_url('admin/products'))->with('error', 'Product not found.');
         }
 
         $rules = [
@@ -167,7 +167,7 @@ class ProductController extends BaseController
 
         $this->productModel->update($id, $data);
 
-        return redirect()->to('/admin/products')->with('success', 'Product updated successfully!');
+        return redirect()->to(site_url('admin/products'))->with('success', 'Product updated successfully!');
     }
 
     /**
@@ -178,12 +178,12 @@ class ProductController extends BaseController
         $product = $this->productModel->find($id);
         
         if (!$product) {
-            return redirect()->to('/admin/products')->with('error', 'Product not found.');
+            return redirect()->to(site_url('admin/products'))->with('error', 'Product not found.');
         }
 
         $this->productModel->delete($id);
 
-        return redirect()->to('/admin/products')->with('success', 'Product deleted successfully!');
+        return redirect()->to(site_url('admin/products'))->with('success', 'Product deleted successfully!');
     }
 }
 

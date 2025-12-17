@@ -17,7 +17,7 @@ class AdminGuard implements FilterInterface
         $isAdminLoggedIn = session()->get('admin_logged_in');
         
         if (!$isAdminLoggedIn) {
-            return redirect()->to('/admin/login')->with('error', 'Please login to access admin area.');
+            return redirect()->to(site_url('admin/login'))->with('error', 'Please login to access admin area.');
         }
         
         // Get admin role from session
@@ -35,7 +35,7 @@ class AdminGuard implements FilterInterface
                 // Check if admin is still active
                 if ($admin['status'] !== 'active') {
                     session()->destroy();
-                    return redirect()->to('/admin/login')->with('error', 'Your admin account is not active.');
+                    return redirect()->to(site_url('admin/login'))->with('error', 'Your admin account is not active.');
                 }
             }
         }
@@ -45,7 +45,7 @@ class AdminGuard implements FilterInterface
             // Log this attempt for security audit
             log_message('warning', 'Unauthorized admin access attempt by Admin ID: ' . $adminId . ' (Role: ' . ($role ?? 'none') . ')');
             session()->destroy();
-            return redirect()->to('/admin/login')->with('error', 'You do not have permission to access the admin area.');
+            return redirect()->to(site_url('admin/login'))->with('error', 'You do not have permission to access the admin area.');
         }
         
         return null;

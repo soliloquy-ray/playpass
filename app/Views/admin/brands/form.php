@@ -21,7 +21,7 @@
 </div>
 <?php endif; ?>
 
-<form action="<?= $isEdit ? '/admin/brands/update/' . $brand['id'] : '/admin/brands/create' ?>" method="POST" enctype="multipart/form-data" class="admin-form" style="max-width: 600px;">
+<form action="<?= $isEdit ? site_url('admin/brands/update/' . $brand['id']) : site_url('admin/brands/create') ?>" method="POST" enctype="multipart/form-data" class="admin-form" style="max-width: 600px;">
     <?= csrf_field() ?>
     
     <div class="admin-card">
@@ -34,17 +34,15 @@
 
         <div class="form-group">
             <label class="form-label">Logo</label>
-            <div class="file-upload-wrapper">
-                <label class="file-upload-label">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <span>Click or drag to upload logo</span>
-                    <input type="file" name="logo" class="file-upload-input" accept="image/*">
-                </label>
+            <!-- Simple visible file input for better compatibility -->
+            <input type="file" name="logo" id="logo-file-input" accept="image/*" style="display: block; margin-bottom: 10px; color: #fff;">
+            <div id="file-selected" style="margin-top: 10px; color: #3b82f6; display: none;">
+                <small>File selected: <span id="file-name"></span></small>
             </div>
             <?php if ($isEdit && $brand['logo']): ?>
             <div class="file-preview" style="margin-top: 16px;">
                 <div class="file-preview-item" style="width: 80px; height: 80px;">
-                    <img src="<?= esc($brand['logo']) ?>" alt="Current logo">
+                    <img src="<?= asset_url($brand['logo']) ?>" alt="Current logo">
                 </div>
             </div>
             <input type="hidden" name="logo_url" value="<?= esc($brand['logo']) ?>">
@@ -72,6 +70,25 @@
         <a href="<?= site_url('admin/brands') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
     </div>
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('logo-file-input');
+    
+    if (fileInput) {
+        // Show file name when selected
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('file-name').textContent = file.name + ' (' + (file.size / 1024).toFixed(2) + ' KB)';
+                document.getElementById('file-selected').style.display = 'block';
+            } else {
+                document.getElementById('file-selected').style.display = 'none';
+            }
+        });
+    }
+});
+</script>
 
 <?= $this->endSection() ?>
 

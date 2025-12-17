@@ -71,7 +71,7 @@ class HowItWorksController extends BaseController
 
         $this->model->insert($data);
 
-        return redirect()->to('/admin/how-it-works')->with('success', 'Step created successfully!');
+        return redirect()->to(site_url('admin/how-it-works'))->with('success', 'Step created successfully!');
     }
 
     /**
@@ -82,7 +82,7 @@ class HowItWorksController extends BaseController
         $step = $this->model->find($id);
         
         if (!$step) {
-            return redirect()->to('/admin/how-it-works')->with('error', 'Step not found.');
+            return redirect()->to(site_url('admin/how-it-works'))->with('error', 'Step not found.');
         }
 
         $data = [
@@ -102,7 +102,7 @@ class HowItWorksController extends BaseController
         $step = $this->model->find($id);
         
         if (!$step) {
-            return redirect()->to('/admin/how-it-works')->with('error', 'Step not found.');
+            return redirect()->to(site_url('admin/how-it-works'))->with('error', 'Step not found.');
         }
 
         $rules = [
@@ -124,7 +124,7 @@ class HowItWorksController extends BaseController
 
         $this->model->update($id, $data);
 
-        return redirect()->to('/admin/how-it-works')->with('success', 'Step updated successfully!');
+        return redirect()->to(site_url('admin/how-it-works'))->with('success', 'Step updated successfully!');
     }
 
     /**
@@ -135,12 +135,12 @@ class HowItWorksController extends BaseController
         $step = $this->model->find($id);
         
         if (!$step) {
-            return redirect()->to('/admin/how-it-works')->with('error', 'Step not found.');
+            return redirect()->to(site_url('admin/how-it-works'))->with('error', 'Step not found.');
         }
 
         $this->model->delete($id);
 
-        return redirect()->to('/admin/how-it-works')->with('success', 'Step deleted successfully!');
+        return redirect()->to(site_url('admin/how-it-works'))->with('success', 'Step deleted successfully!');
     }
 
     /**

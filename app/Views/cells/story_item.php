@@ -1,7 +1,7 @@
 <a href="<?= site_url('app/stories/' . esc($story['slug'] ?? $story['id'])) ?>" class="story-card-link">
     <div class="story-card fade-in">
         <div class="story-image-wrapper">
-            <img src="<?= esc($story['image'] ?? '/assets/images/placeholder.jpg') ?>" alt="<?= esc($story['title'] ?? 'Story') ?>" loading="lazy">
+            <img src="<?= asset_url($story['image'] ?? 'assets/images/placeholder.jpg') ?>" alt="<?= esc($story['title'] ?? 'Story') ?>" loading="lazy">
             
             <?php if(isset($story['is_trailer']) && $story['is_trailer']): ?>
                 <span class="trailer-badge">TRAILER</span>

@@ -1,7 +1,7 @@
 <div class="product-card">
     <div class="product-image">
         <?php if ($image): ?>
-            <img src="<?= esc($image) ?>" alt="<?= esc($product['name']) ?>">
+            <img src="<?= asset_url($image) ?>" alt="<?= esc($product['name']) ?>">
         <?php else: ?>
             <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem;">
                 No Image

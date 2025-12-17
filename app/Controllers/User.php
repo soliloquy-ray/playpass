@@ -24,7 +24,7 @@ class User extends BaseController
     public function index(): string|RedirectResponse
     {
         if (! session()->get('logged_in')) {
-            return redirect()->to('/app/login');
+            return redirect()->to(site_url('app/login'));
         }
 
         $userModel = new UserModel();
@@ -36,7 +36,7 @@ class User extends BaseController
         $user   = $userModel->find($userId);
 
         if (!$user) {
-            return redirect()->to('/app/login')->with('errors', ['User not found.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['User not found.']);
         }
 
         // Get filter parameters
@@ -170,7 +170,7 @@ class User extends BaseController
     public function editProfile(): string|RedirectResponse
     {
         if (! session()->get('logged_in')) {
-            return redirect()->to('/app/login');
+            return redirect()->to(site_url('app/login'));
         }
 
         $userModel = new UserModel();
@@ -178,7 +178,7 @@ class User extends BaseController
         $user = $userModel->find($userId);
 
         if (!$user) {
-            return redirect()->to('/app/login')->with('errors', ['User not found.']);
+            return redirect()->to(site_url('app/login'))->with('errors', ['User not found.']);
         }
 
         return view('user/edit_profile', ['user' => $user]);
@@ -190,7 +190,7 @@ class User extends BaseController
     public function updateProfile(): RedirectResponse
     {
         if (! session()->get('logged_in')) {
-            return redirect()->to('/app/login');
+            return redirect()->to(site_url('app/login'));
         }
 
         $userModel = new UserModel();
@@ -232,7 +232,7 @@ class User extends BaseController
             session()->set('name', $name);
         }
 
-        return redirect()->to('/app/account')->with('success', 'Profile updated successfully!');
+        return redirect()->to(site_url('app/account'))->with('success', 'Profile updated successfully!');
     }
 
     /**
@@ -241,11 +241,11 @@ class User extends BaseController
     public function useVoucher($campaignId): RedirectResponse
     {
         if (! session()->get('logged_in')) {
-            return redirect()->to('/app/login');
+            return redirect()->to(site_url('app/login'));
         }
 
         // For now, just redirect to buy-now page
         // In future, could pre-fill voucher code in checkout
-        return redirect()->to('/app/buy-now')->with('voucher_campaign_id', $campaignId);
+        return redirect()->to(site_url('app/buy-now'))->with('voucher_campaign_id', $campaignId);
     }
 }

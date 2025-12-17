@@ -25,7 +25,7 @@
                         ?>
                         <p><?= esc($description) ?></p>
                     </div>
-                    <a href="/app/account/voucher/use/<?= $voucher['id'] ?>" class="btn-use-voucher">Use Voucher</a>
+                    <a href="<?= site_url('app/account/voucher/use/' . $voucher['id']) ?>" class="btn-use-voucher">Use Voucher</a>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>

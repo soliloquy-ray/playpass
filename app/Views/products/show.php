@@ -8,7 +8,7 @@
         <div>
             <div style="background-color: var(--card-bg); border-radius: 12px; overflow: hidden; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <?php if (! empty($product['thumbnail_url'])): ?>
-                    <img src="<?= esc($product['thumbnail_url']) ?>" alt="<?= esc($product['name']) ?>" 
+                    <img src="<?= asset_url($product['thumbnail_url']) ?>" alt="<?= esc($product['name']) ?>" 
                          style="width: 100%; height: 100%; object-fit: cover;">
                 <?php else: ?>
                     <div style="color: var(--text-muted); text-align: center;">
@@ -76,7 +76,7 @@
 
             <!-- Actions -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-                <button class="btn btn-primary btn-large" onclick="window.location.href='/checkout?product=<?= esc($product['id']) ?>'">
+                <button class="btn btn-primary btn-large" onclick="window.location.href='<?= site_url('app/checkout?product=' . esc($product['id'])) ?>'">
                     Buy Now
                 </button>
                 <button class="btn btn-secondary btn-large" onclick="alert('Added to wishlist')">

@@ -12,7 +12,7 @@ class ProductShowcaseCell
         $defaultData = [
             'title' => 'Trending Products',
             'products' => [],
-            'view_all_url' => '/products'
+            'view_all_url' => site_url('app/buy-now')
         ];
 
         $data = array_merge($defaultData, $data);

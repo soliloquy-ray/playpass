@@ -5,7 +5,7 @@
         <?php foreach ($channels as $channel): ?>
             <div class="payment-card" onclick="selectPayment(this, '<?= $channel['code'] ?>')">
                 <?php if(!empty($channel['logo'])): ?>
-                    <img src="<?= $channel['logo'] ?>" class="payment-logo" alt="<?= $channel['name'] ?>">
+                    <img src="<?= asset_url($channel['logo']) ?>" class="payment-logo" alt="<?= esc($channel['name']) ?>">
                 <?php else: ?>
                     <div style="width:32px; height:32px; background:#333; border-radius:6px; display:flex; align-items:center; justify-content:center;">
                         <i class="fa fa-credit-card" style="color:#aaa;"></i>

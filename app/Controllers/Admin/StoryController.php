@@ -79,7 +79,7 @@ class StoryController extends BaseController
 
         $this->storyModel->insert($data);
 
-        return redirect()->to('/admin/stories')->with('success', 'Story created successfully!');
+        return redirect()->to(site_url('admin/stories'))->with('success', 'Story created successfully!');
     }
 
     /**
@@ -90,7 +90,7 @@ class StoryController extends BaseController
         $story = $this->storyModel->find($id);
         
         if (!$story) {
-            return redirect()->to('/admin/stories')->with('error', 'Story not found.');
+            return redirect()->to(site_url('admin/stories'))->with('error', 'Story not found.');
         }
 
         $data = [
@@ -111,7 +111,7 @@ class StoryController extends BaseController
         $story = $this->storyModel->find($id);
         
         if (!$story) {
-            return redirect()->to('/admin/stories')->with('error', 'Story not found.');
+            return redirect()->to(site_url('admin/stories'))->with('error', 'Story not found.');
         }
 
         $rules = [
@@ -150,7 +150,7 @@ class StoryController extends BaseController
 
         $this->storyModel->update($id, $data);
 
-        return redirect()->to('/admin/stories')->with('success', 'Story updated successfully!');
+        return redirect()->to(site_url('admin/stories'))->with('success', 'Story updated successfully!');
     }
 
     /**
@@ -161,12 +161,12 @@ class StoryController extends BaseController
         $story = $this->storyModel->find($id);
         
         if (!$story) {
-            return redirect()->to('/admin/stories')->with('error', 'Story not found.');
+            return redirect()->to(site_url('admin/stories'))->with('error', 'Story not found.');
         }
 
         $this->storyModel->delete($id);
 
-        return redirect()->to('/admin/stories')->with('success', 'Story deleted successfully!');
+        return redirect()->to(site_url('admin/stories'))->with('success', 'Story deleted successfully!');
     }
 }
 

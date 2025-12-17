@@ -18,7 +18,7 @@
         <div style="background: rgba(26, 26, 38, 0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; display: flex; align-items: center; gap: 16px;">
             <div style="width: 60px; height: 60px; border-radius: 12px; overflow: hidden; flex-shrink: 0; background: var(--card-bg); display: flex; align-items: center; justify-content: center;">
                 <?php if ($brand['logo']): ?>
-                <img src="<?= esc($brand['logo']) ?>" alt="<?= esc($brand['name']) ?>" style="width: 100%; height: 100%; object-fit: contain;">
+                <img src="<?= asset_url($brand['logo']) ?>" alt="<?= esc($brand['name']) ?>" style="width: 100%; height: 100%; object-fit: contain;">
                 <?php else: ?>
                 <i class="fas fa-tag" style="font-size: 1.5rem; color: var(--text-muted);"></i>
                 <?php endif; ?>

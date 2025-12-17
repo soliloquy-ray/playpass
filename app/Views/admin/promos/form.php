@@ -21,7 +21,7 @@
 </div>
 <?php endif; ?>
 
-<form action="<?= $isEdit ? '/admin/promos/update/' . $promo['id'] : '/admin/promos/create' ?>" method="POST" enctype="multipart/form-data" class="admin-form" style="max-width: 700px;">
+<form action="<?= $isEdit ? site_url('admin/promos/update/' . $promo['id']) : site_url('admin/promos/create') ?>" method="POST" enctype="multipart/form-data" class="admin-form" style="max-width: 700px;">
     <?= csrf_field() ?>
     
     <div class="admin-card">
@@ -47,7 +47,7 @@
             <?php if ($isEdit && $promo['icon']): ?>
             <div class="file-preview" style="margin-top: 16px;">
                 <div class="file-preview-item" style="width: 60px; height: 60px;">
-                    <img src="<?= esc($promo['icon']) ?>" alt="Current icon">
+                    <img src="<?= asset_url($promo['icon']) ?>" alt="Current icon">
                 </div>
             </div>
             <input type="hidden" name="icon_url" value="<?= esc($promo['icon']) ?>">
