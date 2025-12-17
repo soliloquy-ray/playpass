@@ -179,10 +179,10 @@
     <!-- Submit Buttons -->
     <div class="form-actions-sticky">
         <div class="form-actions-inner">
-            <button type="submit" class="btn-admin btn-admin-primary">
-                <i class="fas fa-save"></i> <?= $isEdit ? 'Update Campaign' : 'Create Campaign' ?>
-            </button>
-            <a href="<?= site_url('admin/vouchers') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
+        <button type="submit" class="btn-admin btn-admin-primary">
+            <i class="fas fa-save"></i> <?= $isEdit ? 'Update Campaign' : 'Create Campaign' ?>
+        </button>
+        <a href="<?= site_url('admin/vouchers') ?>" class="btn-admin btn-admin-secondary">Cancel</a>
         </div>
     </div>
 </form>

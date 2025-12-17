@@ -2420,9 +2420,10 @@ header {
     padding: 12px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
+    min-height: 60px;
 }
 
 .payment-card:hover, .payment-card.selected {
@@ -2430,16 +2431,11 @@ header {
 }
 
 .payment-logo {
-    width: 32px;
-    height: 32px;
+    width: 100%;
+    height: auto;
     border-radius: 6px;
-    object-fit: cover;
-}
-
-.payment-name {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #e0e0e0;
+    object-fit: contain;
+    display: block;
 }
 
 /* --- How To Redeem Component --- */

@@ -27,13 +27,13 @@ class ProductController extends BaseController
                                  ->orderBy('price', 'ASC')
                                  ->findAll();
 
-        // 3. Define Payment Channels (Hardcoded for now, or fetch from DB if you have a model)
+        // 3. Define Payment Channels (Fixed - logos are in buylogos folder)
         $paymentChannels = [
-            ['code' => 'gcash', 'name' => 'GCash', 'logo' => base_url('assets/payment/gcash.png')],
-            ['code' => 'maya', 'name' => 'Maya', 'logo' => base_url('assets/payment/maya.png')],
-            ['code' => 'dragon', 'name' => 'DragonPay', 'logo' => base_url('assets/payment/dragonpay.png')],
-            ['code' => '7eleven', 'name' => '7 Eleven', 'logo' => base_url('assets/payment/7eleven.png')],
-            ['code' => 'cat', 'name' => 'Coming Soon', 'logo' => base_url('assets/payment/cat.png')],
+            ['code' => 'gcash', 'name' => 'GCash', 'logo' => base_url('buylogos/Gcash.png')],
+            ['code' => 'maya', 'name' => 'Maya', 'logo' => base_url('buylogos/Maya.png')],
+            ['code' => 'dragon', 'name' => 'DragonPay', 'logo' => base_url('buylogos/DragonPay.png')],
+            ['code' => '7eleven', 'name' => '7 Eleven', 'logo' => base_url('buylogos/711.png')],
+            ['code' => 'cat', 'name' => 'Coming Soon', 'logo' => base_url('buylogos/Soon.png')],
         ];
 
         // 4. Prepare Data for the View
