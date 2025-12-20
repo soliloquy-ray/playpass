@@ -22,7 +22,7 @@
             <h3 style="margin-top: 0;">Order Summary</h3>
             
             <div style="background-color: var(--secondary); border-radius: 8px; padding: 15px; margin-bottom: 20px; text-align: center;">
-                <img src="/images/products/<?= esc($product['image'] ?? 'default.png') ?>" 
+                <img src="<?= asset_url($product['thumbnail_url'] ?? 'assets/images/placeholder.jpg') ?>" 
                      alt="Product" style="width: 100%; height: 200px; object-fit: cover; border-radius: 6px; margin-bottom: 15px;">
                 <h4 style="margin: 0 0 5px 0;"><?= esc($product['name']) ?></h4>
                 <p style="color: var(--text-muted); margin: 0;"><?= esc($product['description'] ?? '') ?></p>

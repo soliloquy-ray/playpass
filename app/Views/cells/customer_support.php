@@ -4,7 +4,7 @@
 
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
         <?php foreach ($supports as $support): ?>
-            <a href="<?= $support['link'] ?? '#' ?>" class="support-btn" style="
+            <a href="<?= link_url($support['link'] ?? '#') ?>" class="support-btn" style="
                 border: 1px solid #ff0055;
                 border-radius: 8px;
                 padding: 15px 5px;

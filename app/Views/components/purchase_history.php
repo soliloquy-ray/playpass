@@ -63,9 +63,74 @@
                     <p class="transaction-description">
                         <?= esc($transaction['description'] ?? 'Transaction') ?>
                     </p>
+                    <?php if (isset($transaction['payment_status']) || isset($transaction['fulfillment_status'])): ?>
+                    <div class="transaction-status">
+                        <?php if (!empty($transaction['payment_status'])): ?>
+                            <?php
+                            $paymentClasses = [
+                                'paid' => 'status-success',
+                                'pending' => 'status-pending',
+                                'failed' => 'status-failed',
+                            ];
+                            $paymentClass = $paymentClasses[$transaction['payment_status']] ?? 'status-neutral';
+                            ?>
+                            <span class="status-badge <?= $paymentClass ?>">
+                                <i class="fas fa-credit-card"></i> <?= ucfirst($transaction['payment_status']) ?>
+                            </span>
+                        <?php endif; ?>
+                        <?php if (!empty($transaction['fulfillment_status'])): ?>
+                            <?php
+                            $fulfillmentClasses = [
+                                'sent' => 'status-success',
+                                'processing' => 'status-pending',
+                                'pending' => 'status-pending',
+                                'failed' => 'status-failed',
+                            ];
+                            $fulfillmentClass = $fulfillmentClasses[$transaction['fulfillment_status']] ?? 'status-neutral';
+                            ?>
+                            <span class="status-badge <?= $fulfillmentClass ?>">
+                                <i class="fas fa-truck"></i> <?= ucfirst($transaction['fulfillment_status']) ?>
+                            </span>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
 </div>
 
+<style>
+.transaction-status {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.status-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+}
+.status-pending {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+}
+.status-failed {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+.status-neutral {
+    background: rgba(156, 163, 175, 0.15);
+    color: #9ca3af;
+}
+</style>

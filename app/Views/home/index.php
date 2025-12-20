@@ -14,7 +14,7 @@
                 <p><?= esc($slide['subtitle']) ?></p>
                 <?php endif; ?>
                 <?php if (!empty($slide['cta_text']) && !empty($slide['cta_link'])): ?>
-                <a href="<?= esc($slide['cta_link']) ?>" class="btn btn-primary"><?= esc($slide['cta_text']) ?></a>
+                <a href="<?= link_url($slide['cta_link']) ?>" class="btn btn-primary"><?= esc($slide['cta_text']) ?></a>
                 <?php endif; ?>
             </div>
             <div class="carousel-image">

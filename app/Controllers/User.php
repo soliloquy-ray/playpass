@@ -53,11 +53,13 @@ class User extends BaseController
             $points = $user['current_points_balance'] ?? 0;
         }
 
-        // Fetch available vouchers
-        $availableCampaigns = $voucherCampaignModel->getAvailableVouchers();
+        // Fetch available universal vouchers (only show public/universal codes, not user-specific ones)
+        $availableCampaigns = $voucherCampaignModel->getUniversalVouchersWithCodes();
         $vouchers = [];
         foreach ($availableCampaigns as $campaign) {
-            $vouchers[] = $voucherCampaignModel->formatVoucherForDisplay($campaign);
+            $formatted = $voucherCampaignModel->formatVoucherForDisplay($campaign);
+            $formatted['code'] = $campaign['code'] ?? ''; // Include the actual voucher code
+            $vouchers[] = $formatted;
         }
 
         // Fetch transactions - combine orders and point ledger entries
@@ -83,6 +85,8 @@ class User extends BaseController
                     'amount' => $order['grand_total'],
                     'type' => 'transaction',
                     'description' => 'Order #' . $order['id'] . ' - Purchase total: PHP ' . number_format($order['grand_total'], 2),
+                    'payment_status' => $order['payment_status'] ?? null,
+                    'fulfillment_status' => $order['fulfillment_status'] ?? null,
                 ];
             }
         }

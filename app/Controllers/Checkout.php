@@ -114,17 +114,32 @@ class Checkout extends BaseController
 
         $productIds = $this->cartService->getProductIds();
         
+        // Check if voucher is already applied (prevent stacking same voucher)
+        $appliedVouchers = session()->get('applied_vouchers') ?? [];
+        foreach ($appliedVouchers as $applied) {
+            if (strtoupper($applied['code']) === strtoupper($voucherCode)) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'This voucher is already applied.'
+                ]);
+            }
+        }
+        
         $result = $this->voucherEngine->applyVoucher(
             $voucherCode,
             $cart['subtotal'],
             $productIds,
             $userId,
-            [] // Existing vouchers
+            $appliedVouchers // Pass existing vouchers to check stacking rules
         );
 
         if ($result['success']) {
-            // Store applied voucher in session
-            $appliedVouchers = session()->get('applied_vouchers') ?? [];
+            // For non-stackable vouchers, replace any existing. Otherwise add.
+            if (!($result['voucher_data']['is_stackable'] ?? false)) {
+                // Replace all vouchers with this one
+                $appliedVouchers = [];
+            }
+            
             $appliedVouchers[] = [
                 'code' => $voucherCode,
                 'voucher_data' => $result['voucher_data'],
@@ -269,7 +284,11 @@ class Checkout extends BaseController
         // 4. Generate UUID for Maya (Idempotency Key)
         $requestId = $this->generateUuidV4();
 
-        // 5. Create Local Order (Status: PENDING)
+        // 5. Start database transaction - order only committed on payment success
+        $db = \Config\Database::connect();
+        $db->transStart();
+
+        // 6. Create Local Order (Status: PENDING)
         $orderData = [
             'user_id' => $userId,
             'subtotal' => $subtotal,
@@ -290,11 +309,11 @@ class Checkout extends BaseController
         $orderId = $this->orderModel->insert($orderData);
 
         if (!$orderId) {
+            $db->transRollback();
             return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to initialize order.']);
         }
 
-        // 6. Create order items with points snapshot
-        $db = \Config\Database::connect();
+        // 7. Create order items with points snapshot
         $orderItemsForPoints = []; // Store for points calculation
         foreach ($cart['items'] as $item) {
             $product = $this->productModel->find($item['product_id']);
@@ -317,7 +336,7 @@ class Checkout extends BaseController
             ];
         }
 
-        // 7. Record applied vouchers
+        // 8. Record applied vouchers
         foreach ($voucherCodeIds as $voucherCodeId) {
             $db->table('order_applied_vouchers')->insert([
                 'order_id' => $orderId,
@@ -381,6 +400,9 @@ class Checkout extends BaseController
                 session()->remove('applied_vouchers');
                 session()->remove('redeemed_points');
 
+                // Commit the transaction
+                $db->transComplete();
+
                 return $this->response->setJSON([
                     'status' => 'success',
                     'message' => 'Order complete!',
@@ -412,6 +434,9 @@ class Checkout extends BaseController
                 $this->cartService->clearCart();
                 session()->remove('applied_vouchers');
                 session()->remove('redeemed_points');
+
+                // Commit the transaction
+                $db->transComplete();
                 
                 return $this->response->setJSON([
                     'status' => 'pending',
@@ -422,11 +447,12 @@ class Checkout extends BaseController
 
         } else {
             // Scenario C: Failure (StockUnavailable, etc.)
-            // [cite: 188] Error codes like 'StockUnavailable' or 'Insufficient Funds'
-            $this->orderModel->update($orderId, [
-                'payment_status' => 'failed',
-                'fulfillment_status' => 'failed'
-            ]);
+            // Rollback the transaction - don't create failed orders in DB
+            $db->transRollback();
+
+            // Clear session data so user can retry with same vouchers
+            session()->remove('applied_vouchers');
+            session()->remove('redeemed_points');
 
             return $this->response->setJSON([
                 'status' => 'error', 

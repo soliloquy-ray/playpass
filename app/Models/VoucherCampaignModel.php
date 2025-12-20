@@ -43,6 +43,29 @@ class VoucherCampaignModel extends Model
                     ->orderBy('created_at', 'DESC')
                     ->findAll();
     }
+
+    /**
+     * Get universal voucher campaigns with their codes for public display
+     * Only returns 'universal' type vouchers that can be shared publicly
+     * 
+     * @return array
+     */
+    public function getUniversalVouchersWithCodes(): array
+    {
+        $now = date('Y-m-d H:i:s');
+        
+        $db = \Config\Database::connect();
+        $builder = $db->table('voucher_campaigns');
+        $builder->select('voucher_campaigns.*, MIN(voucher_codes.code) as code');
+        $builder->join('voucher_codes', 'voucher_codes.campaign_id = voucher_campaigns.id', 'left');
+        $builder->where('voucher_campaigns.code_type', 'universal');
+        $builder->where('voucher_campaigns.start_date <=', $now);
+        $builder->where('voucher_campaigns.end_date >=', $now);
+        $builder->groupBy('voucher_campaigns.id');
+        $builder->orderBy('voucher_campaigns.created_at', 'DESC');
+        
+        return $builder->get()->getResultArray();
+    }
     
     /**
      * Get products applicable to this campaign

@@ -43,14 +43,30 @@
                 <span class="cart-badge" style="display: none; position: absolute; top: -8px; right: -8px; background: #d8369f; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center;">0</span>
             </button>
             
-            <div class="gold-star-icon">
-                <img src="<?= base_url('assets/star-icon.png') ?>" alt="Rw" style="height: 28px;">
-            </div>
-
-            <?php if (session()->get('logged_in')): ?>
-                <a href="<?= site_url('app/logout') ?>" class="btn-signin">Sign Out</a>
+            <?php if (session()->get('logged_in') && !empty($user)): ?>
+            <!-- User Avatar (only shown when logged in) -->
+            <a href="<?= site_url('app/account') ?>" class="user-avatar-link" style="display: flex; align-items: center; text-decoration: none;">
+                <?php if (!empty($user['avatar_url'])): ?>
+                    <img src="<?= esc($user['avatar_url']) ?>" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #d8369f;">
+                <?php else: ?>
+                    <?php 
+                        // Generate initials from user name
+                        $firstName = $user['first_name'] ?? '';
+                        $lastName = $user['last_name'] ?? '';
+                        $initials = strtoupper(substr($firstName, 0, 1) . substr($lastName, 0, 1));
+                        if (empty($initials)) {
+                            $initials = strtoupper(substr($user['email'] ?? 'U', 0, 1));
+                        }
+                    ?>
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #d8369f, #051429); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 700; border: 2px solid #d8369f;">
+                        <?= esc($initials) ?>
+                    </div>
+                <?php endif; ?>
+            </a>
+            
+            <a href="<?= site_url('app/logout') ?>" class="btn-signin">Sign Out</a>
             <?php else: ?>
-                <a href="<?= site_url('app/login') ?>" class="btn-signin">Sign In</a>
+            <a href="<?= site_url('app/login') ?>" class="btn-signin">Sign In</a>
             <?php endif; ?>
         </div>
     </div>
