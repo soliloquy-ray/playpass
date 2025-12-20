@@ -101,11 +101,15 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.8);
-    display: flex;
+    display: none; /* Hidden by default */
     align-items: center;
     justify-content: center;
     z-index: 10000;
     padding: 20px;
+}
+
+.modal.active {
+    display: flex; /* Show when active class is added */
 }
 
 .modal-content {

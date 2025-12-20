@@ -9,6 +9,8 @@ use App\Models\UserModel;
 use App\Libraries\MayaService;
 use App\Libraries\VoucherEngine;
 use App\Libraries\CartService;
+use App\Libraries\PointsService;
+use App\Libraries\FirstPurchaseService;
 
 class Checkout extends BaseController
 {
@@ -18,6 +20,8 @@ class Checkout extends BaseController
     protected $productModel;
     protected $cartService;
     protected $userModel;
+    protected $pointsService;
+    protected $firstPurchaseService;
 
     public function __construct()
     {
@@ -27,6 +31,8 @@ class Checkout extends BaseController
         $this->productModel = new ProductModel();
         $this->cartService = new CartService();
         $this->userModel = new UserModel();
+        $this->pointsService = new PointsService();
+        $this->firstPurchaseService = new FirstPurchaseService();
     }
 
     /**
@@ -52,12 +58,25 @@ class Checkout extends BaseController
         // Points to peso conversion (100 points = 1 peso)
         $pointsToPesoRatio = 100;
 
+        // Check for first purchase promo eligibility
+        $firstPurchasePromo = null;
+        $productIds = $this->cartService->getProductIds();
+        $fpResult = $this->firstPurchaseService->calculateDiscount($userId, $cart['subtotal'], $productIds);
+        if ($fpResult['applicable']) {
+            $firstPurchasePromo = [
+                'label' => $fpResult['label'],
+                'discount' => $fpResult['discount'],
+                'message' => $fpResult['message'],
+            ];
+        }
+
         return $this->response->setJSON([
             'success' => true,
             'cart' => $cart,
             'points' => $points,
             'points_to_peso_ratio' => $pointsToPesoRatio,
             'user_email' => $user['email'] ?? null,
+            'first_purchase_promo' => $firstPurchasePromo,
         ]);
     }
 
@@ -143,9 +162,6 @@ class Checkout extends BaseController
             ]);
         }
 
-        $user = $this->userModel->find($userId);
-        $availablePoints = $user['current_points_balance'] ?? 0;
-
         if ($pointsToRedeem <= 0) {
             session()->remove('redeemed_points');
             return $this->response->setJSON([
@@ -155,18 +171,20 @@ class Checkout extends BaseController
             ]);
         }
 
-        if ($pointsToRedeem > $availablePoints) {
+        // Validate using PointsService (checks non-expired balance)
+        $validation = $this->pointsService->validateRedemption($userId, $pointsToRedeem);
+        
+        if (!$validation['valid']) {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => 'Insufficient points. You have ' . $availablePoints . ' points available.'
+                'message' => $validation['message']
             ]);
         }
 
-        // Points to peso conversion (100 points = 1 peso)
-        $pointsToPesoRatio = 100;
-        $pesoValue = round($pointsToRedeem / $pointsToPesoRatio, 2);
+        // Calculate peso value
+        $pesoValue = $this->pointsService->pointsToPesos($pointsToRedeem);
 
-        // Store in session
+        // Store in session (actual deduction happens at payment success)
         session()->set('redeemed_points', [
             'points' => $pointsToRedeem,
             'peso_value' => $pesoValue,
@@ -234,10 +252,19 @@ class Checkout extends BaseController
         // Calculate points value
         if ($redeemedPoints) {
             $pointsValue = $redeemedPoints['peso_value'];
-            }
+        }
 
-        // Calculate grand total
-        $grandTotal = max(0, $subtotal - $voucherDiscount - $pointsValue);
+        // Calculate first purchase discount
+        $firstPurchaseDiscount = 0;
+        $productIds = $this->cartService->getProductIds();
+        $fpResult = $this->firstPurchaseService->calculateDiscount($userId, $subtotal, $productIds);
+        if ($fpResult['applicable']) {
+            $firstPurchaseDiscount = $fpResult['discount'];
+        }
+
+        // Calculate grand total (include first purchase discount)
+        $totalDiscount = $voucherDiscount + $pointsValue + $firstPurchaseDiscount;
+        $grandTotal = max(0, $subtotal - $totalDiscount);
 
         // 4. Generate UUID for Maya (Idempotency Key)
         $requestId = $this->generateUuidV4();
@@ -246,7 +273,7 @@ class Checkout extends BaseController
         $orderData = [
             'user_id' => $userId,
             'subtotal' => $subtotal,
-            'discount_total' => $voucherDiscount,
+            'discount_total' => $voucherDiscount + $firstPurchaseDiscount,
             'points_redeemed_value' => $pointsValue,
             'grand_total' => $grandTotal,
             'payment_status' => 'pending',
@@ -266,16 +293,28 @@ class Checkout extends BaseController
             return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to initialize order.']);
         }
 
-        // 6. Create order items
+        // 6. Create order items with points snapshot
         $db = \Config\Database::connect();
+        $orderItemsForPoints = []; // Store for points calculation
         foreach ($cart['items'] as $item) {
+            $product = $this->productModel->find($item['product_id']);
+            $pointsAtPurchase = (int)($product['points_to_earn'] ?? 0);
+            
             $db->table('order_items')->insert([
                 'order_id' => $orderId,
                 'product_id' => $item['product_id'],
                 'quantity' => $item['quantity'],
                 'price_at_purchase' => $item['price'],
                 'total' => $item['line_total'],
+                'points_earned_at_purchase' => $pointsAtPurchase,
             ]);
+            
+            // Keep track for points calculation
+            $orderItemsForPoints[] = [
+                'product_id' => $item['product_id'],
+                'quantity' => $item['quantity'],
+                'points_earned_at_purchase' => $pointsAtPurchase,
+            ];
         }
 
         // 7. Record applied vouchers
@@ -326,6 +365,17 @@ class Checkout extends BaseController
                     // Store the PIN code securely. For V1, assume we save it in a secure log or send via email.
                 ]);
 
+                // Award points for successful purchase (Pitfall #1, #4 prevention)
+                $pointsAwarded = $this->pointsService->awardPointsForOrder($userId, $orderId, $orderItemsForPoints);
+                
+                // Deduct redeemed points (Pitfall #6 prevention - only after success)
+                if ($redeemedPoints && $redeemedPoints['points'] > 0) {
+                    $this->pointsService->redeemPointsForOrder($userId, $redeemedPoints['points'], $orderId);
+                }
+
+                // Mark first purchase complete (Pitfall #2 prevention - only after success)
+                $this->firstPurchaseService->markFirstPurchaseComplete($userId);
+
                 // Clear cart and session data
                 $this->cartService->clearCart();
                 session()->remove('applied_vouchers');
@@ -334,7 +384,8 @@ class Checkout extends BaseController
                 return $this->response->setJSON([
                     'status' => 'success',
                     'message' => 'Order complete!',
-                    'pin_code' => $data['code'] // Display to user
+                    'pin_code' => $data['code'], // Display to user
+                    'points_earned' => $pointsAwarded,
                 ]);
             } 
             
@@ -345,9 +396,27 @@ class Checkout extends BaseController
                     'payment_status' => 'paid', // They paid, but no PIN yet
                     'fulfillment_status' => 'processing'
                 ]);
+                
+                // Award points for async success too
+                $pointsAwarded = $this->pointsService->awardPointsForOrder($userId, $orderId, $orderItemsForPoints);
+                
+                // Deduct redeemed points
+                if ($redeemedPoints && $redeemedPoints['points'] > 0) {
+                    $this->pointsService->redeemPointsForOrder($userId, $redeemedPoints['points'], $orderId);
+                }
+
+                // Mark first purchase complete (async success)
+                $this->firstPurchaseService->markFirstPurchaseComplete($userId);
+                
+                // Clear session data
+                $this->cartService->clearCart();
+                session()->remove('applied_vouchers');
+                session()->remove('redeemed_points');
+                
                 return $this->response->setJSON([
                     'status' => 'pending',
-                    'message' => 'Your order is being processed. Please wait.'
+                    'message' => 'Your order is being processed. Please wait.',
+                    'points_earned' => $pointsAwarded,
                 ]);
             }
 

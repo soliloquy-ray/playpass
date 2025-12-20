@@ -16,7 +16,8 @@ class UserModel extends Model
         'uuid', 'email', 'phone', 'password_hash', 'google_id', 'facebook_id', 
         'avatar_url', 'role', 'status', 'email_verified_at', 'phone_verified_at', 
         'last_login_at', 'last_activity_at', 'first_name', 'last_name', 'interests',
-        'email_verification_token', 'email_verification_expires_at'
+        'email_verification_token', 'email_verification_expires_at',
+        'current_points_balance', 'has_completed_first_purchase'
     ];
 
     // Dates

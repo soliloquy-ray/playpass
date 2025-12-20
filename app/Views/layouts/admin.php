@@ -93,6 +93,10 @@
                     <i class="fas fa-ticket-alt"></i>
                     <span>Vouchers</span>
                 </a>
+                <a href="<?= site_url('admin/first-purchase-promos') ?>" class="nav-link <?= strpos(uri_string(), 'admin/first-purchase-promos') === 0 ? 'active' : '' ?>">
+                    <i class="fas fa-gift"></i>
+                    <span>First Purchase</span>
+                </a>
             </div>
 
             <div class="nav-section">

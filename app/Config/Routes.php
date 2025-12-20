@@ -171,6 +171,15 @@ $routes->group('admin', ['filter' => 'AdminGuard', 'namespace' => 'App\Controlle
     $routes->get('vouchers/codes/(:num)', 'VoucherController::codes/$1');
     $routes->post('vouchers/generate-codes/(:num)', 'VoucherController::generateCodes/$1');
     
+    // First Purchase Promos
+    $routes->get('first-purchase-promos', 'FirstPurchasePromoController::index');
+    $routes->get('first-purchase-promos/new', 'FirstPurchasePromoController::new');
+    $routes->post('first-purchase-promos/create', 'FirstPurchasePromoController::create');
+    $routes->get('first-purchase-promos/edit/(:num)', 'FirstPurchasePromoController::edit/$1');
+    $routes->post('first-purchase-promos/update/(:num)', 'FirstPurchasePromoController::update/$1');
+    $routes->post('first-purchase-promos/delete/(:num)', 'FirstPurchasePromoController::delete/$1');
+    $routes->post('first-purchase-promos/toggle/(:num)', 'FirstPurchasePromoController::toggleStatus/$1');
+    
     // Orders (placeholder)
     $routes->get('orders', 'DashboardController::index'); // TODO: Create OrderController
     
