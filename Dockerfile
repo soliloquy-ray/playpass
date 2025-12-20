@@ -31,7 +31,12 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # Set permissions for writable directory
-RUN chown -R www-data:www-data /var/www/html/writable \
+RUN mkdir -p /var/www/html/writable/cache \
+    /var/www/html/writable/logs \
+    /var/www/html/writable/session \
+    /var/www/html/writable/uploads \
+    /var/www/html/writable/debugbar \
+    && chown -R www-data:www-data /var/www/html/writable \
     && chmod -R 775 /var/www/html/writable
 
 # Configure Apache to serve from public directory
@@ -42,11 +47,14 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 # Allow .htaccess overrides
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
-# Use Railway's PORT environment variable
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
+# Configure Apache to use PORT from environment
+RUN echo 'Listen ${PORT:-80}' > /etc/apache2/ports.conf
+RUN sed -i 's/<VirtualHost \*:80>/<VirtualHost *:${PORT:-80}>/' /etc/apache2/sites-available/000-default.conf
 
-# Expose port (Railway provides PORT env var)
-EXPOSE ${PORT:-8080}
+# Enable environment variables in Apache config
+RUN echo 'PassEnv PORT' >> /etc/apache2/apache2.conf
 
-# Start Apache
+# Expose port
+EXPOSE 80
+
 CMD ["apache2-foreground"]
