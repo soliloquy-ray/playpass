@@ -18,6 +18,11 @@ use CodeIgniter\Router\RouteCollection;
 /** @var RouteCollection $routes */
 
 // ============================================
+// HEALTH CHECK (for Railway/Docker deployment)
+// ============================================
+$routes->get('health', 'Health::index');
+
+// ============================================
 // ROOT ROUTE - Redirect to /app
 // ============================================
 $routes->get('/', function() {
