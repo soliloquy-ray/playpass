@@ -17,6 +17,6 @@ class CategoryBadgeCell extends Cell
 
         $data = array_merge($defaultData, $data);
 
-        return view('App\Cells\category_badge', $data);
+        return view('cells/category_badge', $data);
     }
 }

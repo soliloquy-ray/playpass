@@ -20,6 +20,6 @@ class CtaButtonCell
 
         $data = array_merge($defaultData, $data);
 
-        return view('App\Cells\cta_banner', $data);
+        return view('cells/cta_banner', $data);
     }
 }

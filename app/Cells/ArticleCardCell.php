@@ -20,6 +20,6 @@ class ArticleCardCell extends Cell
 
         $data = array_merge($defaultData, $data);
 
-        return view('App\Cells\article_card', $data);
+        return view('cells/article_card', $data);
     }
 }

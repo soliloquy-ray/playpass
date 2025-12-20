@@ -10,6 +10,6 @@ class ProductCardCell extends Cell
 
     public function render(): string
     {
-        return view('App\Cells\product_list_card', ['product' => $this->product]);
+        return view('cells/product_list_card', ['product' => $this->product]);
     }
 }

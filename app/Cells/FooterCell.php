@@ -60,6 +60,6 @@ class FooterCell extends Cell
 
         $data = array_merge($defaultData, $data);
 
-        return view('App\Cells\footer', $data);
+        return view('cells/footer', $data);
     }
 }

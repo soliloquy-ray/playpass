@@ -12,7 +12,7 @@ class PaymentChannelCell extends Cell
     public function render(): string
     {
         // Passes data to the view file you created earlier
-        return view('App\Cells\payment_channel', [
+        return view('cells/payment_channel', [
             'channels' => $this->channels
         ]);
     }

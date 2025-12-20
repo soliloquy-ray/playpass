@@ -17,6 +17,6 @@ class StatCardCell
             'unit' => $stat['unit'] ?? ''
         ];
 
-        return view('App\Cells\stat_card', $data);
+        return view('cells/stat_card', $data);
     }
 }

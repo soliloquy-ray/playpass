@@ -21,6 +21,6 @@ class FeaturedBannerCell
 
         $data = array_merge($defaultData, $data);
 
-        return view('App\Cells\featured_banner', $data);
+        return view('cells/featured_banner', $data);
     }
 }

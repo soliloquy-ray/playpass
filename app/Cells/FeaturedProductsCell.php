@@ -18,7 +18,7 @@ class FeaturedProductsCell extends Cell
             $this->products = [];
         }
 
-        return view('App\Cells\featured_products', [
+        return view('cells/featured_products', [
             'title' => $this->title,
             'subtitle' => $this->subtitle,
             'products' => $this->products

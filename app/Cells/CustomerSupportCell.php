@@ -57,6 +57,6 @@ class CustomerSupportCell extends Cell
 
         $data = array_merge($defaultData, $data);
 
-        return view('App\Cells\customer_support', $data);
+        return view('cells/customer_support', $data);
     }
 }

@@ -22,6 +22,6 @@ class ProductCell
                                 : null
         ];
 
-        return view('App\Cells\product_card', $data);
+        return view('cells/product_card', $data);
     }
 }

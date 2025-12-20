@@ -24,7 +24,7 @@ class HeaderCell extends Cell
             }
         }
 
-        return view('App\Cells\header', [
+        return view('cells/header', [
             'banner' => $banner,
             'user' => $user
         ]);

@@ -17,6 +17,6 @@ class ProductShowcaseCell
 
         $data = array_merge($defaultData, $data);
 
-        return view('App\Cells\product_showcase', $data);
+        return view('cells/product_showcase', $data);
     }
 }

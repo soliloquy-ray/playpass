@@ -17,7 +17,7 @@ class PromosCell extends Cell
             $this->promos = [];
         }
 
-        return view('App\Cells\promos', [
+        return view('cells/promos', [
             'title' => $this->title,
             'promos' => $this->promos
         ]);

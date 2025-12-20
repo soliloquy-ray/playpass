@@ -20,6 +20,6 @@ class ArticleCell
             'readMoreUrl' => site_url('app/stories/' . ($article['slug'] ?? $article['id'])),
         ];
 
-        return view('App\Cells\article_card', $data);
+        return view('cells/article_card', $data);
     }
 }

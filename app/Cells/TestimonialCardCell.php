@@ -17,6 +17,6 @@ class TestimonialCardCell
             'avatar' => $testimonial['avatar'] ?? null
         ];
 
-        return view('App\Cells\testimonial_card', $data);
+        return view('cells/testimonial_card', $data);
     }
 }

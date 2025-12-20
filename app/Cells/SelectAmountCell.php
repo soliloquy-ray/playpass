@@ -10,7 +10,7 @@ class SelectAmountCell extends Cell
 
     public function render(): string
     {
-        return view('App\Cells\select_amount', [
+        return view('cells/select_amount', [
             'products' => $this->products
         ]);
     }

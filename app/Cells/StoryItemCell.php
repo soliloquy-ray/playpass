@@ -30,7 +30,7 @@ class StoryItemCell extends Cell
         
         $badgeColor = $colors[$story['category']] ?? 'text-white';
         
-        return view('App\Cells\story_item', [
+        return view('cells/story_item', [
             'story' => $story,
             'badgeColor' => $badgeColor
         ]);

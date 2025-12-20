@@ -10,7 +10,7 @@ class RedemptionStepsCell extends Cell
 
     public function render(): string
     {
-        return view('App\Cells\redemption_steps', [
+        return view('cells/redemption_steps', [
             'brandName' => $this->brandName
         ]);
     }

@@ -62,6 +62,6 @@ class HowItWorksCell extends Cell
 
         $data = array_merge($defaultData, $data);
 
-        return view('App\Cells\how_it_works', $data);
+        return view('cells/how_it_works', $data);
     }
 }

@@ -53,6 +53,6 @@ class StoriesCell extends Cell
         // Merge user data with defaults
         $data = array_merge($defaultData, $data);
 
-        return view('App\Cells\stories', $data);
+        return view('cells/stories', $data);
     }
 }

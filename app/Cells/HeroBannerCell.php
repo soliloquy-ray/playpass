@@ -20,6 +20,6 @@ class HeroBannerCell
 
         $data = array_merge($defaultData, $data);
 
-        return view('App\Cells\hero_banner', $data);
+        return view('cells/hero_banner', $data);
     }
 }
