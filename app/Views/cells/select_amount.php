@@ -12,10 +12,17 @@
 </section>
 
 <script>
+// Initialize global variable
+if (typeof window.selectedProductId === 'undefined') {
+    window.selectedProductId = null;
+}
+
 function selectAmount(element, id) {
     document.querySelectorAll('.amount-card').forEach(el => el.classList.remove('selected'));
     element.classList.add('selected');
-    // Set hidden input value if inside a form
-    // document.getElementById('selected_product').value = id;
+    
+    // Store selected product ID globally for checkout
+    window.selectedProductId = id;
+    console.log('Product selected:', id);
 }
 </script>

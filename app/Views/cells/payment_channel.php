@@ -17,8 +17,21 @@
 </section>
 
 <script>
+// Initialize global variable
+if (typeof window.selectedPaymentMethod === 'undefined') {
+    window.selectedPaymentMethod = 'gcash';
+}
+
 function selectPayment(element, code) {
     document.querySelectorAll('.payment-card').forEach(el => el.classList.remove('selected'));
     element.classList.add('selected');
+    
+    // Store selected payment method globally
+    window.selectedPaymentMethod = code;
+    console.log('Payment method selected:', code);
+    
+    if (typeof cartState !== 'undefined') {
+        cartState.paymentMethod = code;
+    }
 }
 </script>

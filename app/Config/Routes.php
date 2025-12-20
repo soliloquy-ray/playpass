@@ -32,8 +32,18 @@ $routes->group('app', function($routes) {
     $routes->get('/', 'Home::index');
     $routes->get('/home', 'Home::index');
     
+    // Cart Routes
+    $routes->get('cart', 'Cart::get');
+    $routes->post('cart/add', 'Cart::add');
+    $routes->post('cart/remove', 'Cart::remove');
+    $routes->post('cart/update', 'Cart::update');
+    $routes->post('cart/clear', 'Cart::clear');
+    
     // Checkout
-    $routes->post('checkout/process', 'CheckoutController::process');
+    $routes->get('checkout', 'Checkout::show');
+    $routes->post('checkout/process', 'Checkout::process');
+    $routes->post('checkout/apply-voucher', 'Checkout::applyVoucher');
+    $routes->post('checkout/apply-points', 'Checkout::applyPoints');
     
     // Product Routes
     $routes->get('buy/(:num)', 'ProductController::view/$1');

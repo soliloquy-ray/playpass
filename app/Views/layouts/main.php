@@ -37,7 +37,20 @@
 
     <?= view_cell('App\Cells\FooterCell::render') ?>
 
+    <!-- Cart Sidebar -->
+    <?= view('cart_sidebar') ?>
+    
+    <!-- Checkout Modal -->
+    <?= view('checkout_modal') ?>
+
+    <script>
+        const baseUrl = "<?= base_url() ?>";
+        const csrfName = "<?= csrf_token() ?>";
+        let csrfHash = "<?= csrf_hash() ?>";
+    </script>
     <script src="<?= base_url('assets/js/carousel.js') ?>"></script>
     <script src="<?= base_url('assets/js/ui.js') ?>"></script>
+    <script src="<?= base_url('assets/js/cart.js') ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

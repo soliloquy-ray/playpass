@@ -21,5 +21,5 @@
         </div>
     </div>
 
-    <button class="btn-checkout">Checkout</button>
+    <button class="btn-checkout" onclick="handleCheckout()">Checkout</button>
 </section>
