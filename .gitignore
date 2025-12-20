@@ -126,3 +126,8 @@ _modules/*
 
 /results/
 /phpunit*.xml
+
+.cursor
+
+# Temporary migration runners
+run_*_migration.php
