@@ -26,8 +26,6 @@
                 <a href="<?= site_url('app/stories') ?>" class="desktop-nav-link <?= uri_string() == 'app/stories' ? 'active' : '' ?>">Stories</a>
                 <?php if (session()->get('logged_in')): ?>
                     <a href="<?= site_url('app/account') ?>" class="desktop-nav-link <?= uri_string() == 'app/account' ? 'active' : '' ?>">Account</a>
-                <?php else: ?>
-                    <a href="<?= site_url('app/login') ?>" class="desktop-nav-link <?= uri_string() == 'app/login' ? 'active' : '' ?>">Account</a>
                 <?php endif; ?>
             </nav>
         </div>

@@ -10,6 +10,7 @@
             <a href="<?= site_url('app/account') ?>" class="mobile-link">Account</a>
             <a href="<?= site_url('app/logout') ?>" class="mobile-link">Logout</a>
         <?php else: ?>
-            <a href="<?= site_url('app/login') ?>" class="mobile-link">Account</a> <?php endif; ?>
+            <a href="<?= site_url('app/login') ?>" class="mobile-link">Sign In</a>
+        <?php endif; ?>
     </nav>
 </div>

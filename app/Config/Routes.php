@@ -30,6 +30,14 @@ $routes->get('/', function() {
 });
 
 // ============================================
+// PUBLIC SITE PAGES (Terms, Privacy, FAQ)
+// ============================================
+$routes->get('terms', 'PageController::terms');
+$routes->get('privacy', 'PageController::privacy');
+$routes->get('faq', 'PageController::faq');
+
+
+// ============================================
 // PUBLIC APP ROUTES (User-facing)
 // ============================================
 $routes->group('app', function($routes) {
@@ -185,6 +193,15 @@ $routes->group('admin', ['filter' => 'AdminGuard', 'namespace' => 'App\Controlle
     $routes->post('first-purchase-promos/delete/(:num)', 'FirstPurchasePromoController::delete/$1');
     $routes->post('first-purchase-promos/toggle/(:num)', 'FirstPurchasePromoController::toggleStatus/$1');
     
+    // Site Pages (Terms, Privacy, FAQ)
+    $routes->get('site-pages', 'SitePageController::index');
+    $routes->get('site-pages/edit/(:segment)', 'SitePageController::edit/$1');
+    $routes->post('site-pages/update/(:segment)', 'SitePageController::update/$1');
+    
+    // Company Information
+    $routes->get('company-info', 'CompanyInfoController::index');
+    $routes->post('company-info/save', 'CompanyInfoController::save');
+
     // Orders (placeholder)
     $routes->get('orders', 'DashboardController::index'); // TODO: Create OrderController
     

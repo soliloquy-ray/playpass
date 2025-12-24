@@ -114,6 +114,18 @@
                     <span>Analytics</span>
                 </a>
             </div>
+
+            <div class="nav-section">
+                <span class="nav-section-title">Settings</span>
+                <a href="<?= site_url('admin/site-pages') ?>" class="nav-link <?= strpos(uri_string(), 'admin/site-pages') === 0 ? 'active' : '' ?>">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Site Pages</span>
+                </a>
+                <a href="<?= site_url('admin/company-info') ?>" class="nav-link <?= strpos(uri_string(), 'admin/company-info') === 0 ? 'active' : '' ?>">
+                    <i class="fas fa-building"></i>
+                    <span>Company Info</span>
+                </a>
+            </div>
         </nav>
 
         <div class="sidebar-footer">

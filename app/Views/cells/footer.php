@@ -21,13 +21,19 @@
 
     <div class="footer-bottom">
         <div class="footer-address">
-            4F PDI Bldg., 1098 Chino Roces Ave. cor Yague and Mascardo<br>
-            Sts. 1204, Makati, Metro Manila, Philippines<br>
-            call: 02 7623 5639
+            <?php 
+            $companyModel = new \App\Models\CompanyInfoModel();
+            $companyInfo = $companyModel->getAll();
+            $address = $companyInfo['address'] ?? '';
+            $phone = $companyInfo['phone'] ?? '';
+            $copyright = $companyInfo['copyright'] ?? '© Copyright 2024 Megamobile, Inc. All Rights Reserved';
+            ?>
+            <?= nl2br(esc($address)) ?><br>
+            call: <?= esc($phone) ?>
         </div>
         
         <div class="footer-copyright">
-            &copy; Copyright 2024 Megamobile, Inc. All Rights Reserved
+            <?= esc($copyright) ?>
         </div>
 
         <div class="footer-playpass-logo">
