@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\OrderModel;
 use App\Models\ProductModel;
 use App\Models\UserModel;
-use App\Libraries\MayaService;
+use App\Libraries\StreamingPHService;
 use App\Libraries\VoucherEngine;
 use App\Libraries\CartService;
 use App\Libraries\PointsService;
@@ -14,7 +14,7 @@ use App\Libraries\FirstPurchaseService;
 
 class Checkout extends BaseController
 {
-    protected $mayaService;
+    protected $streamingPHService;
     protected $voucherEngine;
     protected $orderModel;
     protected $productModel;
@@ -25,7 +25,7 @@ class Checkout extends BaseController
 
     public function __construct()
     {
-        $this->mayaService = new MayaService();
+        $this->streamingPHService = new StreamingPHService();
         $this->voucherEngine = new VoucherEngine();
         $this->orderModel = new OrderModel();
         $this->productModel = new ProductModel();
@@ -358,31 +358,44 @@ class Checkout extends BaseController
         
         $firstProduct = $this->productModel->find($cart['items'][0]['product_id']);
         
-        if (!$firstProduct || empty($firstProduct['maya_product_code'])) {
+        // Use StreamingPH Product ID instead of Maya Code
+        if (!$firstProduct || empty($firstProduct['streamingph_product_id'])) {
             return $this->response->setJSON([
                 'status' => 'error',
-                'message' => 'Product configuration error.'
+                'message' => 'Product configuration error (Missing StreamingPH ID).'
             ]);
         }
         
-        $mayaResponse = $this->mayaService->disburseProduct(
-            $requestId, 
-            $firstProduct['maya_product_code'], 
-            $recipient
+        // Call StreamingPH IssuePIN API
+        // Format mobile number if necessary (API expects 10 digits usually for PH)
+        // Assuming recipient or mobile holds the number.
+        // We'll use the 'mobile' from the payload if available, else derive from recipient if it looks like a number
+        $mobileToUse = $mobile ?? $recipient; 
+
+        // Basic cleanup for mobile: ensure it's digits
+        $mobileToUse = preg_replace('/[^0-9]/', '', $mobileToUse);
+        
+        // If 11 digits (09xx), maybe strip leading 0? API docs said "10-digit mobile number (e.g., 9911234567)"
+        if (strlen($mobileToUse) == 11 && strpos($mobileToUse, '0') === 0) {
+            $mobileToUse = substr($mobileToUse, 1);
+        }
+
+        $apiResponse = $this->streamingPHService->purchaseProduct(
+            $firstProduct['streamingph_product_id'], 
+            $mobileToUse
         );
 
-        // 7. Handle Maya Response
-        if ($mayaResponse['success']) {
-            $data = $mayaResponse['data'];
+        // 7. Handle StreamingPH Response
+        if (isset($apiResponse['status']) && $apiResponse['status'] === 'success') {
+            $data = $apiResponse['value'];
             
-            // Scenario A: Instant Success (We got the PIN)
-            if (isset($data['code']) && !empty($data['code'])) {
-                $this->orderModel->update($orderId, [
-                    'payment_status' => 'paid',
-                    'fulfillment_status' => 'sent',
-                    'maya_reference_number' => $data['transactionId'], // [cite: 177]
-                    // Store the PIN code securely. For V1, assume we save it in a secure log or send via email.
-                ]);
+            // Success - We got the PIN
+            $this->orderModel->update($orderId, [
+                'payment_status' => 'paid',
+                'fulfillment_status' => 'sent',
+                'maya_reference_number' => $data['refCode'] ?? $apiResponse['tid'] ?? null, // Store refCode or TID
+                // We could store the PIN instructions or other metadata if needed
+            ]);
 
                 // Award points for successful purchase (Pitfall #1, #4 prevention)
                 $pointsAwarded = $this->pointsService->awardPointsForOrder($userId, $orderId, $orderItemsForPoints);
@@ -406,44 +419,10 @@ class Checkout extends BaseController
                 return $this->response->setJSON([
                     'status' => 'success',
                     'message' => 'Order complete!',
-                    'pin_code' => $data['code'], // Display to user
+                    'pin_code' => $data['pincode'], // Display to user
+                    'instructions' => $data['instruction'] ?? '', // Pass instructions if available
                     'points_earned' => $pointsAwarded,
                 ]);
-            } 
-            
-            // Scenario B: Async/Pending (Maya is processing)
-            //  Status is 'PENDING'
-            else {
-                $this->orderModel->update($orderId, [
-                    'payment_status' => 'paid', // They paid, but no PIN yet
-                    'fulfillment_status' => 'processing'
-                ]);
-                
-                // Award points for async success too
-                $pointsAwarded = $this->pointsService->awardPointsForOrder($userId, $orderId, $orderItemsForPoints);
-                
-                // Deduct redeemed points
-                if ($redeemedPoints && $redeemedPoints['points'] > 0) {
-                    $this->pointsService->redeemPointsForOrder($userId, $redeemedPoints['points'], $orderId);
-                }
-
-                // Mark first purchase complete (async success)
-                $this->firstPurchaseService->markFirstPurchaseComplete($userId);
-                
-                // Clear session data
-                $this->cartService->clearCart();
-                session()->remove('applied_vouchers');
-                session()->remove('redeemed_points');
-
-                // Commit the transaction
-                $db->transComplete();
-                
-                return $this->response->setJSON([
-                    'status' => 'pending',
-                    'message' => 'Your order is being processed. Please wait.',
-                    'points_earned' => $pointsAwarded,
-                ]);
-            }
 
         } else {
             // Scenario C: Failure (StockUnavailable, etc.)
@@ -456,11 +435,11 @@ class Checkout extends BaseController
 
             return $this->response->setJSON([
                 'status' => 'error', 
-                'code' => $mayaResponse['error'],
-                'message' => $mayaResponse['message']
+                'code' => $apiResponse['value'] ?? 'Unknown Error',
+                'message' => $apiResponse['value'] ?? 'Transaction failed'
             ]);
-            }
         }
+    }
 
     // Helper for UUID v4
     private function generateUuidV4() {

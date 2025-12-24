@@ -21,6 +21,7 @@ use CodeIgniter\Router\RouteCollection;
 // HEALTH CHECK (for Railway/Docker deployment)
 // ============================================
 $routes->get('health', 'Health::index');
+$routes->get('streamingph/test', 'StreamingPHTest::index');
 
 // ============================================
 // ROOT ROUTE - Redirect to /app
@@ -132,6 +133,12 @@ $routes->group('admin', ['filter' => 'AdminGuard', 'namespace' => 'App\Controlle
     $routes->get('products/edit/(:num)', 'ProductController::edit/$1');
     $routes->post('products/update/(:num)', 'ProductController::update/$1');
     $routes->post('products/delete/(:num)', 'ProductController::delete/$1');
+    
+    // Product Sync (StreamingPH)
+    $routes->get('products/sync', 'ProductSyncController::index');
+    $routes->post('products/sync', 'ProductSyncController::sync');
+    $routes->post('products/map', 'ProductSyncController::mapProduct');
+    $routes->post('products/unmap', 'ProductSyncController::unmapProduct');
     
     // Brands
     $routes->get('brands', 'BrandController::index');
